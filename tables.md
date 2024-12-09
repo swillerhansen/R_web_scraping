@@ -4,6 +4,10 @@ teaching: 10
 exercises: 2
 ---
 
+
+
+
+
 :::::::::::::::::::::::::::::::::::::: questions 
 
 - How do you write a lesson using R Markdown and `{sandpaper}`?
@@ -18,6 +22,50 @@ exercises: 2
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ## Introduction
+Lets us start by installing the libraries that will give us the necessary functionality to do webscraping
+
+``` r
+install.packages("polite")
+install.packages("rvest")
+install.packages("tidyverse")
+install.packages("purrr")
+install.packages("htmlTable")
+install.packages("htmltools")
+install.packages("scales")
+```
+
+
+Lets us now activate our installed libraries to activate their functionality
+
+``` r
+# library(polite)
+# library(rvest)
+# library(tidyverse)
+# library(purrr)
+# library(htmlTable)
+# library(htmltools)
+# library(scales)
+```
+
+One of the formats that data on a website often come in is a table
+
+Let's look at statics about students at The University of Copenhagen (UCPH) at this page:
+https://om.ku.dk/tal-og-fakta/studerende/
+The html element for a table is simply called <table>
+We can use this HTML tag to scrape a table using \html_table\
+
+We see on the website that there are multiple elements that can be clicked to reveal some of the stats for UCPH students. 
+
+We want to see what HTML tags that the stats from the website have. 
+We can use our internet browser's ability to inspect the HTML of any website that we visit. This is the HTML that generates the website that we see when we type a URL and go to the website. Most internet browsers are able to inspect a website's HTML. If the browser that you use cannot do this, then try to do it with a different browser
+
+When we inspect the HTML, we see that there are many tables in HTML, each corresponding to one drop-down part on the webpage
+
+Fortunately for us, the function \html_table\ will scrape all the tables on the page
+
+But before we start scraping, 
+
+
 
 This is a lesson created via The Carpentries Workbench. It is written in
 [Pandoc-flavored Markdown][pandoc] for static files (with extension `.md`) and
