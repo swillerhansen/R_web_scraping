@@ -23,7 +23,7 @@ exercises: 2
 
 ## Introduction
 Lets us start by installing the libraries that will give us the necessary functionality to do webscraping
-```{r, eval=FALSE}
+```{r message=TRUE, eval=FALSE}
 install.packages("polite")
 install.packages("rvest")
 install.packages("tidyverse")
@@ -35,7 +35,7 @@ install.packages("scales")
 
 
 Lets us now activate our installed libraries to activate their functionality
-```{r, eval=TRUE}
+```{r message=TRUE, eval=TRUE}
 # library(polite)
 # library(rvest)
 # library(tidyverse)
