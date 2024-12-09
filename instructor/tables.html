@@ -292,7 +292,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Tables</h1>
-        <p>Last updated on 2024-12-03 |
+        <p>Last updated on 2024-12-09 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/tables.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -331,7 +331,54 @@ challenge blocks</li>
 </div>
 </div>
 <section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
-<hr class="half-width"><p>This is a lesson created via The Carpentries Workbench. It is written
+<hr class="half-width"><p>Lets us start by installing the libraries that will give us the
+necessary functionality to do webscraping</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"polite"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"rvest"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"purrr"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"htmlTable"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"htmltools"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"scales"</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Lets us now activate our installed libraries to activate their
+functionality</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># library(polite)</span></span>
+<span><span class="co"># library(rvest)</span></span>
+<span><span class="co"># library(tidyverse)</span></span>
+<span><span class="co"># library(purrr)</span></span>
+<span><span class="co"># library(htmlTable)</span></span>
+<span><span class="co"># library(htmltools)</span></span>
+<span><span class="co"># library(scales)</span></span></code></pre>
+</div>
+<p>One of the formats that data on a website often come in is a
+table</p>
+Let’s look at statics about students at The University of Copenhagen
+(UCPH) at this page: <a href="https://om.ku.dk/tal-og-fakta/studerende/" class="external-link uri">https://om.ku.dk/tal-og-fakta/studerende/</a> The html
+element for a table is simply called
+<table class="table"><p>We can use this HTML tag to scrape a table using _table<br></p>
+<p>We see on the website that there are multiple elements that can be
+clicked to reveal some of the stats for UCPH students.</p>
+<p>We want to see what HTML tags that the stats from the website have.
+We can use our internet browser’s ability to inspect the HTML of any
+website that we visit. This is the HTML that generates the website that
+we see when we type a URL and go to the website. Most internet browsers
+are able to inspect a website’s HTML. If the browser that you use cannot
+do this, then try to do it with a different browser</p>
+<p>When we inspect the HTML, we see that there are many tables in HTML,
+each corresponding to one drop-down part on the webpage</p>
+<p>Fortunately for us, the function _table will scrape all the tables on
+the page</p>
+<p>But before we start scraping,</p>
+<p>This is a lesson created via The Carpentries Workbench. It is written
 in <a href="https://pandoc.org/MANUAL.html" class="external-link">Pandoc-flavored Markdown</a>
 for static files (with extension <code>.md</code>) and <a href="https://rmarkdown.rstudio.com/" class="external-link">R Markdown</a> for dynamic files
 that can render code into output (with extension <code>.Rmd</code>).
@@ -369,7 +416,7 @@ View”</p>
 <div class="callout-inner">
 <h3 class="callout-title">Challenge</h3>
 <div class="callout-content">
-<div class="codewrapper sourceCode" id="cb1">
+<div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -378,7 +425,7 @@ View”</p>
 <div class="section level2">
 <h2 id="challenge-1-can-you-do-it">Challenge 1: Can you do it?<a class="anchor" aria-label="anchor" href="#challenge-1-can-you-do-it"></a></h2>
 <p>What is the output of this command?</p>
-<div class="codewrapper sourceCode" id="cb2">
+<div class="codewrapper sourceCode" id="cb4">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -428,9 +475,10 @@ View”</p>
 </div>
 </div>
 </div>
-</section><section><h2 class="section-heading" id="figures">Figures<a class="anchor" aria-label="anchor" href="#figures"></a></h2>
+
+<section><h2 class="section-heading" id="figures">Figures<a class="anchor" aria-label="anchor" href="#figures"></a></h2>
 <hr class="half-width"><p>You can include figures generated from R Markdown:</p>
-<div class="codewrapper sourceCode" id="cb4">
+<div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -475,7 +523,7 @@ locally</li>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
-</section></div> <!-- / div.lesson-content -->
+</section></table></section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="../instructor/introduction.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
         <a class="chapter-link float-end" href="../instructor/index.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
@@ -533,8 +581,8 @@ any links that you are not going to use.
   "url": "https://FIXME-template-source.github.io/NA/instructor/tables.html",
   "identifier": "https://FIXME-template-source.github.io/NA/instructor/tables.html",
   "dateCreated": "2024-10-14",
-  "dateModified": "2024-12-03",
-  "datePublished": "2024-12-03"
+  "dateModified": "2024-12-09",
+  "datePublished": "2024-12-09"
 }
 
   </script><script>
