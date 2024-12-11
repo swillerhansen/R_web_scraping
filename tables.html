@@ -226,8 +226,6 @@
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#introduction">Introduction</a></li>
-<li><a href="#figures">Figures</a></li>
-<li><a href="#math">Math</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
 
@@ -346,7 +344,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing polite ...                         OK [linked from cache]
-Successfully installed 1 package in 7.7 milliseconds.</code></pre>
+Successfully installed 1 package in 7.5 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -363,7 +361,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing rvest ...                          OK [linked from cache]
-Successfully installed 1 package in 6.8 milliseconds.</code></pre>
+Successfully installed 1 package in 6.9 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -380,7 +378,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing tidyverse ...                      OK [linked from cache]
-Successfully installed 1 package in 6.7 milliseconds.</code></pre>
+Successfully installed 1 package in 6.9 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -397,7 +395,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing purrr ...                          OK [linked from cache]
-Successfully installed 1 package in 6.5 milliseconds.</code></pre>
+Successfully installed 1 package in 6.6 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -414,7 +412,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmlTable ...                      OK [linked from cache]
-Successfully installed 1 package in 6.9 milliseconds.</code></pre>
+Successfully installed 1 package in 7.9 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -431,7 +429,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmltools ...                      OK [linked from cache]
-Successfully installed 1 package in 6.6 milliseconds.</code></pre>
+Successfully installed 1 package in 6.5 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -448,7 +446,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing scales ...                         OK [linked from cache]
-Successfully installed 1 package in 6.7 milliseconds.</code></pre>
+Successfully installed 1 package in 6.6 milliseconds.</code></pre>
 </div>
 <p>Lets us now activate our installed libraries to activate their
 functionality</p>
@@ -707,13 +705,51 @@ function <br></p>
 introduced by coercion</code></pre>
 </div>
 <p>Now we can create all the URLs by pasting our basic URL with the page
-numbers, going from 1 until the last page number</p>
+numbers, going from 1 until the last page number. Our URLs become a
+vector with 24 elements, each element being the base URL with a number
+at the end</p>
 <div class="codewrapper sourceCode" id="cb29">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">urls</span> <span class="op">&lt;-</span> <span class="fu">paste0</span><span class="op">(</span><span class="st">"https://scrapethissite.com/pages/forms/?page_num="</span>, <span class="fl">1</span><span class="op">:</span><span class="va">n_pages</span><span class="op">)</span></span></code></pre>
 </div>
+<p>Now it is time to scrape data from all the URLs that we have created.
+First we write the name of our new object. Then we use the  function to
+tell R that it must do the scrape for each URL in our urls vector. The
+we use  for each URL to ensure that scraping is allowed. Lastly, we
+scrape the pages with the  function</p>
+<div class="codewrapper sourceCode" id="cb30">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># downloading multiple pages</span></span>
+<span><span class="va">dat_all</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">map</span><span class="op">(</span><span class="va">urls</span>, </span>
+<span>      <span class="op">~</span> <span class="fu">bow</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>        <span class="fu">scrape</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+</div>
+<p>The  function returns a list, where each element is a page.</p>
+<p>Now we need to tell R that we want each element in the list to be
+combined with the other elements, so that our list can be turned into a
+dataframe. First we write the name of our new dataframe. Then we tell R
+that it should turn the list elements into a dataframe by using the
+_dfr function. We tell R what the name of our list is, and that we want
+to draw the table from each element in the list, and then we draw the
+table with _table<br></p>
+<div class="codewrapper sourceCode" id="cb31">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># formatting downloaded list into a dataframe</span></span>
+<span><span class="va">dat_tables</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">map_dfr</span><span class="op">(</span><span class="va">dat_all</span>, </span>
+<span>          <span class="op">~</span> <span class="fu">html_elements</span><span class="op">(</span><span class="va">.x</span>, <span class="st">"table"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>            <span class="fu">html_table</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+</div>
+
+<div class="section level1">
+<h1 id="scraping-pages-with-unpredictable-urls">Scraping pages with unpredictable URLs –&gt;<a class="anchor" aria-label="anchor" href="#scraping-pages-with-unpredictable-urls"></a></h1>
 <p>This is a lesson created via The Carpentries Workbench. It is written
 in <a href="https://pandoc.org/MANUAL.html" class="external-link">Pandoc-flavored Markdown</a>
 for static files (with extension <code>.md</code>) and <a href="https://rmarkdown.rstudio.com/" class="external-link">R Markdown</a> for dynamic files
@@ -738,7 +774,7 @@ reinforce the objectives.</li>
 <div class="callout-inner">
 <h3 class="callout-title">Challenge</h3>
 <div class="callout-content">
-<div class="codewrapper sourceCode" id="cb30">
+<div class="codewrapper sourceCode" id="cb32">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -747,7 +783,7 @@ reinforce the objectives.</li>
 <div class="section level2">
 <h2 id="challenge-1-can-you-do-it">Challenge 1: Can you do it?<a class="anchor" aria-label="anchor" href="#challenge-1-can-you-do-it"></a></h2>
 <p>What is the output of this command?</p>
-<div class="codewrapper sourceCode" id="cb31">
+<div class="codewrapper sourceCode" id="cb33">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -797,10 +833,10 @@ reinforce the objectives.</li>
 </div>
 </div>
 </div>
-
-<section><h2 class="section-heading" id="figures">Figures<a class="anchor" aria-label="anchor" href="#figures"></a></h2>
-<hr class="half-width"><p>You can include figures generated from R Markdown:</p>
-<div class="codewrapper sourceCode" id="cb33">
+<div class="section level2">
+<h2 id="figures">Figures<a class="anchor" aria-label="anchor" href="#figures"></a></h2>
+<p>You can include figures generated from R Markdown:</p>
+<div class="codewrapper sourceCode" id="cb35">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -817,8 +853,10 @@ Sun arise each and every morning
 syntax:</p>
 <p><code>![optional caption that appears below the figure](figure url){alt='alt text for accessibility purposes'}</code></p>
 <figure><img src="https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg" alt="Blue Carpentries hex person logo with no text." class="figure mx-auto d-block"><div class="figcaption">You belong in The Carpentries!</div>
-</figure></section><section><h2 class="section-heading" id="math">Math<a class="anchor" aria-label="anchor" href="#math"></a></h2>
-<hr class="half-width"><p>One of our episodes contains <span class="math inline">\(\LaTeX\)</span> equations when describing how to
+</figure></div>
+<div class="section level2">
+<h2 id="math">Math<a class="anchor" aria-label="anchor" href="#math"></a></h2>
+<p>One of our episodes contains <span class="math inline">\(\LaTeX\)</span> equations when describing how to
 create dynamic reports with {knitr}, so we now use mathjax to describe
 this:</p>
 <p><code>$\alpha = \dfrac{1}{(1 - \beta)^2}$</code> becomes: <span class="math inline">\(\alpha = \dfrac{1}{(1 - \beta)^2}\)</span></p>
@@ -845,7 +883,9 @@ locally</li>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
-</section></table></section></div> <!-- / div.lesson-content -->
+</div>
+</div>
+</table></section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="introduction.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
         <a class="chapter-link float-end" href="index.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
