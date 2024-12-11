@@ -226,6 +226,8 @@
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#introduction">Introduction</a></li>
+<li><a href="#figures">Figures</a></li>
+<li><a href="#math">Math</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
 
@@ -344,7 +346,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing polite ...                         OK [linked from cache]
-Successfully installed 1 package in 7.5 milliseconds.</code></pre>
+Successfully installed 1 package in 7.6 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -361,7 +363,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing rvest ...                          OK [linked from cache]
-Successfully installed 1 package in 6.8 milliseconds.</code></pre>
+Successfully installed 1 package in 6.7 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -378,7 +380,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing tidyverse ...                      OK [linked from cache]
-Successfully installed 1 package in 6.8 milliseconds.</code></pre>
+Successfully installed 1 package in 6.9 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -395,7 +397,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing purrr ...                          OK [linked from cache]
-Successfully installed 1 package in 6.4 milliseconds.</code></pre>
+Successfully installed 1 package in 6.5 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -412,7 +414,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmlTable ...                      OK [linked from cache]
-Successfully installed 1 package in 6.9 milliseconds.</code></pre>
+Successfully installed 1 package in 6.8 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -429,7 +431,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmltools ...                      OK [linked from cache]
-Successfully installed 1 package in 6.4 milliseconds.</code></pre>
+Successfully installed 1 package in 6.6 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -462,10 +464,8 @@ functionality</p>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">htmltools</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">scales</span><span class="op">)</span></span></code></pre>
 </div>
-</section><div class="section level1">
-<h1 id="scraping-multple-tabels-on-one-page">Scraping multple tabels on one page<a class="anchor" aria-label="anchor" href="#scraping-multple-tabels-on-one-page"></a></h1>
-<p>One of the formats that data on a website often come in is a
-table</p>
+<p>Scraping multple tabels on one page One of the formats that data on a
+website often come in is a table</p>
 Let’s look at statics about students at The University of Copenhagen
 (UCPH) at this page: <a href="https://om.ku.dk/tal-og-fakta/studerende/" class="external-link uri">https://om.ku.dk/tal-og-fakta/studerende/</a> The html
 element for a table is simply called
@@ -579,17 +579,12 @@ cols(
   X2 = col_number()
 )</code></pre>
 </div>
-
-<div class="section level1">
-<h1 id="scraping-tabels-on-multiple-pages">Scraping tabels on multiple pages<a class="anchor" aria-label="anchor" href="#scraping-tabels-on-multiple-pages"></a></h1>
-</div>
-<div class="section level1">
-<h1 id="scraping-predictable-urls">Scraping predictable URLs<a class="anchor" aria-label="anchor" href="#scraping-predictable-urls"></a></h1>
-<p>But what if the table is spraed across multiple pages? There’s a way
-to handle that, but it does required a bit more work than the previous
-example where all tables were on one page. To learning how to scrape
-webpages where the table is spread across multiple pages, we’ll use this
-example: <a href="http://www.scrapethissite.com/pages/forms/?page_num=1" class="external-link uri">http://www.scrapethissite.com/pages/forms/?page_num=1</a>.
+<p>Scraping tabels on multiple pages Scraping predictable URLs But what
+if the table is spraed across multiple pages? There’s a way to handle
+that, but it does required a bit more work than the previous example
+where all tables were on one page. To learning how to scrape webpages
+where the table is spread across multiple pages, we’ll use this example:
+<a href="http://www.scrapethissite.com/pages/forms/?page_num=1" class="external-link uri">http://www.scrapethissite.com/pages/forms/?page_num=1</a>.
 This link contains 24 pages with team statistics for all teams in the
 North American professional National Hockey League from year 1990 to
 year 2011.</p>
@@ -755,16 +750,13 @@ table with _table<br></p>
 <span>          <span class="op">~</span> <span class="fu">html_elements</span><span class="op">(</span><span class="va">.x</span>, <span class="st">"table"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>            <span class="fu">html_table</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
-</div>
-<div class="section level1">
-<h1 id="scraping-pages-with-unpredictable-urls">Scraping pages with unpredictable URLs<a class="anchor" aria-label="anchor" href="#scraping-pages-with-unpredictable-urls"></a></h1>
-<p>What if there are tables on multiple pages that we want to scrape,
-but the pagination does not give us a predictable URL? i.e. instead of a
-sequence of integers increasing by one, or letters change in
-alphabetical order or reverse alphabetic order, there is a custom
-sequence of letters and digits? There is a way to handle this so that we
-can scrape all pages in one action, but it requires some inspection of
-the data and writing some functions</p>
+<p>Scraping pages with unpredictable URLs What if there are tables on
+multiple pages that we want to scrape, but the pagination does not give
+us a predictable URL? i.e. instead of a sequence of integers increasing
+by one, or letters change in alphabetical order or reverse alphabetic
+order, there is a custom sequence of letters and digits? There is a way
+to handle this so that we can scrape all pages in one action, but it
+requires some inspection of the data and writing some functions</p>
 <p>We cannot anticipate what the all the various URLs will be, so we to
 find a method to automate the finding of all URLs, so that we can scrape
 all of them in one action.</p>
@@ -898,9 +890,9 @@ reinforce the objectives.</li>
 </div>
 </div>
 </div>
-<div class="section level2">
-<h2 id="figures">Figures<a class="anchor" aria-label="anchor" href="#figures"></a></h2>
-<p>You can include figures generated from R Markdown:</p>
+
+<section><h2 class="section-heading" id="figures">Figures<a class="anchor" aria-label="anchor" href="#figures"></a></h2>
+<hr class="half-width"><p>You can include figures generated from R Markdown:</p>
 <div class="codewrapper sourceCode" id="cb38">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -918,10 +910,8 @@ Sun arise each and every morning
 syntax:</p>
 <p><code>![optional caption that appears below the figure](figure url){alt='alt text for accessibility purposes'}</code></p>
 <figure><img src="https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg" alt="Blue Carpentries hex person logo with no text." class="figure mx-auto d-block"><div class="figcaption">You belong in The Carpentries!</div>
-</figure></div>
-<div class="section level2">
-<h2 id="math">Math<a class="anchor" aria-label="anchor" href="#math"></a></h2>
-<p>One of our episodes contains <span class="math inline">\(\LaTeX\)</span> equations when describing how to
+</figure></section><section><h2 class="section-heading" id="math">Math<a class="anchor" aria-label="anchor" href="#math"></a></h2>
+<hr class="half-width"><p>One of our episodes contains <span class="math inline">\(\LaTeX\)</span> equations when describing how to
 create dynamic reports with {knitr}, so we now use mathjax to describe
 this:</p>
 <p><code>$\alpha = \dfrac{1}{(1 - \beta)^2}$</code> becomes: <span class="math inline">\(\alpha = \dfrac{1}{(1 - \beta)^2}\)</span></p>
@@ -948,13 +938,7 @@ locally</li>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
-</div>
-</div>
-</table></div>
-
-
-
-      </div> <!-- / div.lesson-content -->
+</section></table></section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="introduction.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
         <a class="chapter-link float-end" href="index.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>
