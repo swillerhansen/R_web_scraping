@@ -35,7 +35,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing polite ...                         OK [linked from cache]
-Successfully installed 1 package in 7.7 milliseconds.
+Successfully installed 1 package in 7.8 milliseconds.
 ```
 
 ``` r
@@ -49,7 +49,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing rvest ...                          OK [linked from cache]
-Successfully installed 1 package in 6.8 milliseconds.
+Successfully installed 1 package in 7 milliseconds.
 ```
 
 ``` r
@@ -63,7 +63,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing tidyverse ...                      OK [linked from cache]
-Successfully installed 1 package in 6.7 milliseconds.
+Successfully installed 1 package in 7 milliseconds.
 ```
 
 ``` r
@@ -77,7 +77,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing purrr ...                          OK [linked from cache]
-Successfully installed 1 package in 6.5 milliseconds.
+Successfully installed 1 package in 6.7 milliseconds.
 ```
 
 ``` r
@@ -91,7 +91,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmlTable ...                      OK [linked from cache]
-Successfully installed 1 package in 6.9 milliseconds.
+Successfully installed 1 package in 7.2 milliseconds.
 ```
 
 ``` r
@@ -105,7 +105,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmltools ...                      OK [linked from cache]
-Successfully installed 1 package in 6.6 milliseconds.
+Successfully installed 1 package in 6.8 milliseconds.
 ```
 
 ``` r
@@ -119,7 +119,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing scales ...                         OK [linked from cache]
-Successfully installed 1 package in 6.7 milliseconds.
+Successfully installed 1 package in 7 milliseconds.
 ```
 
 
@@ -283,12 +283,34 @@ Warning in dat %>% html_elements(".pagination>li") %>% html_text2() %>% : NAs
 introduced by coercion
 ```
 
-Now we can create all the URLs by pasting our basic URL with the page numbers, going from 1 until the last page number
+Now we can create all the URLs by pasting our basic URL with the page numbers, going from 1 until the last page number. Our URLs become a vector with 24 elements, each element being the base URL with a number at the end
 
 ``` r
 urls <- paste0("https://scrapethissite.com/pages/forms/?page_num=", 1:n_pages)
 ```
 
+Now it is time to scrape data from all the URLs that we have created. First we write the name of our new object. Then we use the \map\ function to tell R that it must do the scrape for each URL in our urls vector. The we use \bow\ for each URL to ensure that scraping is allowed. Lastly, we scrape the pages with the \scrape\ function
+
+``` r
+# downloading multiple pages
+dat_all <- 
+  map(urls, 
+      ~ bow(.x) %>% 
+        scrape())
+```
+The \map\ function returns a list, where each element is a page.
+
+Now we need to tell R that we want each element in the list to be combined with the other elements, so that our list can be turned into a dataframe. First we write the name of our new dataframe. Then we tell R that it should turn the list elements into a dataframe by using the \map_dfr\ function. We tell R what the name of our list is, and that we want to draw the table from each element in the list, and then we draw the table with \html_table\
+
+``` r
+# formatting downloaded list into a dataframe
+dat_tables <- 
+  map_dfr(dat_all, 
+          ~ html_elements(.x, "table") %>% 
+            html_table())
+```
+
+# Scraping pages with unpredictable URLs -->
 
 
 This is a lesson created via The Carpentries Workbench. It is written in
