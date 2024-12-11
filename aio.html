@@ -320,7 +320,7 @@
         
 <section id="aio-introduction"><p>Content from <a href="introduction.html">introduction</a></p>
 <hr>
-<p>Last updated on 2024-12-10 |
+<p>Last updated on 2024-12-11 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/introduction.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -488,7 +488,7 @@ any links that you are not going to use.
  -->
 </section></section><section id="aio-tables"><p>Content from <a href="tables.html">Tables</a></p>
 <hr>
-<p>Last updated on 2024-12-10 |
+<p>Last updated on 2024-12-11 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/tables.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -572,7 +572,51 @@ do this, then try to do it with a different browser</p>
 each corresponding to one drop-down part on the webpage</p>
 <p>Fortunately for us, the function _table will scrape all the tables on
 the page</p>
-<p>But before we start scraping,</p>
+<p>The first thing we need to do is to scrape the webpage. One of the
+challenges of webscraping is that sometimes, certain webpages won’t
+allow scraping. This prohibition can be for the entire webpage with all
+its subpages, or it can be for certain subpages. It can be quite
+laborious read and check this yourself, but fortunately for us, the
+polite package allows os to automatize this. By using its function
+ before we scrape, it will check if scraping is allowed. If scraping is
+allowed, the scraping will go ahead. If scraping is not allowed, no
+scraping will take place. So let us start by writing the name of our
+object. Then we use bow and write the link of the page that we want to
+scrape, in order to check if scraping is allowed. Then we scrape the
+webpage</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">bow</span><span class="op">(</span><span class="st">"https://om.ku.dk/tal-og-fakta/studerende/"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">scrape</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in bow("https://om.ku.dk/tal-og-fakta/studerende/") %&gt;% scrape(): could not find function "%&gt;%"</code></pre>
+</div>
+<p>But before we go further with our data, we need to make sure that R
+will handle decimal separators correctly. The default standard in R for
+handling decimal separators is to use the American version, where dot is
+the decimal separator, and comma groups larger numbers together, making
+it easier for the human eye to read numbers that are from one thousand
+and above. In the tables that we want to scrape here, the Danish format
+is used, where comma is the decimal separator, and dot groups larger
+numbers together. We there need to start by telling R that it should use
+the Danish format</p>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dansk_locale</span> <span class="op">&lt;-</span> <span class="fu">locale</span><span class="op">(</span>decimal_mark <span class="op">=</span> <span class="st">","</span>, grouping_mark <span class="op">=</span> <span class="st">"."</span>, date_names <span class="op">=</span> <span class="st">"da"</span>, date_format <span class="op">=</span> <span class="st">"%d-%m-%Y"</span>, time_format <span class="op">=</span> <span class="st">"%H:%M:%S"</span>, tz <span class="op">=</span> <span class="st">"Europe/Copenhagen"</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in locale(decimal_mark = ",", grouping_mark = ".", date_names = "da", : could not find function "locale"</code></pre>
+</div>
 <p>This is a lesson created via The Carpentries Workbench. It is written
 in <a href="https://pandoc.org/MANUAL.html" class="external-link">Pandoc-flavored Markdown</a>
 for static files (with extension <code>.md</code>) and <a href="https://rmarkdown.rstudio.com/" class="external-link">R Markdown</a> for dynamic files
@@ -599,7 +643,7 @@ reinforce the objectives.</li>
 <div class="callout-inner">
 <h3 class="callout-title">Challenge</h3>
 <div class="callout-content">
-<div class="codewrapper sourceCode" id="cb3">
+<div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -609,7 +653,7 @@ reinforce the objectives.</li>
 <h2 id="challenge-1-can-you-do-it">Challenge 1: Can you do it?<a class="anchor" aria-label="anchor" href="#challenge-1-can-you-do-it"></a>
 </h2>
 <p>What is the output of this command?</p>
-<div class="codewrapper sourceCode" id="cb4">
+<div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -664,7 +708,7 @@ reinforce the objectives.</li>
 </h2>
 <hr class="half-width">
 <p>You can include figures generated from R Markdown:</p>
-<div class="codewrapper sourceCode" id="cb6">
+<div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -762,8 +806,8 @@ any links that you are not going to use.
   "url": "https://FIXME-template-source.github.io/NA/aio.html",
   "identifier": "https://FIXME-template-source.github.io/NA/aio.html",
   "dateCreated": "2024-10-14",
-  "dateModified": "2024-12-10",
-  "datePublished": "2024-12-10"
+  "dateModified": "2024-12-11",
+  "datePublished": "2024-12-11"
 }
 
   </script><script>
