@@ -63,7 +63,29 @@ When we inspect the HTML, we see that there are many tables in HTML, each corres
 
 Fortunately for us, the function \html_table\ will scrape all the tables on the page
 
-But before we start scraping, 
+The first thing we need to do is to scrape the webpage. One of the challenges of webscraping is that sometimes, certain webpages won't allow scraping. This prohibition can be for the entire webpage with all its subpages, or it can be for certain subpages. It can be quite laborious read and check this yourself, but fortunately for us, the polite package allows os to automatize this. By using its function \bow\ before we scrape, it will check if scraping is allowed. If scraping is allowed, the scraping will go ahead. If scraping is not allowed, no scraping will take place.
+So let us start by writing the name of our object. Then we use bow and write the link of the page that we want to scrape, in order to check if scraping is allowed. Then we scrape the webpage
+
+``` r
+dat <-
+  bow("https://om.ku.dk/tal-og-fakta/studerende/") %>%
+  scrape()
+```
+
+``` error
+Error in bow("https://om.ku.dk/tal-og-fakta/studerende/") %>% scrape(): could not find function "%>%"
+```
+
+But before we go further with our data, we need to make sure that R will handle decimal separators correctly. The default standard in R for handling decimal separators is to use the American version, where dot is the decimal separator, and comma groups larger numbers together, making it easier for the human eye to read numbers that are from one thousand and above. In the tables that we want to scrape here, the Danish format is used, where comma is the decimal separator, and dot groups larger numbers together. We there need to start by telling R that it should use the Danish format
+
+``` r
+dansk_locale <- locale(decimal_mark = ",", grouping_mark = ".", date_names = "da", date_format = "%d-%m-%Y", time_format = "%H:%M:%S", tz = "Europe/Copenhagen")
+```
+
+``` error
+Error in locale(decimal_mark = ",", grouping_mark = ".", date_names = "da", : could not find function "locale"
+```
+
 
 
 
