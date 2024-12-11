@@ -560,7 +560,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing polite ...                         OK [linked from cache]
-Successfully installed 1 package in 7.8 milliseconds.</code></pre>
+Successfully installed 1 package in 7.5 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -577,7 +577,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing rvest ...                          OK [linked from cache]
-Successfully installed 1 package in 7 milliseconds.</code></pre>
+Successfully installed 1 package in 6.6 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -594,7 +594,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing tidyverse ...                      OK [linked from cache]
-Successfully installed 1 package in 7 milliseconds.</code></pre>
+Successfully installed 1 package in 6.8 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -611,7 +611,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing purrr ...                          OK [linked from cache]
-Successfully installed 1 package in 6.7 milliseconds.</code></pre>
+Successfully installed 1 package in 6.5 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -628,7 +628,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmlTable ...                      OK [linked from cache]
-Successfully installed 1 package in 7.2 milliseconds.</code></pre>
+Successfully installed 1 package in 6.8 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -645,7 +645,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmltools ...                      OK [linked from cache]
-Successfully installed 1 package in 6.8 milliseconds.</code></pre>
+Successfully installed 1 package in 6.5 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -662,7 +662,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing scales ...                         OK [linked from cache]
-Successfully installed 1 package in 7 milliseconds.</code></pre>
+Successfully installed 1 package in 6.7 milliseconds.</code></pre>
 </div>
 <p>Lets us now activate our installed libraries to activate their
 functionality</p>
@@ -678,6 +678,9 @@ functionality</p>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">htmltools</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">scales</span><span class="op">)</span></span></code></pre>
 </div>
+</section><div class="section level1">
+<h1 id="scraping-multple-tabels-on-one-page">Scraping multple tabels on one page<a class="anchor" aria-label="anchor" href="#scraping-multple-tabels-on-one-page"></a>
+</h1>
 <p>One of the formats that data on a website often come in is a
 table</p>
 Let’s look at statics about students at The University of Copenhagen
@@ -794,6 +797,14 @@ cols(
   X2 = col_number()
 )</code></pre>
 </div>
+
+<div class="section level1">
+<h1 id="scraping-tabels-on-multiple-pages">Scraping tabels on multiple pages<a class="anchor" aria-label="anchor" href="#scraping-tabels-on-multiple-pages"></a>
+</h1>
+</div>
+<div class="section level1">
+<h1 id="scraping-predictable-urls">Scraping predictable URLs<a class="anchor" aria-label="anchor" href="#scraping-predictable-urls"></a>
+</h1>
 <p>But what if the table is spraed across multiple pages? There’s a way
 to handle that, but it does required a bit more work than the previous
 example where all tables were on one page. To learning how to scrape
@@ -964,10 +975,67 @@ table with _table<br></p>
 <span>          <span class="op">~</span> <span class="fu">html_elements</span><span class="op">(</span><span class="va">.x</span>, <span class="st">"table"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>            <span class="fu">html_table</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
-
+</div>
 <div class="section level1">
-<h1 id="scraping-pages-with-unpredictable-urls">Scraping pages with unpredictable URLs –&gt;<a class="anchor" aria-label="anchor" href="#scraping-pages-with-unpredictable-urls"></a>
+<h1 id="scraping-pages-with-unpredictable-urls">Scraping pages with unpredictable URLs<a class="anchor" aria-label="anchor" href="#scraping-pages-with-unpredictable-urls"></a>
 </h1>
+<p>What if there are tables on multiple pages that we want to scrape,
+but the pagination does not give us a predictable URL? i.e. instead of a
+sequence of integers increasing by one, or letters change in
+alphabetical order or reverse alphabetic order, there is a custom
+sequence of letters and digits? There is a way to handle this so that we
+can scrape all pages in one action, but it requires some inspection of
+the data and writing some functions</p>
+<p>We cannot anticipate what the all the various URLs will be, so we to
+find a method to automate the finding of all URLs, so that we can scrape
+all of them in one action.</p>
+<p>Let us start by scraping the base URL</p>
+<div class="codewrapper sourceCode" id="cb32">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">page1</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">bow</span><span class="op">(</span><span class="st">"http://www.scrapethissite.com/pages/forms/"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">scrape</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<p>In order to automate the finding of all URLs, we need to identify in
+the HTML where there is the button that allows us to go to the next
+page. We inspect the HTML of the webpage <a href="http://www.scrapethissite.com/pages/forms/" class="external-link uri">http://www.scrapethissite.com/pages/forms/</a> and see that
+there is an HTML element which describes the button that moves us to the
+next page. This button is a link. A link in HTML has is href. We see
+that HTML for the next button is aria-label=‘Next’. We need to extract
+the link from the button that goes to the next page. To do this we write
+the name of our new object. Then we write the name of object with the
+scraped webpage. Then we use _elements o tell R that we want to work
+with the HTML that constitutes the Next-button. The last thing we need
+to do is to extract the link itself. To do this we use the function
+_attr and write the HTML element for the link, which is href</p>
+<div class="codewrapper sourceCode" id="cb33">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># find the next button, write a CSS selector for it, and pull the value of href</span></span>
+<span><span class="va">next_page</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">page1</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">html_elements</span><span class="op">(</span><span class="st">"[aria-label='Next']"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">html_attr</span><span class="op">(</span><span class="st">"href"</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Now that we have the pagination number for the first page, we need to
+concatenate it with the base URL, with the pagination number coming
+last</p>
+<div class="codewrapper sourceCode" id="cb34">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># verify that this is a full URL (starting with "http") that we can scrape, and it if not. </span></span>
+<span><span class="co"># This is a root-relative path, so prefix it with the website's root URL</span></span>
+<span><span class="va">next_page</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">paste0</span><span class="op">(</span><span class="st">"http://www.scrapethissite.com"</span>, </span>
+<span>         <span class="va">next_page</span><span class="op">)</span></span></code></pre>
+</div>
+<p>HAVE REACHED HERE IN THE EPISODE We need to tell R that it should
+keep scraping pages until it comes to a page where there is no
+Next-button</p>
 <p>This is a lesson created via The Carpentries Workbench. It is written
 in <a href="https://pandoc.org/MANUAL.html" class="external-link">Pandoc-flavored Markdown</a>
 for static files (with extension <code>.md</code>) and <a href="https://rmarkdown.rstudio.com/" class="external-link">R Markdown</a> for dynamic files
@@ -992,7 +1060,7 @@ reinforce the objectives.</li>
 <button class="accordion-button instructor-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseInstructor1" aria-expanded="false" aria-controls="collapseInstructor1">
   <h3 class="accordion-header" id="headingInstructor1">  <div class="note-square"><i aria-hidden="true" class="callout-icon" data-feather="edit-2"></i></div> Instructor Note </h3>
 </button>
-<div id="collapseInstructor1" class="accordion-collapse collapse" aria-labelledby="headingInstructor1" data-bs-parent="#accordionInstructor1">
+<div id="collapseInstructor1" class="accordion-collapse collapse" data-bs-parent="#accordionInstructor1" aria-labelledby="headingInstructor1">
 <div class="accordion-body">
 <p>Inline instructor notes can help inform instructors of timing
 challenges associated with the lessons. They appear in the “Instructor
@@ -1008,7 +1076,7 @@ View”</p>
 <div class="callout-inner">
 <h3 class="callout-title">Challenge</h3>
 <div class="callout-content">
-<div class="codewrapper sourceCode" id="cb32">
+<div class="codewrapper sourceCode" id="cb35">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1018,7 +1086,7 @@ View”</p>
 <h2 id="challenge-1-can-you-do-it">Challenge 1: Can you do it?<a class="anchor" aria-label="anchor" href="#challenge-1-can-you-do-it"></a>
 </h2>
 <p>What is the output of this command?</p>
-<div class="codewrapper sourceCode" id="cb33">
+<div class="codewrapper sourceCode" id="cb36">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1033,7 +1101,7 @@ View”</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Output </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1060,7 +1128,7 @@ View”</p>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -1072,7 +1140,7 @@ View”</p>
 <h2 id="figures">Figures<a class="anchor" aria-label="anchor" href="#figures"></a>
 </h2>
 <p>You can include figures generated from R Markdown:</p>
-<div class="codewrapper sourceCode" id="cb35">
+<div class="codewrapper sourceCode" id="cb38">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -1125,7 +1193,8 @@ any links that you are not going to use.
  -->
 </div>
 </div>
-</table></section></section>
+</table>
+</div></section>
 </div>
     </main>
 </div>
