@@ -35,7 +35,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing polite ...                         OK [linked from cache]
-Successfully installed 1 package in 7.8 milliseconds.
+Successfully installed 1 package in 7.5 milliseconds.
 ```
 
 ``` r
@@ -49,7 +49,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing rvest ...                          OK [linked from cache]
-Successfully installed 1 package in 7 milliseconds.
+Successfully installed 1 package in 6.6 milliseconds.
 ```
 
 ``` r
@@ -63,7 +63,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing tidyverse ...                      OK [linked from cache]
-Successfully installed 1 package in 7 milliseconds.
+Successfully installed 1 package in 6.8 milliseconds.
 ```
 
 ``` r
@@ -77,7 +77,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing purrr ...                          OK [linked from cache]
-Successfully installed 1 package in 6.7 milliseconds.
+Successfully installed 1 package in 6.5 milliseconds.
 ```
 
 ``` r
@@ -91,7 +91,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmlTable ...                      OK [linked from cache]
-Successfully installed 1 package in 7.2 milliseconds.
+Successfully installed 1 package in 6.8 milliseconds.
 ```
 
 ``` r
@@ -105,7 +105,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmltools ...                      OK [linked from cache]
-Successfully installed 1 package in 6.8 milliseconds.
+Successfully installed 1 package in 6.5 milliseconds.
 ```
 
 ``` r
@@ -119,7 +119,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing scales ...                         OK [linked from cache]
-Successfully installed 1 package in 7 milliseconds.
+Successfully installed 1 package in 6.7 milliseconds.
 ```
 
 
@@ -135,6 +135,7 @@ library(htmltools)
 library(scales)
 ```
 
+# Scraping multple tabels on one page
 One of the formats that data on a website often come in is a table
 
 Let's look at statics about students at The University of Copenhagen (UCPH) at this page:
@@ -206,6 +207,8 @@ cols(
 )
 ```
 
+# Scraping tabels on multiple pages
+# Scraping predictable URLs
 But what if the table is spraed across multiple pages? There's a way to handle that, but it does required a bit more work than the previous example where all tables were on one page. To learning how to scrape webpages where the table is spread across multiple pages, we'll use this example: http://www.scrapethissite.com/pages/forms/?page_num=1. This link contains 24 pages with team statistics for all teams in the North American professional National Hockey League from year 1990 to year 2011.
 
 To begin we must inspect the URL. Fortunately for us, each page has a base URL, and then it ends with a number that is the the page number. So e.g. the URL for the first page is http://www.scrapethissite.com/pages/forms/?page_num=1. The URL for the second page is http://www.scrapethissite.com/pages/forms/?page_num=2, and so on until page 24. We can isolate the base URL, which is http://www.scrapethissite.com/pages/forms/?page_num=, and then create 24 URLs, each with a number going from 1 to 24
@@ -310,7 +313,43 @@ dat_tables <-
             html_table())
 ```
 
-# Scraping pages with unpredictable URLs -->
+# Scraping pages with unpredictable URLs
+What if there are tables on multiple pages that we want to scrape, but the pagination does not give us a predictable URL? i.e. instead of a sequence of integers increasing by one, or letters change in alphabetical order or reverse alphabetic order, there is a custom sequence of letters and digits? There is a way to handle this so that we can scrape all pages in one action, but it requires some inspection of the data and writing some functions
+
+We cannot anticipate what the all the various URLs will be, so we to find a method to automate the finding of all URLs, so that we can scrape all of them in one action.
+
+Let us start by scraping the base URL
+
+``` r
+page1 <- 
+  bow("http://www.scrapethissite.com/pages/forms/") %>% 
+  scrape()
+```
+
+In order to automate the finding of all URLs, we need to identify in the HTML where there is the button that allows us to go to the next page. We inspect the HTML of the webpage http://www.scrapethissite.com/pages/forms/ and see that there is an HTML element which describes the button that moves us to the next page. This button is a link. A link in HTML has is href. We see that HTML for the next button is aria-label='Next'. We need to extract the link from the button that goes to the next page. To do this we write the name of our new object. Then we write the name of object with the scraped webpage. Then we use \html_elements\ o tell R that we want to work with the HTML that constitutes the Next-button. The last thing we need to do is to extract the link itself. To do this we use the function \html_attr\ and write the HTML element for the link, which is href
+
+``` r
+# find the next button, write a CSS selector for it, and pull the value of href
+next_page <- 
+  page1 %>% 
+  html_elements("[aria-label='Next']") %>% 
+  html_attr("href")
+```
+
+Now that we have the pagination number for the first page, we need to concatenate it with the base URL, with the pagination number coming last
+
+``` r
+# verify that this is a full URL (starting with "http") that we can scrape, and it if not. 
+# This is a root-relative path, so prefix it with the website's root URL
+next_page <- 
+  paste0("http://www.scrapethissite.com", 
+         next_page)
+```
+
+HAVE REACHED HERE IN THE EPISODE
+We need to tell R that it should keep scraping pages until it comes to a page where there is no Next-button
+
+
 
 
 This is a lesson created via The Carpentries Workbench. It is written in
