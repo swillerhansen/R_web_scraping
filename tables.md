@@ -35,7 +35,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing polite ...                         OK [linked from cache]
-Successfully installed 1 package in 7.5 milliseconds.
+Successfully installed 1 package in 7.6 milliseconds.
 ```
 
 ``` r
@@ -49,7 +49,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing rvest ...                          OK [linked from cache]
-Successfully installed 1 package in 6.6 milliseconds.
+Successfully installed 1 package in 7 milliseconds.
 ```
 
 ``` r
@@ -63,7 +63,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing tidyverse ...                      OK [linked from cache]
-Successfully installed 1 package in 6.8 milliseconds.
+Successfully installed 1 package in 6.9 milliseconds.
 ```
 
 ``` r
@@ -77,7 +77,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing purrr ...                          OK [linked from cache]
-Successfully installed 1 package in 6.5 milliseconds.
+Successfully installed 1 package in 6.9 milliseconds.
 ```
 
 ``` r
@@ -91,7 +91,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmlTable ...                      OK [linked from cache]
-Successfully installed 1 package in 6.8 milliseconds.
+Successfully installed 1 package in 7.1 milliseconds.
 ```
 
 ``` r
@@ -105,7 +105,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmltools ...                      OK [linked from cache]
-Successfully installed 1 package in 6.5 milliseconds.
+Successfully installed 1 package in 6.7 milliseconds.
 ```
 
 ``` r
@@ -135,7 +135,7 @@ library(htmltools)
 library(scales)
 ```
 
-# Scraping multple tabels on one page
+Scraping multple tabels on one page
 One of the formats that data on a website often come in is a table
 
 Let's look at statics about students at The University of Copenhagen (UCPH) at this page:
@@ -207,8 +207,8 @@ cols(
 )
 ```
 
-# Scraping tabels on multiple pages
-# Scraping predictable URLs
+Scraping tabels on multiple pages
+Scraping predictable URLs
 But what if the table is spraed across multiple pages? There's a way to handle that, but it does required a bit more work than the previous example where all tables were on one page. To learning how to scrape webpages where the table is spread across multiple pages, we'll use this example: http://www.scrapethissite.com/pages/forms/?page_num=1. This link contains 24 pages with team statistics for all teams in the North American professional National Hockey League from year 1990 to year 2011.
 
 To begin we must inspect the URL. Fortunately for us, each page has a base URL, and then it ends with a number that is the the page number. So e.g. the URL for the first page is http://www.scrapethissite.com/pages/forms/?page_num=1. The URL for the second page is http://www.scrapethissite.com/pages/forms/?page_num=2, and so on until page 24. We can isolate the base URL, which is http://www.scrapethissite.com/pages/forms/?page_num=, and then create 24 URLs, each with a number going from 1 to 24
@@ -313,7 +313,7 @@ dat_tables <-
             html_table())
 ```
 
-# Scraping pages with unpredictable URLs
+Scraping pages with unpredictable URLs
 What if there are tables on multiple pages that we want to scrape, but the pagination does not give us a predictable URL? i.e. instead of a sequence of integers increasing by one, or letters change in alphabetical order or reverse alphabetic order, there is a custom sequence of letters and digits? There is a way to handle this so that we can scrape all pages in one action, but it requires some inspection of the data and writing some functions
 
 We cannot anticipate what the all the various URLs will be, so we to find a method to automate the finding of all URLs, so that we can scrape all of them in one action.
