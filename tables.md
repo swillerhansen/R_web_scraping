@@ -49,7 +49,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing rvest ...                          OK [linked from cache]
-Successfully installed 1 package in 7 milliseconds.
+Successfully installed 1 package in 11 milliseconds.
 ```
 
 ``` r
@@ -63,7 +63,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing tidyverse ...                      OK [linked from cache]
-Successfully installed 1 package in 6.9 milliseconds.
+Successfully installed 1 package in 7.1 milliseconds.
 ```
 
 ``` r
@@ -77,7 +77,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing purrr ...                          OK [linked from cache]
-Successfully installed 1 package in 6.9 milliseconds.
+Successfully installed 1 package in 11 milliseconds.
 ```
 
 ``` r
@@ -91,7 +91,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmlTable ...                      OK [linked from cache]
-Successfully installed 1 package in 7.1 milliseconds.
+Successfully installed 1 package in 6.8 milliseconds.
 ```
 
 ``` r
@@ -105,7 +105,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmltools ...                      OK [linked from cache]
-Successfully installed 1 package in 6.7 milliseconds.
+Successfully installed 1 package in 12 milliseconds.
 ```
 
 ``` r
@@ -119,7 +119,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing scales ...                         OK [linked from cache]
-Successfully installed 1 package in 6.7 milliseconds.
+Successfully installed 1 package in 6.9 milliseconds.
 ```
 
 
@@ -314,6 +314,7 @@ dat_tables <-
 ```
 
 Scraping pages with unpredictable URLs
+
 What if there are tables on multiple pages that we want to scrape, but the pagination does not give us a predictable URL? i.e. instead of a sequence of integers increasing by one, or letters change in alphabetical order or reverse alphabetic order, there is a custom sequence of letters and digits? There is a way to handle this so that we can scrape all pages in one action, but it requires some inspection of the data and writing some functions
 
 We cannot anticipate what the all the various URLs will be, so we to find a method to automate the finding of all URLs, so that we can scrape all of them in one action.
@@ -347,9 +348,98 @@ next_page <-
 ```
 
 HAVE REACHED HERE IN THE EPISODE
-We need to tell R that it should keep scraping pages until it comes to a page where there is no Next-button
+We need to tell R that it should keep scraping pages until it comes to a page where there is no Next-button. So we scrape the last page and draw out the link
 
 
+``` r
+next_page_final <- 
+  bow("http://www.scrapethissite.com/pages/forms/?page_num=24") %>% 
+  scrape() %>% 
+  html_elements("[aria-label='Next']") %>% 
+  html_attr("href")
+```
+
+We need to test if the last page i.e. our objects are indeed our the last page. We use the function \is_empty\. If the object is the last page, it will give the result TRUE. If the object is not the last page it will give us the value FALSE
+
+``` r
+# testing if condition for both are correct. next_page_final should be TRUE, next_page should be FALSE
+is_empty(next_page_final)
+```
+
+``` output
+[1] TRUE
+```
+
+``` r
+is_empty(next_page)
+```
+
+``` output
+[1] FALSE
+```
+
+Now we need to tell R that it should scrape a page, finds the URL for the next page and then scrape that next page until it finds the last page. 
+First we create an empty list in which our scraped data will be placed into. Then we tell R that the first page to download is the URL for the first page. Then we write our own function. We tell R that it should run this function if the page it scrapes has a page coming after that. Then it should create a link by pasting the base URL with the number of the next pages. Then it should the link that it has created by the \paste0\ function. The downloaded page should be stored in a list. Then from the scraped webpage it should draw out the link for the next-page button. 
+
+``` r
+all_dat <- list()
+next_page <- "/pages/forms/?page_num=1"
+i <- 0
+# proceed if there is a next page from the last scrape
+while (!is_empty(next_page)) {
+  # increase iteration count
+  i <- i + 1
+  
+  # assemble URL
+  link <- 
+    paste0("http://www.scrapethissite.com", 
+           next_page)
+  
+  # download current page
+  dat <- 
+    bow(link) %>% 
+    scrape()
+  
+  # store downloaded page in list
+  all_dat[[i]] <- dat
+  
+  # get link for next page
+  next_page <- 
+    dat %>% 
+    html_elements("[aria-label='Next']") %>% 
+    html_attr("href")
+  
+  # delay for five seconds before next download
+  Sys.sleep(5)
+}
+```
+
+Now we need to paste the 24 pages into a vector, each element in the vector being a page
+
+``` r
+# downloading multiple pages
+urls <- paste0("http://scrapethissite.com/pages/forms/?page_num=", 1:24)
+```
+
+Now we scrape each of the 24 URLs that we have created. We have 24 elements in our URL vector, so we use the \map\ function to tell R that it should scrape each URL in our URL vector. 
+
+``` r
+dat_all <-
+  map(urls,
+      ~ bow(.x) %>%
+        scrape())
+```
+
+Now we need to tell R that for each page in our list element in our scraped data, it should draw out the table, and combine them together into one dataframe with the \map_dfr\ function
+
+``` r
+# go through each element of the page list and pull out a dataframe
+# and then row-bind all of them together
+dat_tables <- 
+  map_dfr(all_dat, 
+          ~ html_elements(.x, "table") %>% 
+            html_table())
+```
 
 
 This is a lesson created via The Carpentries Workbench. It is written in
