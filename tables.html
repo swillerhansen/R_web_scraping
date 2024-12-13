@@ -292,7 +292,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Tables</h1>
-        <p>Last updated on 2024-12-11 |
+        <p>Last updated on 2024-12-13 |
 
         <a href="https://example.com/FIXME-template-source/edit/main/episodes/tables.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -346,7 +346,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing polite ...                         OK [linked from cache]
-Successfully installed 1 package in 7.6 milliseconds.</code></pre>
+Successfully installed 1 package in 7.7 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -363,7 +363,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing rvest ...                          OK [linked from cache]
-Successfully installed 1 package in 7 milliseconds.</code></pre>
+Successfully installed 1 package in 11 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -397,7 +397,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing purrr ...                          OK [linked from cache]
-Successfully installed 1 package in 6.9 milliseconds.</code></pre>
+Successfully installed 1 package in 11 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -414,7 +414,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmlTable ...                      OK [linked from cache]
-Successfully installed 1 package in 7.1 milliseconds.</code></pre>
+Successfully installed 1 package in 6.8 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -431,7 +431,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmltools ...                      OK [linked from cache]
-Successfully installed 1 package in 6.7 milliseconds.</code></pre>
+Successfully installed 1 package in 11 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -448,7 +448,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing scales ...                         OK [linked from cache]
-Successfully installed 1 package in 6.7 milliseconds.</code></pre>
+Successfully installed 1 package in 6.9 milliseconds.</code></pre>
 </div>
 <p>Lets us now activate our installed libraries to activate their
 functionality</p>
@@ -750,13 +750,14 @@ table with _table<br></p>
 <span>          <span class="op">~</span> <span class="fu">html_elements</span><span class="op">(</span><span class="va">.x</span>, <span class="st">"table"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>            <span class="fu">html_table</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
-<p>Scraping pages with unpredictable URLs What if there are tables on
-multiple pages that we want to scrape, but the pagination does not give
-us a predictable URL? i.e. instead of a sequence of integers increasing
-by one, or letters change in alphabetical order or reverse alphabetic
-order, there is a custom sequence of letters and digits? There is a way
-to handle this so that we can scrape all pages in one action, but it
-requires some inspection of the data and writing some functions</p>
+<p>Scraping pages with unpredictable URLs</p>
+<p>What if there are tables on multiple pages that we want to scrape,
+but the pagination does not give us a predictable URL? i.e. instead of a
+sequence of integers increasing by one, or letters change in
+alphabetical order or reverse alphabetic order, there is a custom
+sequence of letters and digits? There is a way to handle this so that we
+can scrape all pages in one action, but it requires some inspection of
+the data and writing some functions</p>
 <p>We cannot anticipate what the all the various URLs will be, so we to
 find a method to automate the finding of all URLs, so that we can scrape
 all of them in one action.</p>
@@ -806,7 +807,125 @@ last</p>
 </div>
 <p>HAVE REACHED HERE IN THE EPISODE We need to tell R that it should
 keep scraping pages until it comes to a page where there is no
-Next-button</p>
+Next-button. So we scrape the last page and draw out the link</p>
+<div class="codewrapper sourceCode" id="cb35">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">next_page_final</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">bow</span><span class="op">(</span><span class="st">"http://www.scrapethissite.com/pages/forms/?page_num=24"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">scrape</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">html_elements</span><span class="op">(</span><span class="st">"[aria-label='Next']"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">html_attr</span><span class="op">(</span><span class="st">"href"</span><span class="op">)</span></span></code></pre>
+</div>
+<p>We need to test if the last page i.e. our objects are indeed our the
+last page. We use the function _empty. If the object is the last page,
+it will give the result TRUE. If the object is not the last page it will
+give us the value FALSE</p>
+<div class="codewrapper sourceCode" id="cb36">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># testing if condition for both are correct. next_page_final should be TRUE, next_page should be FALSE</span></span>
+<span><span class="fu">is_empty</span><span class="op">(</span><span class="va">next_page_final</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] TRUE</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb38">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">is_empty</span><span class="op">(</span><span class="va">next_page</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] FALSE</code></pre>
+</div>
+<p>Now we need to tell R that it should scrape a page, finds the URL for
+the next page and then scrape that next page until it finds the last
+page. First we create an empty list in which our scraped data will be
+placed into. Then we tell R that the first page to download is the URL
+for the first page. Then we write our own function. We tell R that it
+should run this function if the page it scrapes has a page coming after
+that. Then it should create a link by pasting the base URL with the
+number of the next pages. Then it should the link that it has created by
+the  function. The downloaded page should be stored in a list. Then from
+the scraped webpage it should draw out the link for the next-page
+button.</p>
+<div class="codewrapper sourceCode" id="cb40">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">all_dat</span> <span class="op">&lt;-</span> <span class="fu">list</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">next_page</span> <span class="op">&lt;-</span> <span class="st">"/pages/forms/?page_num=1"</span></span>
+<span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
+<span><span class="co"># proceed if there is a next page from the last scrape</span></span>
+<span><span class="kw">while</span> <span class="op">(</span><span class="op">!</span><span class="fu">is_empty</span><span class="op">(</span><span class="va">next_page</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># increase iteration count</span></span>
+<span>  <span class="va">i</span> <span class="op">&lt;-</span> <span class="va">i</span> <span class="op">+</span> <span class="fl">1</span></span>
+<span>  </span>
+<span>  <span class="co"># assemble URL</span></span>
+<span>  <span class="va">link</span> <span class="op">&lt;-</span> </span>
+<span>    <span class="fu">paste0</span><span class="op">(</span><span class="st">"http://www.scrapethissite.com"</span>, </span>
+<span>           <span class="va">next_page</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># download current page</span></span>
+<span>  <span class="va">dat</span> <span class="op">&lt;-</span> </span>
+<span>    <span class="fu">bow</span><span class="op">(</span><span class="va">link</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">scrape</span><span class="op">(</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># store downloaded page in list</span></span>
+<span>  <span class="va">all_dat</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">dat</span></span>
+<span>  </span>
+<span>  <span class="co"># get link for next page</span></span>
+<span>  <span class="va">next_page</span> <span class="op">&lt;-</span> </span>
+<span>    <span class="va">dat</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">html_elements</span><span class="op">(</span><span class="st">"[aria-label='Next']"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">html_attr</span><span class="op">(</span><span class="st">"href"</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># delay for five seconds before next download</span></span>
+<span>  <span class="fu">Sys.sleep</span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre>
+</div>
+<p>Now we need to paste the 24 pages into a vector, each element in the
+vector being a page</p>
+<div class="codewrapper sourceCode" id="cb41">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># downloading multiple pages</span></span>
+<span><span class="va">urls</span> <span class="op">&lt;-</span> <span class="fu">paste0</span><span class="op">(</span><span class="st">"http://scrapethissite.com/pages/forms/?page_num="</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">24</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Now we scrape each of the 24 URLs that we have created. We have 24
+elements in our URL vector, so we use the  function to tell R that it
+should scrape each URL in our URL vector.</p>
+<div class="codewrapper sourceCode" id="cb42">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dat_all</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">map</span><span class="op">(</span><span class="va">urls</span>,</span>
+<span>      <span class="op">~</span> <span class="fu">bow</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>        <span class="fu">scrape</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Now we need to tell R that for each page in our list element in our
+scraped data, it should draw out the table, and combine them together
+into one dataframe with the _dfr function</p>
+<div class="codewrapper sourceCode" id="cb43">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># go through each element of the page list and pull out a dataframe</span></span>
+<span><span class="co"># and then row-bind all of them together</span></span>
+<span><span class="va">dat_tables</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">map_dfr</span><span class="op">(</span><span class="va">all_dat</span>, </span>
+<span>          <span class="op">~</span> <span class="fu">html_elements</span><span class="op">(</span><span class="va">.x</span>, <span class="st">"table"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>            <span class="fu">html_table</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+</div>
 <p>This is a lesson created via The Carpentries Workbench. It is written
 in <a href="https://pandoc.org/MANUAL.html" class="external-link">Pandoc-flavored Markdown</a>
 for static files (with extension <code>.md</code>) and <a href="https://rmarkdown.rstudio.com/" class="external-link">R Markdown</a> for dynamic files
@@ -831,7 +950,7 @@ reinforce the objectives.</li>
 <div class="callout-inner">
 <h3 class="callout-title">Challenge</h3>
 <div class="callout-content">
-<div class="codewrapper sourceCode" id="cb35">
+<div class="codewrapper sourceCode" id="cb44">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -840,7 +959,7 @@ reinforce the objectives.</li>
 <div class="section level2">
 <h2 id="challenge-1-can-you-do-it">Challenge 1: Can you do it?<a class="anchor" aria-label="anchor" href="#challenge-1-can-you-do-it"></a></h2>
 <p>What is the output of this command?</p>
-<div class="codewrapper sourceCode" id="cb36">
+<div class="codewrapper sourceCode" id="cb45">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -855,7 +974,7 @@ reinforce the objectives.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Output </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -882,7 +1001,7 @@ reinforce the objectives.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -893,7 +1012,7 @@ reinforce the objectives.</li>
 
 <section><h2 class="section-heading" id="figures">Figures<a class="anchor" aria-label="anchor" href="#figures"></a></h2>
 <hr class="half-width"><p>You can include figures generated from R Markdown:</p>
-<div class="codewrapper sourceCode" id="cb38">
+<div class="codewrapper sourceCode" id="cb47">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -996,8 +1115,8 @@ any links that you are not going to use.
   "url": "https://FIXME-template-source.github.io/NA/tables.html",
   "identifier": "https://FIXME-template-source.github.io/NA/tables.html",
   "dateCreated": "2024-10-14",
-  "dateModified": "2024-12-11",
-  "datePublished": "2024-12-11"
+  "dateModified": "2024-12-13",
+  "datePublished": "2024-12-13"
 }
 
   </script><script>
