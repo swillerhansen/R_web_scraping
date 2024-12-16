@@ -23,7 +23,7 @@ exercises: 2
 
 ## Introduction
 Lets us start by installing the libraries that will give us the necessary functionality to do webscraping
-```{r message=FALSE, eval=TRUE, warning=FALSE}
+```{r message=FALSE, eval=FALSE, warning=FALSE}
 install.packages("polite")
 install.packages("rvest")
 install.packages("tidyverse")
@@ -45,7 +45,7 @@ library(htmltools)
 library(scales)
 ```
 
-Scraping multple tabels on one page
+Scraping multiple tables on one page
 One of the formats that data on a website often come in is a table
 
 Let's look at statics about students at The University of Copenhagen (UCPH) at this page:
