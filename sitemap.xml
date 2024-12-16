@@ -1,75 +1,81 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/404.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/404.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/CODE_OF_CONDUCT.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/LICENSE.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/aio.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/aio.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/images.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/images.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/index.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/index.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/instructor/404.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/404.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/instructor/CODE_OF_CONDUCT.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/instructor/LICENSE.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/instructor/aio.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/aio.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/instructor/images.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/images.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/instructor/index.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/index.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/instructor/instructor-notes.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/instructor-notes.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/instructor/introduction.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/introduction.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/instructor/key-points.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/key-points.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/instructor/profiles.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/paragraph.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/instructor/reference.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/profiles.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/instructor/tables.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/reference.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/instructor-notes.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/tables.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/introduction.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/instructor-notes.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/key-points.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/introduction.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/profiles.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/key-points.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/reference.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/paragraph.html</loc>
   </url>
   <url>
-    <loc>https://FIXME-template-source.github.io/NA/tables.html</loc>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/profiles.html</loc>
+  </url>
+  <url>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/reference.html</loc>
+  </url>
+  <url>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/tables.html</loc>
   </url>
 </urlset>
