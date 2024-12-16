@@ -33,13 +33,13 @@ life_cycle: 'pre-alpha'
 license: 'CC-BY 4.0'
 
 # Link to the source repository for this lesson
-source: 'https://example.com/FIXME-template-source'
+source: 'https://github.com/KUBDatalab/R_web_scraping'
 
 # Default branch of your lesson
 branch: 'main'
 
 # Who to contact if there are any issues
-contact: 'team@carpentries.org'
+contact: 'swha@kb.dk'
 
 # Navigation ------------------------------------------------
 #
@@ -67,6 +67,7 @@ contact: 'team@carpentries.org'
 episodes: 
 - introduction.Rmd
 - tables.Rmd
+- paragraph.Rmd
 
 # Information for Learners
 learners: 
