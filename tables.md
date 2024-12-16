@@ -26,100 +26,12 @@ Lets us start by installing the libraries that will give us the necessary functi
 
 ``` r
 install.packages("polite")
-```
-
-``` output
-The following package(s) will be installed:
-- polite [0.1.3]
-These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv/profiles/lesson-requirements/renv/library/linux-ubuntu-jammy/R-4.4/x86_64-pc-linux-gnu".
-
-# Installing packages --------------------------------------------------------
-- Installing polite ...                         OK [linked from cache]
-Successfully installed 1 package in 7.8 milliseconds.
-```
-
-``` r
 install.packages("rvest")
-```
-
-``` output
-The following package(s) will be installed:
-- rvest [1.0.4]
-These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv/profiles/lesson-requirements/renv/library/linux-ubuntu-jammy/R-4.4/x86_64-pc-linux-gnu".
-
-# Installing packages --------------------------------------------------------
-- Installing rvest ...                          OK [linked from cache]
-Successfully installed 1 package in 6.9 milliseconds.
-```
-
-``` r
 install.packages("tidyverse")
-```
-
-``` output
-The following package(s) will be installed:
-- tidyverse [2.0.0]
-These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv/profiles/lesson-requirements/renv/library/linux-ubuntu-jammy/R-4.4/x86_64-pc-linux-gnu".
-
-# Installing packages --------------------------------------------------------
-- Installing tidyverse ...                      OK [linked from cache]
-Successfully installed 1 package in 6.9 milliseconds.
-```
-
-``` r
 install.packages("purrr")
-```
-
-``` output
-The following package(s) will be installed:
-- purrr [1.0.2]
-These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv/profiles/lesson-requirements/renv/library/linux-ubuntu-jammy/R-4.4/x86_64-pc-linux-gnu".
-
-# Installing packages --------------------------------------------------------
-- Installing purrr ...                          OK [linked from cache]
-Successfully installed 1 package in 6.6 milliseconds.
-```
-
-``` r
 install.packages("htmlTable")
-```
-
-``` output
-The following package(s) will be installed:
-- htmlTable [2.4.3]
-These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv/profiles/lesson-requirements/renv/library/linux-ubuntu-jammy/R-4.4/x86_64-pc-linux-gnu".
-
-# Installing packages --------------------------------------------------------
-- Installing htmlTable ...                      OK [linked from cache]
-Successfully installed 1 package in 7 milliseconds.
-```
-
-``` r
 install.packages("htmltools")
-```
-
-``` output
-The following package(s) will be installed:
-- htmltools [0.5.8.1]
-These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv/profiles/lesson-requirements/renv/library/linux-ubuntu-jammy/R-4.4/x86_64-pc-linux-gnu".
-
-# Installing packages --------------------------------------------------------
-- Installing htmltools ...                      OK [linked from cache]
-Successfully installed 1 package in 6.5 milliseconds.
-```
-
-``` r
 install.packages("scales")
-```
-
-``` output
-The following package(s) will be installed:
-- scales [1.3.0]
-These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv/profiles/lesson-requirements/renv/library/linux-ubuntu-jammy/R-4.4/x86_64-pc-linux-gnu".
-
-# Installing packages --------------------------------------------------------
-- Installing scales ...                         OK [linked from cache]
-Successfully installed 1 package in 6.7 milliseconds.
 ```
 
 
@@ -135,7 +47,7 @@ library(htmltools)
 library(scales)
 ```
 
-Scraping multple tabels on one page
+Scraping multiple tables on one page
 One of the formats that data on a website often come in is a table
 
 Let's look at statics about students at The University of Copenhagen (UCPH) at this page:
