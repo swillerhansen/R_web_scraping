@@ -301,7 +301,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Paragraph</h1>
-        <p>Last updated on 2024-12-17 |
+        <p>Last updated on 2024-12-18 |
 
         <a href="https://github.com/KUBDatalab/R_web_scraping/edit/main/episodes/paragraph.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -329,7 +329,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing polite ...                         OK [linked from cache]
-Successfully installed 1 package in 7.7 milliseconds.</code></pre>
+Successfully installed 1 package in 8 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -346,7 +346,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing rvest ...                          OK [linked from cache]
-Successfully installed 1 package in 6.9 milliseconds.</code></pre>
+Successfully installed 1 package in 7.2 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -363,7 +363,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing tidyverse ...                      OK [linked from cache]
-Successfully installed 1 package in 6.7 milliseconds.</code></pre>
+Successfully installed 1 package in 7.1 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -380,7 +380,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing purrr ...                          OK [linked from cache]
-Successfully installed 1 package in 6.6 milliseconds.</code></pre>
+Successfully installed 1 package in 7 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -397,7 +397,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmlTable ...                      OK [linked from cache]
-Successfully installed 1 package in 6.8 milliseconds.</code></pre>
+Successfully installed 1 package in 7.2 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -414,7 +414,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmltools ...                      OK [linked from cache]
-Successfully installed 1 package in 6.7 milliseconds.</code></pre>
+Successfully installed 1 package in 6.8 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb13">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -431,7 +431,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing scales ...                         OK [linked from cache]
-Successfully installed 1 package in 6.7 milliseconds.</code></pre>
+Successfully installed 1 package in 7 milliseconds.</code></pre>
 </div>
 <div class="codewrapper sourceCode" id="cb15">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -532,7 +532,139 @@ first part of the URL concatenated with the link</p>
 <code class="sourceCode R"><span><span class="co"># Ensure proper formatting with "https://"</span></span>
 <span><span class="va">full_links</span> <span class="op">&lt;-</span> <span class="fu">ifelse</span><span class="op">(</span><span class="fu">grepl</span><span class="op">(</span><span class="st">"^https"</span>, <span class="va">filtered_links</span><span class="op">)</span>, <span class="va">filtered_links</span>, <span class="fu">paste0</span><span class="op">(</span><span class="st">"https://www.presidency.ucsb.edu"</span>, <span class="va">filtered_links</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
-</section><section><h2 class="section-heading" id="r-markdown">R Markdown<a class="anchor" aria-label="anchor" href="#r-markdown"></a></h2>
+<p>Our scrape ´d result will be stored as a list before we convert it to
+a dataframe. So we need to create an empty list that we’ll later put our
+data in</p>
+<div class="codewrapper sourceCode" id="cb22">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Loop through each filtered link and scrape the content from each subpage</span></span>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu">list</span><span class="op">(</span><span class="op">)</span>  <span class="co"># Create a list to store the scraped results</span></span></code></pre>
+</div>
+Now we need to make our own functions that will help us scrape all
+webpages with presidential debates at once instead of scraping each
+individual debate one after another. To do this we need to create 2
+functions. The first one will defines how to scrape a particular
+webpage. First we give the function an appropriate name. Then we tell R
+that it’s a function and that to use this function a link must be
+written. Then we tell R that it should use  to check that the linked
+webpage allows scraping. Then we take that result and scrape the page
+with  and save it as an object. Now we need to tell R which parts of the
+HTML it should draw out of the scraped data. We want to draw a header
+which is
+<h1 id="introduction-1">
+; This will help us keep track of which individual debates that the
+presidential candidates’ utterances were said. Next we need to scrape
+the date of the debate, which is found in the HTML element <span>.
+Lastly, we need to scrape the utterances from the debate, which is found
+in the HTML element
+<p>
+</p>
+<p>, which means a paragraph. Then we trim the result to make it more
+readable. Lastly, we save the result by using the  function</p>
+<div class="codewrapper sourceCode" id="cb23">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Define a function to scrape a single subpage</span></span>
+<span><span class="va">scrape_debate_page</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">link</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  </span>
+<span>  <span class="co"># Be polite and create a new session for the subpage</span></span>
+<span>  <span class="va">subpage_session</span> <span class="op">&lt;-</span> <span class="fu">bow</span><span class="op">(</span><span class="va">link</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># Scrape the subpage</span></span>
+<span>  <span class="va">subpage</span> <span class="op">&lt;-</span> <span class="fu">scrape</span><span class="op">(</span><span class="va">subpage_session</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># Extract specific content from &lt;h1&gt;, &lt;span&gt;, and &lt;p&gt; tags</span></span>
+<span>  <span class="va">debate_text</span> <span class="op">&lt;-</span> <span class="va">subpage</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">html_elements</span><span class="op">(</span><span class="st">"h1, span, p"</span><span class="op">)</span> <span class="op">%&gt;%</span>   <span class="co"># Use a single combined CSS selector</span></span>
+<span>    <span class="fu">html_text</span><span class="op">(</span>trim <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="kw">return</span><span class="op">(</span><span class="va">debate_text</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre>
+</div>
+<p>Now we can use our function of scraping a debate page to create a new
+function that scrapes all the debate pages. First we tell R that it
+should give an appropriate name to this function. Then we stipulate that
+the full URL of the pages to be scraped must be written, by calling an
+object with the all the full URLs that we created previously. The first
+thing that the function does is to create an emtpy list to store the
+scraped data. Then, by using the  we stipulate that this function should
+be applied to each individual link in our object of full_links object.
+We use the previous function we told R how to scrape each debate and
+tell R that it should use that function to scrape each of the
+full_links. The result should then be stored in the list that we created
+earlier in the function. Lastly, we use .sleep to avoid the webpages
+from scraping.</p>
+<div class="codewrapper sourceCode" id="cb24">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Main scraping process</span></span>
+<span><span class="va">scrape_all_debates</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">full_links</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">results</span> <span class="op">&lt;-</span> <span class="fu">list</span><span class="op">(</span><span class="op">)</span>  <span class="co"># Create an empty list to store the results</span></span>
+<span>  </span>
+<span>  <span class="kw">for</span> <span class="op">(</span><span class="va">link</span> <span class="kw">in</span> <span class="va">full_links</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    </span>
+<span>    <span class="co"># Call the scrape_debate_page function for each link</span></span>
+<span>    <span class="va">debate_text</span> <span class="op">&lt;-</span> <span class="fu">scrape_debate_page</span><span class="op">(</span><span class="va">link</span><span class="op">)</span></span>
+<span>    </span>
+<span>    <span class="co"># Store the debate text in the results list with the link as the name</span></span>
+<span>    <span class="va">results</span><span class="op">[[</span><span class="va">link</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">debate_text</span> <span class="co">#possibly format and clean the data before the result is saved</span></span>
+<span>    </span>
+<span>    <span class="co"># Optional: Add a delay between requests to avoid overwhelming the server</span></span>
+<span>    <span class="fu">Sys.sleep</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span>  <span class="op">}</span></span>
+<span>  </span>
+<span>  <span class="kw">return</span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre>
+</div>
+<p>Now that we have our function that will allow us to scrape all the
+webpages in full_links, we use that function scrape the pages and save
+the result</p>
+<div class="codewrapper sourceCode" id="cb25">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">presidential_debates</span> <span class="op">&lt;-</span> <span class="fu">scrape_all_debates</span><span class="op">(</span><span class="va">full_links</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb26">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># I want to delete all rows that contains the string "https://" in the column Content</span></span>
+<span><span class="co"># and I also want to delete the rows that come after the rows that contain the string "https://"</span></span>
+<span><span class="va">clean_speech</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">presidential_df</span><span class="op">)</span><span class="op">{</span></span>
+<span>  <span class="va">presidential_df</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">mutate</span><span class="op">(</span>Speaker <span class="op">=</span> <span class="fu">str_extract</span><span class="op">(</span><span class="va">value</span>, <span class="st">"[A-Z]+:"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">mutate</span><span class="op">(</span>cleaned <span class="op">=</span> <span class="fu">str_detect</span><span class="op">(</span><span class="va">value</span>, <span class="st">"^This transcript|https://"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">mutate</span><span class="op">(</span>cleaned <span class="op">=</span> <span class="fu">if_else</span><span class="op">(</span><span class="va">cleaned</span> <span class="op">==</span> <span class="cn">FALSE</span>, <span class="cn">NA</span>, <span class="va">cleaned</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">fill</span><span class="op">(</span><span class="va">cleaned</span>, .direction <span class="op">=</span> <span class="st">"down"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">filter</span><span class="op">(</span><span class="fu">is.na</span><span class="op">(</span><span class="va">cleaned</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">fill</span><span class="op">(</span><span class="va">Speaker</span>, .direction <span class="op">=</span> <span class="st">"down"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">mutate</span><span class="op">(</span>date <span class="op">=</span> <span class="fu">if_else</span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">value</span>, <span class="st">"^[A-Z][a-z]+\\s+\\d{1,2},\\s+\\d{4}"</span><span class="op">)</span>, </span>
+<span>                          <span class="va">value</span>, </span>
+<span>                          <span class="cn">NA</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">fill</span><span class="op">(</span><span class="va">date</span>, .direction <span class="op">=</span> <span class="st">"down"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">mutate</span><span class="op">(</span>debate_city <span class="op">=</span> <span class="fu">if_else</span><span class="op">(</span><span class="fu">str_detect</span><span class="op">(</span><span class="va">value</span>, <span class="st">"^Presidential Debate"</span><span class="op">)</span>, </span>
+<span>                                 <span class="va">value</span>, </span>
+<span>                                 <span class="cn">NA</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">fill</span><span class="op">(</span><span class="va">debate_city</span>, .direction <span class="op">=</span> <span class="st">"down"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">filter</span><span class="op">(</span><span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">Speaker</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">mutate</span><span class="op">(</span>date <span class="op">=</span> <span class="fu">str_extract</span><span class="op">(</span><span class="va">date</span>, <span class="st">"^[A-Za-z]+\\s\\d{1,2},\\s\\d{4}"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">mutate</span><span class="op">(</span>date <span class="op">=</span> <span class="fu">str_extract</span><span class="op">(</span><span class="va">date</span>, <span class="st">"\\d{4}$"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">mutate</span><span class="op">(</span>Speech <span class="op">=</span> <span class="fu">str_remove</span><span class="op">(</span><span class="va">value</span>, <span class="va">Speaker</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">select</span><span class="op">(</span><span class="op">-</span><span class="va">value</span>, <span class="op">-</span><span class="va">cleaned</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">mutate</span><span class="op">(</span>Speech <span class="op">=</span> <span class="fu">str_trim</span><span class="op">(</span><span class="va">Speech</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">mutate</span><span class="op">(</span>Speaker <span class="op">=</span> <span class="fu">str_remove</span><span class="op">(</span><span class="va">Speaker</span>, <span class="st">":"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">mutate</span><span class="op">(</span>Speech <span class="op">=</span> <span class="fu">str_replace_all</span><span class="op">(</span><span class="va">Speech</span>, <span class="st">"\\[.*\\]"</span>, <span class="st">""</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">mutate</span><span class="op">(</span>Speech <span class="op">=</span> <span class="fu">na_if</span><span class="op">(</span><span class="va">Speech</span>, <span class="st">""</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">filter</span><span class="op">(</span><span class="op">!</span><span class="fu">is.na</span><span class="op">(</span><span class="va">Speech</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre>
+</div>
+</span>
+<a class="anchor" aria-label="anchor" href="#introduction-1"></a></h1></section><section><h2 class="section-heading" id="r-markdown">R Markdown<a class="anchor" aria-label="anchor" href="#r-markdown"></a></h2>
 <hr class="half-width"><p>This is an R Markdown document. Markdown is a simple formatting
 syntax for authoring HTML, PDF, and MS Word documents. For more details
 on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="external-link uri">http://rmarkdown.rstudio.com</a>.</p>
@@ -540,7 +672,7 @@ on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="external-l
 generated that includes both content as well as the output of any
 embedded R code chunks within the document. You can embed an R code
 chunk like this:</p>
-<div class="codewrapper sourceCode" id="cb22">
+<div class="codewrapper sourceCode" id="cb27">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -624,8 +756,8 @@ any links that you are not going to use.
   "url": "https://KUBDatalab.github.io/R_web_scraping/paragraph.html",
   "identifier": "https://KUBDatalab.github.io/R_web_scraping/paragraph.html",
   "dateCreated": "2024-10-14",
-  "dateModified": "2024-12-17",
-  "datePublished": "2024-12-17"
+  "dateModified": "2024-12-18",
+  "datePublished": "2024-12-18"
 }
 
   </script><script>
