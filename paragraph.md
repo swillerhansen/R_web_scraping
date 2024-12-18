@@ -17,7 +17,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing polite ...                         OK [linked from cache]
-Successfully installed 1 package in 7.7 milliseconds.
+Successfully installed 1 package in 8 milliseconds.
 ```
 
 ``` r
@@ -31,7 +31,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing rvest ...                          OK [linked from cache]
-Successfully installed 1 package in 6.9 milliseconds.
+Successfully installed 1 package in 7.2 milliseconds.
 ```
 
 ``` r
@@ -45,7 +45,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing tidyverse ...                      OK [linked from cache]
-Successfully installed 1 package in 6.7 milliseconds.
+Successfully installed 1 package in 7.1 milliseconds.
 ```
 
 ``` r
@@ -59,7 +59,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing purrr ...                          OK [linked from cache]
-Successfully installed 1 package in 6.6 milliseconds.
+Successfully installed 1 package in 7 milliseconds.
 ```
 
 ``` r
@@ -73,7 +73,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmlTable ...                      OK [linked from cache]
-Successfully installed 1 package in 6.8 milliseconds.
+Successfully installed 1 package in 7.2 milliseconds.
 ```
 
 ``` r
@@ -87,7 +87,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmltools ...                      OK [linked from cache]
-Successfully installed 1 package in 6.7 milliseconds.
+Successfully installed 1 package in 6.8 milliseconds.
 ```
 
 ``` r
@@ -101,7 +101,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing scales ...                         OK [linked from cache]
-Successfully installed 1 package in 6.7 milliseconds.
+Successfully installed 1 package in 7 milliseconds.
 ```
 
 
@@ -164,6 +164,96 @@ We need to make sure that all links start with https://. So we use the \ifelse\ 
 full_links <- ifelse(grepl("^https", filtered_links), filtered_links, paste0("https://www.presidency.ucsb.edu", filtered_links))
 ```
 
+Our scrape ´d result will be stored as a list before we convert it to a dataframe. So we need to create an empty list that we'll later put our data in
+
+``` r
+# Loop through each filtered link and scrape the content from each subpage
+results <- list()  # Create a list to store the scraped results
+```
+
+Now we need to make our own functions that will help us scrape all webpages with presidential debates at once instead of scraping each individual debate one after another. To do this we need to create 2 functions. The first one will defines how to scrape a particular webpage. First we give the function an appropriate name. Then we tell R that it's a function and that to use this function a link must be written. Then we tell R that it should use \bow\ to check that the linked webpage allows scraping. Then we take that result and scrape the page with \scrape\ and save it as an object. Now we need to tell R which parts of the HTML it should draw out of the scraped data. We want to draw a header which is <h1>; This will help us keep track of which individual debates that the presidential candidates' utterances were said. Next we need to scrape the date of the debate, which is found in the HTML element <span>. Lastly, we need to scrape the utterances from the debate, which is found in the HTML element <p>, which means a paragraph. Then we trim the result to make it more readable. Lastly, we save the result by using the \return\ function
+
+``` r
+# Define a function to scrape a single subpage
+scrape_debate_page <- function(link) {
+  
+  # Be polite and create a new session for the subpage
+  subpage_session <- bow(link)
+  
+  # Scrape the subpage
+  subpage <- scrape(subpage_session)
+  
+  # Extract specific content from <h1>, <span>, and <p> tags
+  debate_text <- subpage %>%
+    html_elements("h1, span, p") %>%   # Use a single combined CSS selector
+    html_text(trim = TRUE)
+  
+  return(debate_text)
+}
+```
+
+Now we can use our function of scraping a debate page to create a new function that scrapes all the debate pages. First we tell R that it should give an appropriate name to this function. Then we stipulate that the full URL of the pages to be scraped must be written, by calling an object with the all the full URLs that we created previously. The first thing that the function does is to create an emtpy list to store the scraped data. Then, by using the \for\ we stipulate that this function should be applied to each individual link in our object of full_links object. We use the previous function we told R how to scrape each debate and tell R that it should use that function to scrape each of the full_links. The result should then be stored in the list that we created earlier in the function. Lastly, we use \Sys.sleep\ to avoid the webpages from scraping. 
+
+``` r
+# Main scraping process
+scrape_all_debates <- function(full_links) {
+  results <- list()  # Create an empty list to store the results
+  
+  for (link in full_links) {
+    
+    # Call the scrape_debate_page function for each link
+    debate_text <- scrape_debate_page(link)
+    
+    # Store the debate text in the results list with the link as the name
+    results[[link]] <- debate_text #possibly format and clean the data before the result is saved
+    
+    # Optional: Add a delay between requests to avoid overwhelming the server
+    Sys.sleep(1)
+  }
+  
+  return(results)
+}
+```
+
+Now that we have our function that will allow us to scrape all the webpages in full_links, we use that function scrape the pages and save the result
+
+``` r
+presidential_debates <- scrape_all_debates(full_links)
+```
+
+
+
+``` r
+# I want to delete all rows that contains the string "https://" in the column Content
+# and I also want to delete the rows that come after the rows that contain the string "https://"
+clean_speech <- function(presidential_df){
+  presidential_df %>% 
+    mutate(Speaker = str_extract(value, "[A-Z]+:")) %>% 
+    mutate(cleaned = str_detect(value, "^This transcript|https://")) %>% 
+    mutate(cleaned = if_else(cleaned == FALSE, NA, cleaned)) %>% 
+    fill(cleaned, .direction = "down") %>% 
+    filter(is.na(cleaned)) %>% 
+    fill(Speaker, .direction = "down") %>% 
+    mutate(date = if_else(str_detect(value, "^[A-Z][a-z]+\\s+\\d{1,2},\\s+\\d{4}"), 
+                          value, 
+                          NA)) %>% 
+    fill(date, .direction = "down") %>% 
+    mutate(debate_city = if_else(str_detect(value, "^Presidential Debate"), 
+                                 value, 
+                                 NA)) %>% 
+    fill(debate_city, .direction = "down") %>% 
+    filter(!is.na(Speaker)) %>% 
+    mutate(date = str_extract(date, "^[A-Za-z]+\\s\\d{1,2},\\s\\d{4}")) %>%
+    mutate(date = str_extract(date, "\\d{4}$")) %>%
+    mutate(Speech = str_remove(value, Speaker)) %>% 
+    select(-value, -cleaned) %>%
+    mutate(Speech = str_trim(Speech)) %>%
+    mutate(Speaker = str_remove(Speaker, ":")) %>% 
+    mutate(Speech = str_replace_all(Speech, "\\[.*\\]", "")) %>% 
+    mutate(Speech = na_if(Speech, "")) %>% 
+    filter(!is.na(Speech))
+}
+```
 
 
 ## R Markdown
