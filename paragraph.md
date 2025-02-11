@@ -17,7 +17,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing polite ...                         OK [linked from cache]
-Successfully installed 1 package in 6.4 milliseconds.
+Successfully installed 1 package in 6.7 milliseconds.
 ```
 
 ``` r
@@ -31,7 +31,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing rvest ...                          OK [linked from cache]
-Successfully installed 1 package in 5.4 milliseconds.
+Successfully installed 1 package in 5.7 milliseconds.
 ```
 
 ``` r
@@ -54,12 +54,12 @@ install.packages("purrr")
 
 ``` output
 The following package(s) will be installed:
-- purrr [1.0.2]
+- purrr [1.0.4]
 These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv/profiles/lesson-requirements/renv/library/linux-ubuntu-jammy/R-4.4/x86_64-pc-linux-gnu".
 
 # Installing packages --------------------------------------------------------
 - Installing purrr ...                          OK [linked from cache]
-Successfully installed 1 package in 5.5 milliseconds.
+Successfully installed 1 package in 5.8 milliseconds.
 ```
 
 ``` r
@@ -73,7 +73,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmlTable ...                      OK [linked from cache]
-Successfully installed 1 package in 6.3 milliseconds.
+Successfully installed 1 package in 5.9 milliseconds.
 ```
 
 ``` r
@@ -87,7 +87,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing htmltools ...                      OK [linked from cache]
-Successfully installed 1 package in 5.3 milliseconds.
+Successfully installed 1 package in 5.7 milliseconds.
 ```
 
 ``` r
@@ -101,7 +101,7 @@ These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv
 
 # Installing packages --------------------------------------------------------
 - Installing scales ...                         OK [linked from cache]
-Successfully installed 1 package in 5.5 milliseconds.
+Successfully installed 1 package in 5.6 milliseconds.
 ```
 
 
