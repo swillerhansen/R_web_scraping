@@ -8,100 +8,12 @@ date: "2024-12-13"
 
 ``` r
 install.packages("polite")
-```
-
-``` output
-The following package(s) will be installed:
-- polite [0.1.3]
-These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv/profiles/lesson-requirements/renv/library/linux-ubuntu-jammy/R-4.4/x86_64-pc-linux-gnu".
-
-# Installing packages --------------------------------------------------------
-- Installing polite ...                         OK [linked from cache]
-Successfully installed 1 package in 7 milliseconds.
-```
-
-``` r
 install.packages("rvest")
-```
-
-``` output
-The following package(s) will be installed:
-- rvest [1.0.4]
-These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv/profiles/lesson-requirements/renv/library/linux-ubuntu-jammy/R-4.4/x86_64-pc-linux-gnu".
-
-# Installing packages --------------------------------------------------------
-- Installing rvest ...                          OK [linked from cache]
-Successfully installed 1 package in 6.1 milliseconds.
-```
-
-``` r
 install.packages("tidyverse")
-```
-
-``` output
-The following package(s) will be installed:
-- tidyverse [2.0.0]
-These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv/profiles/lesson-requirements/renv/library/linux-ubuntu-jammy/R-4.4/x86_64-pc-linux-gnu".
-
-# Installing packages --------------------------------------------------------
-- Installing tidyverse ...                      OK [linked from cache]
-Successfully installed 1 package in 6.1 milliseconds.
-```
-
-``` r
 install.packages("purrr")
-```
-
-``` output
-The following package(s) will be installed:
-- purrr [1.0.4]
-These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv/profiles/lesson-requirements/renv/library/linux-ubuntu-jammy/R-4.4/x86_64-pc-linux-gnu".
-
-# Installing packages --------------------------------------------------------
-- Installing purrr ...                          OK [linked from cache]
-Successfully installed 1 package in 6.2 milliseconds.
-```
-
-``` r
 install.packages("htmlTable")
-```
-
-``` output
-The following package(s) will be installed:
-- htmlTable [2.4.3]
-These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv/profiles/lesson-requirements/renv/library/linux-ubuntu-jammy/R-4.4/x86_64-pc-linux-gnu".
-
-# Installing packages --------------------------------------------------------
-- Installing htmlTable ...                      OK [linked from cache]
-Successfully installed 1 package in 7 milliseconds.
-```
-
-``` r
 install.packages("htmltools")
-```
-
-``` output
-The following package(s) will be installed:
-- htmltools [0.5.8.1]
-These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv/profiles/lesson-requirements/renv/library/linux-ubuntu-jammy/R-4.4/x86_64-pc-linux-gnu".
-
-# Installing packages --------------------------------------------------------
-- Installing htmltools ...                      OK [linked from cache]
-Successfully installed 1 package in 6.1 milliseconds.
-```
-
-``` r
 install.packages("scales")
-```
-
-``` output
-The following package(s) will be installed:
-- scales [1.3.0]
-These packages will be installed into "~/work/R_web_scraping/R_web_scraping/renv/profiles/lesson-requirements/renv/library/linux-ubuntu-jammy/R-4.4/x86_64-pc-linux-gnu".
-
-# Installing packages --------------------------------------------------------
-- Installing scales ...                         OK [linked from cache]
-Successfully installed 1 package in 7.3 milliseconds.
 ```
 
 
@@ -118,8 +30,8 @@ library(scales)
 In this part of the course, we will now look at how to scrape a few  different HTML elements. Specifically, we will look at how to scrape paragraphs and headers. A paragraph is an HTML element that often contains a bulk of text that we can be interested in when we scrape a webpage. We will also scrape headers, which is an HTML element that often describes the content of the webpage or the content of other HTML elements on webpage.
 
 
-
-Let us start by writing the main URL and see if webscraping is allowed
+We have found a Wikipedia article in English about plans from United States presidents to acquire Greenland. Wikipedia articles are usually licensed with a Creative Commons license. We therefore expect that we are allowed to scrape the page. 
+Let us start by using \bow\ to check if the page allows scraping
 
 ``` r
 bow("https://en.wikipedia.org/wiki/Proposed_United_States_acquisition_of_Greenland")
@@ -140,13 +52,13 @@ dat <- bow("https://en.wikipedia.org/wiki/Proposed_United_States_acquisition_of_
   scrape()
 ```
 
-write new text here
+We have successfully scraped the page. Now we need to extract the HTML elements that we are interested in. In HTML the headers elements start with <h>. The headers exist in a hierarchical fashion. The most overall header is called <h1>. The second most overall header is called <h2> and so on. On the Wikipedia page the headers are <h1>, <h2>, <h3>, and <h4>. So we need to specify each of them when we extract the HTML elements from the our scrape. The headers are usful for designating which sections the article's text is divided into. But they do not contain the article's text. The article's text is in the HTML element <p>. But all the text is not found in one <p> element. It is divided into multiple paragraphs. This is because the text is then displayed in separate paragraphs on the page, which makes the article more readable to the human eye. We can write p to extract all paragraphs
 
 ``` r
 greenland_us_wiki <- html_elements(dat, "h1, h2, h3, h4, p")
 ```
-
-write new text here
+We now have the headers and the paragraphs extracted. Now we need to convert their content into a readable format so that we can work with the text. To do this we use the function \html_text\. This extracts the content of the HTML elements that specified before, i.e. headers and paragraphs. But only having the text content will make us able to discern which texts are headers and which are paragraphs. We will therefore need to use \html_name\ to give us each text's HTML element. 
+The best way to format this data is to make it a tibble, which is type of data frame. We therefore create a tibble where the HTML tag is in one column, and the text of that HTML element is in another columns. 
 
 ``` r
 df_greenland_us <- tibble(
@@ -155,7 +67,10 @@ df_greenland_us <- tibble(
 )
 ```
 
-write new text here
+Now we have the right alignment of rows and columns where each row is an HTML element with its corresponding text content. 
+
+But we would like to have a better understanding and overview of which paragraphs are found under which headings. To do this let us first create a new set of columns. One column for each header, using \mutate\
+Now we need to make sure that each of these header columns has all its cells filled out. This will allow us to for each paragrah see under which header 1 it is and under which header 2 it is and so on. To do this we use the \fill\ function. Fill allows us to for each of the header columns extend the text value in a cell thourgh all the succeeding emtpy cells until it reaches a cell that already has text in it. To specify this direction we write tht the \.direction\ should be downwards. 
 
 ``` r
 df_greenland_us <- df_greenland_us %>%
@@ -171,6 +86,7 @@ df_greenland_us <- df_greenland_us %>%
   fill(h4, .direction = "down")      # Fill down h4 until new h4 appears
 ```
 
+We see that for some unknown reason the first header in the data frame is <h2> and not <h1>. By looking at the article page we see that <h1> is the proper header of the article that encompasses all its content. So we need to remove the rows that come before <h1>
 write new text here
 
 ``` r
