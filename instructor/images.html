@@ -352,7 +352,55 @@ Sun arise each and every morning
 <h3 id="tables-figure-2">Figure 2</h3>
 <p aria-hidden="true">Image 1 of 1: ‘Blue Carpentries hex person logo with no text.’</p>
 <figure><img src="https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg" alt="Blue Carpentries hex person logo with no text." class="figure mx-auto d-block"><div class="figcaption">You belong in The Carpentries!</div>
-</figure><hr></section><section id="paragraph"><h2 class="section-heading"><a href="paragraph.html">Paragraph</a></h2>
+</figure><hr></section><section id="paragraph"><h2 class="section-heading"><a href="paragraph.html">Paragraph
+. The second most overall header is called
+<h2>
+and so on. On the Wikipedia page the headers are
+<h1>
+,
+<h2>
+,
+<h3>
+, and
+<h4>
+. So we need to specify each of them when we extract the HTML elements
+from the our scrape. The headers are usful for designating which
+sections the article’s text is divided into. But they do not contain the
+article’s text. The article’s text is in the HTML element
+</h4>
+</h3>
+</h2>
+</h1>
+</h2>
+
+,
+<h2>
+,
+<h3>
+, and
+<h4>
+. So we need to specify each of them when we extract the HTML elements
+from the our scrape. The headers are usful for designating which
+sections the article’s text is divided into. But they do not contain the
+article’s text. The article’s text is in the HTML element
+</h4>
+</h3>
+</h2>
+
+. By looking at the article page we see that
+<h1>
+is the proper header of the article that encompasses all its content. So
+we need to remove the rows that come before
+<h1>
+</h1>
+</h1>
+
+is the proper header of the article that encompasses all its content. So
+we need to remove the rows that come before
+<h1>
+</h1>
+
+</a></h2>
 <hr class="half-width">
 <h3 id="paragraph-figure-1">Figure 1</h3>
 <figure><img src="../fig/paragraph-rendered-pressure-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><hr></section>
