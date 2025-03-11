@@ -70,7 +70,7 @@ df_greenland_us <- tibble(
 Now we have the right alignment of rows and columns where each row is an HTML element with its corresponding text content. 
 
 But we would like to have a better understanding and overview of which paragraphs are found under which headings. To do this let us first create a new set of columns. One column for each header, using \mutate\
-Now we need to make sure that each of these header columns has all its cells filled out. This will allow us to for each paragrah see under which header 1 it is and under which header 2 it is and so on. To do this we use the \fill\ function. Fill allows us to for each of the header columns extend the text value in a cell thourgh all the succeeding emtpy cells until it reaches a cell that already has text in it. To specify this direction we write tht the \.direction\ should be downwards. 
+Now we need to make sure that each of these header columns has all its cells filled out. This will allow us to for each paragraph see under which header 1 it is and under which header 2 it is under and so on. To do this we use the \fill\ function. Fill allows us to for each of the header columns extend the text value in a cell thourgh all the succeeding emtpy cells until it reaches a cell that already has text in it. To specify this direction we write tht the \.direction\ should be downwards. 
 
 ``` r
 df_greenland_us <- df_greenland_us %>%
@@ -87,15 +87,14 @@ df_greenland_us <- df_greenland_us %>%
 ```
 
 We see that for some unknown reason the first header in the data frame is <h2> and not <h1>. By looking at the article page we see that <h1> is the proper header of the article that encompasses all its content. So we need to remove the rows that come before <h1>
-write new text here
 
 ``` r
 # Step 1: Remove everything before the first h1
 df_greenland_us <- df_greenland_us %>%
   filter(cumsum(tag == "h1") > 0)  # Keep rows after the first h1 appears
 ```
-
-write new text here
+In the bottom of our dataframe, we see that there are som rows that are paragraphs and headers but they do not form part of the article text itself. We need to remove them. Because the rows come at then end of the dataframe, we can simply find the first of these superfluous rows and delete it and everything after that.
+When this is the case, there is in a header, instead of a usual header text there is the text "See also". To find the row where "See also" is the text, we use the \which\ function to search the text cells in rows where the tag is a header (except <h1>) and the text starts with "see also". We specify with "^" that the text must begin with "see also". We convert the text to lowercase to increase the probability of a match. R is very literal, so it treats "See also" and "see also" as 2 entirely different strings.
 
 ``` r
 # Step 2: Find where "See also" appears in an h2, h3, or h4 and remove everything after
@@ -103,7 +102,9 @@ see_also_row <- which(df_greenland_us$tag %in% c("h2", "h3", "h4") &
                         str_detect(str_to_lower(df_greenland_us$text), "^see also"))
 ```
 
-write new text here
+We now see the number of rows there are until we reach "see also". We can now use this knowledge to do a \slice\ so that we only retain the article's proper text. We start by specifying with \if\ that this action should only be conducted if there is actually a "see also" found in the scrape. If there is not, then nothing should be done. 
+We use \slice\ to tell R that it should keep the rows beginning from row 1 all the way to the lowest number in see_also_row. The lowest number in see_also_row is the row that contains "see also". If we were to do this, we would retain the "see also" row in our dataframe but remove everything after it. But the row with "see also" should also be removed. So we use -1 to tell R that it should not include the last row in the slice, i.e. the row containing "see also".
+
 
 ``` r
 # Only proceed if "See also" is found
@@ -111,6 +112,8 @@ if (length(see_also_row) > 0) {
   df_greenland_us <- df_greenland_us %>% slice(1:(min(see_also_row) - 1))  # Keep only rows before "See also"
 }
 ```
+
+Now we have our data frame in the final format. We can analyze the headers to see which topics are described in the text. We can use text mining methods to analyze how the various topics are described, whether the words used in the various sections are positive or negative, or other sentiments expressed in the text. We can also count the number of words under each <h2> or <h3>, to see which topics are discussed the most. 
 
 
 ## R Markdown
