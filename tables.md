@@ -53,7 +53,7 @@ One of the formats that data on a website often come in is a table
 
 Let's look at statics about students at The University of Copenhagen (UCPH) at this page:
 https://om.ku.dk/tal-og-fakta/studerende/
-The html element for a table is simply called <table>
+The html element for a table is simply called `<table>`
 We can use this HTML tag to scrape a table using `html_table`
 
 We see on the website that there are multiple elements that can be clicked to reveal some of the stats for UCPH students. 
@@ -248,7 +248,7 @@ page1 <-
 ```
 
 ### Finding the link to the proceeding pages
-In order to automate the finding of all URLs, we need to identify in the HTML where there is the button that allows us to go to the next page. We inspect the HTML of the webpage http://www.scrapethissite.com/pages/forms/ and see that there is an HTML element which describes the button that moves us to the next page. This button is a link. A link in HTML has is href. We see that HTML for the next button is aria-label='Next'. We need to extract the link from the button that goes to the next page. To do this we write the name of our new object. Then we write the name of object with the scraped webpage. Then we use `html_elements` o tell R that we want to work with the HTML that constitutes the Next-button. The last thing we need to do is to extract the link itself. To do this we use the function `html_attr` and write the HTML element for the link, which is <href>
+In order to automate the finding of all URLs, we need to identify in the HTML where there is the button that allows us to go to the next page. We inspect the HTML of the webpage http://www.scrapethissite.com/pages/forms/ and see that there is an HTML element which describes the button that moves us to the next page. This button is a link. A link in HTML has is href. We see that HTML for the next button is aria-label='Next'. We need to extract the link from the button that goes to the next page. To do this we write the name of our new object. Then we write the name of object with the scraped webpage. Then we use `html_elements` o tell R that we want to work with the HTML that constitutes the Next-button. The last thing we need to do is to extract the link itself. To do this we use the function `html_attr` and write the HTML element for the link, which is `<href>`
 
 ``` r
 # find the next button, write a CSS selector for it, and pull the value of href

@@ -55,7 +55,7 @@ dat <- bow("https://en.wikipedia.org/wiki/Proposed_United_States_acquisition_of_
 ```
 
 ### specifying HTML elements to be extracted from the scraped webpage
-We have successfully scraped the page. Now we need to extract the HTML elements that we are interested in. In HTML the headers elements start with <h>. The headers exist in a hierarchical fashion. The most overall header is called <h1>. The second most overall header is called <h2> and so on. On the Wikipedia page the headers are <h1>, <h2>, <h3>, and <h4>. So we need to specify each of them when we extract the HTML elements from the our scrape. The headers are usful for designating which sections the article's text is divided into. But they do not contain the article's text. The article's text is in the HTML element <p>. But all the text is not found in one <p> element. It is divided into multiple paragraphs. This is because the text is then displayed in separate paragraphs on the page, which makes the article more readable to the human eye. 
+We have successfully scraped the page. Now we need to extract the HTML elements that we are interested in. In HTML the headers elements start with `<h>`. The headers exist in a hierarchical fashion. The most overall header is called `<h1>`. The second most overall header is called `<h2>` and so on. On the Wikipedia page the headers are `<h1>`, `<h2>`, `<h3>`, and `<h4>`. So we need to specify each of them when we extract the HTML elements from the our scrape. The headers are useful for designating which sections the article's text is divided into. But they do not contain the article's text. The article's text is in the HTML element `<p>`. But all the text is not found in one `<p>` element. It is divided into multiple paragraphs. This is because the text is then displayed in separate paragraphs on the page, which makes the article more readable to the human eye. 
 
 We can write p to extract all paragraphs
 
@@ -94,7 +94,7 @@ df_greenland_us <- df_greenland_us %>%
   fill(h4, .direction = "down")      # Fill down h4 until new h4 appears
 ```
 
-We see that for some unknown reason the first header in the data frame is <h2> and not <h1>. By looking at the article page we see that <h1> is the proper header of the article that encompasses all its content. So we need to remove the rows that come before <h1>
+We see that for some unknown reason the first header in the data frame is `<h2>` and not `<h1>`. By looking at the article page we see that `<h1>` is the proper header of the article that encompasses all its content. So we need to remove the rows that come before `<h1>`
 
 ``` r
 # Step 1: Remove everything before the first h1
@@ -105,7 +105,7 @@ df_greenland_us <- df_greenland_us %>%
 ### filtering away unwanted columns
 In the bottom of our dataframe, we see that there are some rows that are paragraphs and headers but they do not form part of the article text itself. We need to remove them. Because the rows come at then end of the dataframe, we can simply find the first of these superfluous rows and delete it and everything after that.
 
-When this is the case, there is in a header, instead of a usual header text there is the text "See also". To find the row where "See also" is the text, we use the `which` function to search the text cells in rows where the tag is a header (except <h1>) and the text starts with "see also". We specify with "^" that the text must begin with "see also". We convert the text to lowercase to increase the probability of a match. R is very literal, so it treats "See also" and "see also" as 2 entirely different strings.
+When this is the case, there is in a header, instead of a usual header text there is the text "See also". To find the row where "See also" is the text, we use the `which` function to search the text cells in rows where the tag is a header (except `<h1>`) and the text starts with "see also". We specify with "^" that the text must begin with "see also". We convert the text to lowercase to increase the probability of a match. R is very literal, so it treats "See also" and "see also" as 2 entirely different strings.
 
 ``` r
 # Step 2: Find where "See also" appears in an h2, h3, or h4 and remove everything after
@@ -125,4 +125,4 @@ if (length(see_also_row) > 0) {
 }
 ```
 
-Now we have our data frame in the final format. We can analyze the headers to see which topics are described in the text. We can use text mining methods to analyze how the various topics are described, whether the words used in the various sections are positive or negative, or other sentiments expressed in the text. We can also count the number of words under each <h2> or <h3>, to see which topics are discussed the most. 
+Now we have our data frame in the final format. We can analyze the headers to see which topics are described in the text. We can use text mining methods to analyze how the various topics are described, whether the words used in the various sections are positive or negative, or other sentiments expressed in the text. We can also count the number of words under each `<h2>` or `<h3>`, to see which topics are discussed the most. 
