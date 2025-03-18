@@ -410,7 +410,7 @@ reinforce the objectives.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution1" aria-expanded="false" aria-controls="collapseSolution1">
   <h4 class="accordion-header" id="headingSolution1"> Output </h4>
 </button>
-<div id="collapseSolution1" class="accordion-collapse collapse" aria-labelledby="headingSolution1" data-bs-parent="#accordionSolution1">
+<div id="collapseSolution1" class="accordion-collapse collapse" data-bs-parent="#accordionSolution1" aria-labelledby="headingSolution1">
 <div class="accordion-body">
 <div class="codewrapper">
 <h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -437,7 +437,7 @@ reinforce the objectives.</li>
 <button class="accordion-button solution-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSolution2" aria-expanded="false" aria-controls="collapseSolution2">
   <h4 class="accordion-header" id="headingSolution2"> Show me the solution </h4>
 </button>
-<div id="collapseSolution2" class="accordion-collapse collapse" aria-labelledby="headingSolution2" data-bs-parent="#accordionSolution2">
+<div id="collapseSolution2" class="accordion-collapse collapse" data-bs-parent="#accordionSolution2" aria-labelledby="headingSolution2">
 <div class="accordion-body">
 <p>You can add a line with at least three colons and a
 <code>solution</code> tag.</p>
@@ -571,12 +571,10 @@ functionality</p>
 </h3>
 <p>One of the formats that data on a website often come in is a
 table</p>
-Let’s look at statics about students at The University of Copenhagen
+<p>Let’s look at statics about students at The University of Copenhagen
 (UCPH) at this page: <a href="https://om.ku.dk/tal-og-fakta/studerende/" class="external-link uri">https://om.ku.dk/tal-og-fakta/studerende/</a> The html
-element for a table is simply called
-<table class="table">
-<p>We can use this HTML tag to scrape a table using
-<code>html_table</code></p>
+element for a table is simply called <code>&lt;table&gt;</code> We can
+use this HTML tag to scrape a table using <code>html_table</code></p>
 <p>We see on the website that there are multiple elements that can be
 clicked to reveal some of the stats for UCPH students.</p>
 <p>We want to see what HTML tags that the stats from the website have.
@@ -609,7 +607,7 @@ scrape the webpage</p>
 <span>  <span class="fu">bow</span><span class="op">(</span><span class="st">"https://om.ku.dk/tal-og-fakta/studerende/"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">scrape</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
-
+</div>
 <div class="section level3">
 <h3 id="handling-the-danish-decimal-separators-format">Handling the Danish decimal separators format<a class="anchor" aria-label="anchor" href="#handling-the-danish-decimal-separators-format"></a>
 </h3>
@@ -698,8 +696,7 @@ cols(
 )</code></pre>
 </div>
 </div>
-
-<section><h2 class="section-heading" id="scraping-tables-on-multiple-pages">Scraping tables on multiple pages<a class="anchor" aria-label="anchor" href="#scraping-tables-on-multiple-pages"></a>
+</section><section><h2 class="section-heading" id="scraping-tables-on-multiple-pages">Scraping tables on multiple pages<a class="anchor" aria-label="anchor" href="#scraping-tables-on-multiple-pages"></a>
 </h2>
 <hr class="half-width">
 <div class="section level3">
@@ -916,7 +913,7 @@ scraped webpage. Then we use <code>html_elements</code> o tell R that we
 want to work with the HTML that constitutes the Next-button. The last
 thing we need to do is to extract the link itself. To do this we use the
 function <code>html_attr</code> and write the HTML element for the link,
-which is <href></href></p>
+which is <code>&lt;href&gt;</code></p>
 <div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -1083,9 +1080,7 @@ Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
 </div>
-</section>
-</table>
-</div></section></section><section id="aio-paragraph"><p>Content from <a href="paragraph.html">Paragraph</a></p>
+</section></section><section id="aio-paragraph"><p>Content from <a href="paragraph.html">Paragraph</a></p>
 <hr>
 <p>Last updated on 2025-03-18 |
 
@@ -1164,39 +1159,22 @@ scraping</p>
 <h3 id="specifying-html-elements-to-be-extracted-from-the-scraped-webpage">specifying HTML elements to be extracted from the scraped
 webpage<a class="anchor" aria-label="anchor" href="#specifying-html-elements-to-be-extracted-from-the-scraped-webpage"></a>
 </h3>
-We have successfully scraped the page. Now we need to extract the HTML
-elements that we are interested in. In HTML the headers elements start
-with <h>. The headers exist in a hierarchical fashion. The most overall
-header is called
-<h1>
-. The second most overall header is called
-<h2>
-and so on. On the Wikipedia page the headers are
-<h1>
-,
-<h2>
-,
-<h3>
-, and
-<h4>
-. So we need to specify each of them when we extract the HTML elements
-from the our scrape. The headers are usful for designating which
-sections the article’s text is divided into. But they do not contain the
-article’s text. The article’s text is in the HTML element
-</h4>
-</h3>
-</h2>
-</h1>
-</h2>
-</h1>
-<p>
-. But all the text is not found in one
-</p>
-<p>
-</p>
-<p>element. It is divided into multiple paragraphs. This is because the
-text is then displayed in separate paragraphs on the page, which makes
-the article more readable to the human eye.</p>
+<p>We have successfully scraped the page. Now we need to extract the
+HTML elements that we are interested in. In HTML the headers elements
+start with <code>&lt;h&gt;</code>. The headers exist in a hierarchical
+fashion. The most overall header is called <code>&lt;h1&gt;</code>. The
+second most overall header is called <code>&lt;h2&gt;</code> and so on.
+On the Wikipedia page the headers are <code>&lt;h1&gt;</code>,
+<code>&lt;h2&gt;</code>, <code>&lt;h3&gt;</code>, and
+<code>&lt;h4&gt;</code>. So we need to specify each of them when we
+extract the HTML elements from the our scrape. The headers are useful
+for designating which sections the article’s text is divided into. But
+they do not contain the article’s text. The article’s text is in the
+HTML element <code>&lt;p&gt;</code>. But all the text is not found in
+one <code>&lt;p&gt;</code> element. It is divided into multiple
+paragraphs. This is because the text is then displayed in separate
+paragraphs on the page, which makes the article more readable to the
+human eye.</p>
 <p>We can write p to extract all paragraphs</p>
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -1255,16 +1233,11 @@ in it. To specify this direction we write that the
 <span>  <span class="fu">fill</span><span class="op">(</span><span class="va">h3</span>, .direction <span class="op">=</span> <span class="st">"down"</span><span class="op">)</span> <span class="op">%&gt;%</span>  <span class="co"># Fill down h3 until new h3 appears</span></span>
 <span>  <span class="fu">fill</span><span class="op">(</span><span class="va">h4</span>, .direction <span class="op">=</span> <span class="st">"down"</span><span class="op">)</span>      <span class="co"># Fill down h4 until new h4 appears</span></span></code></pre>
 </div>
-We see that for some unknown reason the first header in the data frame
-is
-<h2>
-and not
-<h1>
-. By looking at the article page we see that
-<h1>
-is the proper header of the article that encompasses all its content. So
-we need to remove the rows that come before
-<h1>
+<p>We see that for some unknown reason the first header in the data
+frame is <code>&lt;h2&gt;</code> and not <code>&lt;h1&gt;</code>. By
+looking at the article page we see that <code>&lt;h1&gt;</code> is the
+proper header of the article that encompasses all its content. So we
+need to remove the rows that come before <code>&lt;h1&gt;</code></p>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -1273,10 +1246,6 @@ we need to remove the rows that come before
 <span><span class="va">df_greenland_us</span> <span class="op">&lt;-</span> <span class="va">df_greenland_us</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">filter</span><span class="op">(</span><span class="fu">cumsum</span><span class="op">(</span><span class="va">tag</span> <span class="op">==</span> <span class="st">"h1"</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span>  <span class="co"># Keep rows after the first h1 appears</span></span></code></pre>
 </div>
-</h1>
-</h1>
-</h1>
-</h2></h>
 </div>
 <div class="section level3">
 <h3 id="filtering-away-unwanted-columns">filtering away unwanted columns<a class="anchor" aria-label="anchor" href="#filtering-away-unwanted-columns"></a>
@@ -1286,17 +1255,15 @@ are paragraphs and headers but they do not form part of the article text
 itself. We need to remove them. Because the rows come at then end of the
 dataframe, we can simply find the first of these superfluous rows and
 delete it and everything after that.</p>
-When this is the case, there is in a header, instead of a usual header
-text there is the text “See also”. To find the row where “See also” is
-the text, we use the <code>which</code> function to search the text
-cells in rows where the tag is a header (except
-<h1 id="filtering-away-unwanted-columns-1">
-<a class="anchor" aria-label="anchor" href="#filtering-away-unwanted-columns-1"></a>
-</h1>
-<p>) and the text starts with “see also”. We specify with “^” that the
-text must begin with “see also”. We convert the text to lowercase to
-increase the probability of a match. R is very literal, so it treats
-“See also” and “see also” as 2 entirely different strings.</p>
+<p>When this is the case, there is in a header, instead of a usual
+header text there is the text “See also”. To find the row where “See
+also” is the text, we use the <code>which</code> function to search the
+text cells in rows where the tag is a header (except
+<code>&lt;h1&gt;</code>) and the text starts with “see also”. We specify
+with “^” that the text must begin with “see also”. We convert the text
+to lowercase to increase the probability of a match. R is very literal,
+so it treats “See also” and “see also” as 2 entirely different
+strings.</p>
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -1328,19 +1295,13 @@ also”.</p>
 <span>  <span class="va">df_greenland_us</span> <span class="op">&lt;-</span> <span class="va">df_greenland_us</span> <span class="op">%&gt;%</span> <span class="fu">slice</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fu">min</span><span class="op">(</span><span class="va">see_also_row</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span>  <span class="co"># Keep only rows before "See also"</span></span>
 <span><span class="op">}</span></span></code></pre>
 </div>
-Now we have our data frame in the final format. We can analyze the
+<p>Now we have our data frame in the final format. We can analyze the
 headers to see which topics are described in the text. We can use text
 mining methods to analyze how the various topics are described, whether
 the words used in the various sections are positive or negative, or
 other sentiments expressed in the text. We can also count the number of
-words under each
-<h2 id="filtering-away-unwanted-columns-2">
-or
-<h3>
-</h3>
-<a class="anchor" aria-label="anchor" href="#filtering-away-unwanted-columns-2"></a>
-</h2>
-<p>, to see which topics are discussed the most.</p>
+words under each <code>&lt;h2&gt;</code> or <code>&lt;h3&gt;</code>, to
+see which topics are discussed the most.</p>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.

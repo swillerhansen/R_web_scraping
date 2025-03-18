@@ -371,11 +371,10 @@ functionality</p>
 <h3 id="scraping-multiple-tables-on-one-page">Scraping multiple tables on one page<a class="anchor" aria-label="anchor" href="#scraping-multiple-tables-on-one-page"></a></h3>
 <p>One of the formats that data on a website often come in is a
 table</p>
-Let’s look at statics about students at The University of Copenhagen
+<p>Let’s look at statics about students at The University of Copenhagen
 (UCPH) at this page: <a href="https://om.ku.dk/tal-og-fakta/studerende/" class="external-link uri">https://om.ku.dk/tal-og-fakta/studerende/</a> The html
-element for a table is simply called
-<table class="table"><p>We can use this HTML tag to scrape a table using
-<code>html_table</code></p>
+element for a table is simply called <code>&lt;table&gt;</code> We can
+use this HTML tag to scrape a table using <code>html_table</code></p>
 <p>We see on the website that there are multiple elements that can be
 clicked to reveal some of the stats for UCPH students.</p>
 <p>We want to see what HTML tags that the stats from the website have.
@@ -408,7 +407,7 @@ scrape the webpage</p>
 <span>  <span class="fu">bow</span><span class="op">(</span><span class="st">"https://om.ku.dk/tal-og-fakta/studerende/"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">scrape</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
-
+</div>
 <div class="section level3">
 <h3 id="handling-the-danish-decimal-separators-format">Handling the Danish decimal separators format<a class="anchor" aria-label="anchor" href="#handling-the-danish-decimal-separators-format"></a></h3>
 <p>But before we go further with our data, we need to make sure that R
@@ -496,8 +495,7 @@ cols(
 )</code></pre>
 </div>
 </div>
-
-<section><h2 class="section-heading" id="scraping-tables-on-multiple-pages">Scraping tables on multiple pages<a class="anchor" aria-label="anchor" href="#scraping-tables-on-multiple-pages"></a></h2>
+</section><section><h2 class="section-heading" id="scraping-tables-on-multiple-pages">Scraping tables on multiple pages<a class="anchor" aria-label="anchor" href="#scraping-tables-on-multiple-pages"></a></h2>
 <hr class="half-width"><div class="section level3">
 <h3 id="scraping-predictable-urls">Scraping predictable URLs<a class="anchor" aria-label="anchor" href="#scraping-predictable-urls"></a></h3>
 <p>But what if the table is spraed across multiple pages? There’s a way
@@ -708,7 +706,7 @@ scraped webpage. Then we use <code>html_elements</code> o tell R that we
 want to work with the HTML that constitutes the Next-button. The last
 thing we need to do is to extract the link itself. To do this we use the
 function <code>html_attr</code> and write the HTML element for the link,
-which is <href></href></p>
+which is <code>&lt;href&gt;</code></p>
 <div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -871,7 +869,7 @@ Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
 </div>
-</section></table></div></section></div> <!-- / div.lesson-content -->
+</section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="introduction.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>
         <a class="chapter-link float-end" href="paragraph.html">Next<i aria-hidden="true" class="small-arrow" data-feather="arrow-right"></i></a>

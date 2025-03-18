@@ -377,39 +377,22 @@ scraping</p>
 <div class="section level3">
 <h3 id="specifying-html-elements-to-be-extracted-from-the-scraped-webpage">specifying HTML elements to be extracted from the scraped
 webpage<a class="anchor" aria-label="anchor" href="#specifying-html-elements-to-be-extracted-from-the-scraped-webpage"></a></h3>
-We have successfully scraped the page. Now we need to extract the HTML
-elements that we are interested in. In HTML the headers elements start
-with <h>. The headers exist in a hierarchical fashion. The most overall
-header is called
-<h1>
-. The second most overall header is called
-<h2>
-and so on. On the Wikipedia page the headers are
-<h1>
-,
-<h2>
-,
-<h3>
-, and
-<h4>
-. So we need to specify each of them when we extract the HTML elements
-from the our scrape. The headers are usful for designating which
-sections the article’s text is divided into. But they do not contain the
-article’s text. The article’s text is in the HTML element
-</h4>
-</h3>
-</h2>
-</h1>
-</h2>
-</h1>
-<p>
-. But all the text is not found in one
-</p>
-<p>
-</p>
-<p>element. It is divided into multiple paragraphs. This is because the
-text is then displayed in separate paragraphs on the page, which makes
-the article more readable to the human eye.</p>
+<p>We have successfully scraped the page. Now we need to extract the
+HTML elements that we are interested in. In HTML the headers elements
+start with <code>&lt;h&gt;</code>. The headers exist in a hierarchical
+fashion. The most overall header is called <code>&lt;h1&gt;</code>. The
+second most overall header is called <code>&lt;h2&gt;</code> and so on.
+On the Wikipedia page the headers are <code>&lt;h1&gt;</code>,
+<code>&lt;h2&gt;</code>, <code>&lt;h3&gt;</code>, and
+<code>&lt;h4&gt;</code>. So we need to specify each of them when we
+extract the HTML elements from the our scrape. The headers are useful
+for designating which sections the article’s text is divided into. But
+they do not contain the article’s text. The article’s text is in the
+HTML element <code>&lt;p&gt;</code>. But all the text is not found in
+one <code>&lt;p&gt;</code> element. It is divided into multiple
+paragraphs. This is because the text is then displayed in separate
+paragraphs on the page, which makes the article more readable to the
+human eye.</p>
 <p>We can write p to extract all paragraphs</p>
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -468,16 +451,11 @@ in it. To specify this direction we write that the
 <span>  <span class="fu">fill</span><span class="op">(</span><span class="va">h3</span>, .direction <span class="op">=</span> <span class="st">"down"</span><span class="op">)</span> <span class="op">%&gt;%</span>  <span class="co"># Fill down h3 until new h3 appears</span></span>
 <span>  <span class="fu">fill</span><span class="op">(</span><span class="va">h4</span>, .direction <span class="op">=</span> <span class="st">"down"</span><span class="op">)</span>      <span class="co"># Fill down h4 until new h4 appears</span></span></code></pre>
 </div>
-We see that for some unknown reason the first header in the data frame
-is
-<h2>
-and not
-<h1>
-. By looking at the article page we see that
-<h1>
-is the proper header of the article that encompasses all its content. So
-we need to remove the rows that come before
-<h1>
+<p>We see that for some unknown reason the first header in the data
+frame is <code>&lt;h2&gt;</code> and not <code>&lt;h1&gt;</code>. By
+looking at the article page we see that <code>&lt;h1&gt;</code> is the
+proper header of the article that encompasses all its content. So we
+need to remove the rows that come before <code>&lt;h1&gt;</code></p>
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -486,10 +464,7 @@ we need to remove the rows that come before
 <span><span class="va">df_greenland_us</span> <span class="op">&lt;-</span> <span class="va">df_greenland_us</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">filter</span><span class="op">(</span><span class="fu">cumsum</span><span class="op">(</span><span class="va">tag</span> <span class="op">==</span> <span class="st">"h1"</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span>  <span class="co"># Keep rows after the first h1 appears</span></span></code></pre>
 </div>
-</h1>
-</h1>
-</h1>
-</h2></h></div>
+</div>
 <div class="section level3">
 <h3 id="filtering-away-unwanted-columns">filtering away unwanted columns<a class="anchor" aria-label="anchor" href="#filtering-away-unwanted-columns"></a></h3>
 <p>In the bottom of our dataframe, we see that there are some rows that
@@ -497,16 +472,15 @@ are paragraphs and headers but they do not form part of the article text
 itself. We need to remove them. Because the rows come at then end of the
 dataframe, we can simply find the first of these superfluous rows and
 delete it and everything after that.</p>
-When this is the case, there is in a header, instead of a usual header
-text there is the text “See also”. To find the row where “See also” is
-the text, we use the <code>which</code> function to search the text
-cells in rows where the tag is a header (except
-<h1 id="filtering-away-unwanted-columns-1">
-<a class="anchor" aria-label="anchor" href="#filtering-away-unwanted-columns-1"></a></h1>
-<p>) and the text starts with “see also”. We specify with “^” that the
-text must begin with “see also”. We convert the text to lowercase to
-increase the probability of a match. R is very literal, so it treats
-“See also” and “see also” as 2 entirely different strings.</p>
+<p>When this is the case, there is in a header, instead of a usual
+header text there is the text “See also”. To find the row where “See
+also” is the text, we use the <code>which</code> function to search the
+text cells in rows where the tag is a header (except
+<code>&lt;h1&gt;</code>) and the text starts with “see also”. We specify
+with “^” that the text must begin with “see also”. We convert the text
+to lowercase to increase the probability of a match. R is very literal,
+so it treats “See also” and “see also” as 2 entirely different
+strings.</p>
 <div class="codewrapper sourceCode" id="cb10">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -538,18 +512,13 @@ also”.</p>
 <span>  <span class="va">df_greenland_us</span> <span class="op">&lt;-</span> <span class="va">df_greenland_us</span> <span class="op">%&gt;%</span> <span class="fu">slice</span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="op">(</span><span class="fu">min</span><span class="op">(</span><span class="va">see_also_row</span><span class="op">)</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span>  <span class="co"># Keep only rows before "See also"</span></span>
 <span><span class="op">}</span></span></code></pre>
 </div>
-Now we have our data frame in the final format. We can analyze the
+<p>Now we have our data frame in the final format. We can analyze the
 headers to see which topics are described in the text. We can use text
 mining methods to analyze how the various topics are described, whether
 the words used in the various sections are positive or negative, or
 other sentiments expressed in the text. We can also count the number of
-words under each
-<h2 id="filtering-away-unwanted-columns-2">
-or
-<h3>
-</h3>
-<a class="anchor" aria-label="anchor" href="#filtering-away-unwanted-columns-2"></a></h2>
-<p>, to see which topics are discussed the most.</p>
+words under each <code>&lt;h2&gt;</code> or <code>&lt;h3&gt;</code>, to
+see which topics are discussed the most.</p>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.

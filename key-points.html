@@ -342,67 +342,7 @@ with your lesson</li>
 <li>Run <code>sandpaper::build_lesson()</code> to preview your lesson
 locally</li>
 </ul></section><section id="tables"><h2 class="section-heading"><a href="tables.html">Tables</a></h2>
-<hr class="half-width"></section><section id="paragraph"><h2 class="section-heading"><a href="paragraph.html">Paragraph
-. The second most overall header is called
-<h2>
-and so on. On the Wikipedia page the headers are
-<h1>
-,
-<h2>
-,
-<h3>
-, and
-<h4>
-. So we need to specify each of them when we extract the HTML elements
-from the our scrape. The headers are usful for designating which
-sections the article’s text is divided into. But they do not contain the
-article’s text. The article’s text is in the HTML element
-</h4>
-</h3>
-</h2>
-</h1>
-</h2>
-
-,
-<h2>
-,
-<h3>
-, and
-<h4>
-. So we need to specify each of them when we extract the HTML elements
-from the our scrape. The headers are usful for designating which
-sections the article’s text is divided into. But they do not contain the
-article’s text. The article’s text is in the HTML element
-</h4>
-</h3>
-</h2>
-
-. By looking at the article page we see that
-<h1>
-is the proper header of the article that encompasses all its content. So
-we need to remove the rows that come before
-<h1><div class="codewrapper sourceCode" id="cb9">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r"><code class="sourceCode R"><span><span class="co"># Step 1: Remove everything before the first h1</span></span><span><span class="va">df_greenland_us</span><span class="op">&lt;-</span><span class="va">df_greenland_us</span><span class="op">%&gt;%</span></span><span><span class="fu">filter</span><span class="op">(</span><span class="fu">cumsum</span><span class="op">(</span><span class="va">tag</span><span class="op">==</span><span class="st">"h1"</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span><span class="op">)</span><span class="co"># Keep rows after the first h1 appears</span></span></code></pre>
-</div></h1>
-</h1>
-
-is the proper header of the article that encompasses all its content. So
-we need to remove the rows that come before
-<h1><div class="codewrapper sourceCode" id="cb9">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r"><code class="sourceCode R"><span><span class="co"># Step 1: Remove everything before the first h1</span></span><span><span class="va">df_greenland_us</span><span class="op">&lt;-</span><span class="va">df_greenland_us</span><span class="op">%&gt;%</span></span><span><span class="fu">filter</span><span class="op">(</span><span class="fu">cumsum</span><span class="op">(</span><span class="va">tag</span><span class="op">==</span><span class="st">"h1"</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span><span class="op">)</span><span class="co"># Keep rows after the first h1 appears</span></span></code></pre>
-</div></h1>
-
-<div class="codewrapper sourceCode" id="cb9">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r"><code class="sourceCode R"><span><span class="co"># Step 1: Remove everything before the first h1</span></span><span><span class="va">df_greenland_us</span><span class="op">&lt;-</span><span class="va">df_greenland_us</span><span class="op">%&gt;%</span></span><span><span class="fu">filter</span><span class="op">(</span><span class="fu">cumsum</span><span class="op">(</span><span class="va">tag</span><span class="op">==</span><span class="st">"h1"</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span><span class="op">)</span><span class="co"># Keep rows after the first h1 appears</span></span></code></pre>
-</div>
-
-<a class="anchor" aria-label="anchor" href="#filtering-away-unwanted-columns-1"></a></a></h2>
+<hr class="half-width"></section><section id="paragraph"><h2 class="section-heading"><a href="paragraph.html">Paragraph</a></h2>
 <hr class="half-width"></section>
 </div>
     </main>
