@@ -235,8 +235,6 @@
     <div id="flush-collapsecurrent" class="accordion-collapse collapse show" aria-labelledby="flush-headingcurrent" data-bs-parent="#accordionFlushcurrent">
       <div class="accordion-body">
         <ul><li><a href="#introduction">Introduction</a></li>
-<li><a href="#r-markdown">R Markdown</a></li>
-<li><a href="#including-plots">Including Plots</a></li>
         </ul></div><!--/div.accordion-body-->
     </div><!--/div.accordion-collapse-->
 
@@ -312,7 +310,6 @@
         </div>
 
         
-
 <section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a></h2>
 <hr class="half-width"><div class="codewrapper sourceCode" id="cb1">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -348,8 +345,9 @@ elements on webpage.</p>
 <p>We have found a Wikipedia article in English about plans from United
 States presidents to acquire Greenland. Wikipedia articles are usually
 licensed with a Creative Commons license. We therefore expect that we
-are allowed to scrape the page. Let us start by using  to check if the
-page allows scraping</p>
+are allowed to scrape the page.</p>
+<p>Let us start by using <code>bow</code> to check if the page allows
+scraping</p>
 <div class="codewrapper sourceCode" id="cb3">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -365,6 +363,8 @@ page allows scraping</p>
    Crawl delay: 5 sec
   The path is scrapable for this user-agent</code></pre>
 </div>
+<div class="section level3">
+<h3 id="scraping-the-url">scraping the URL<a class="anchor" aria-label="anchor" href="#scraping-the-url"></a></h3>
 <p>We see that scraping is allowed, so let us scrape the main page</p>
 <div class="codewrapper sourceCode" id="cb5">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
@@ -373,6 +373,10 @@ page allows scraping</p>
 <code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> <span class="fu">bow</span><span class="op">(</span><span class="st">"https://en.wikipedia.org/wiki/Proposed_United_States_acquisition_of_Greenland"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">scrape</span><span class="op">(</span><span class="op">)</span></span></code></pre>
 </div>
+</div>
+<div class="section level3">
+<h3 id="specifying-html-elements-to-be-extracted-from-the-scraped-webpage">specifying HTML elements to be extracted from the scraped
+webpage<a class="anchor" aria-label="anchor" href="#specifying-html-elements-to-be-extracted-from-the-scraped-webpage"></a></h3>
 We have successfully scraped the page. Now we need to extract the HTML
 elements that we are interested in. In HTML the headers elements start
 with <h>. The headers exist in a hierarchical fashion. The most overall
@@ -405,8 +409,8 @@ article’s text. The article’s text is in the HTML element
 </p>
 <p>element. It is divided into multiple paragraphs. This is because the
 text is then displayed in separate paragraphs on the page, which makes
-the article more readable to the human eye. We can write p to extract
-all paragraphs</p>
+the article more readable to the human eye.</p>
+<p>We can write p to extract all paragraphs</p>
 <div class="codewrapper sourceCode" id="cb6">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -415,14 +419,16 @@ all paragraphs</p>
 </div>
 <p>We now have the headers and the paragraphs extracted. Now we need to
 convert their content into a readable format so that we can work with
-the text. To do this we use the function _text. This extracts the
-content of the HTML elements that specified before, i.e. headers and
-paragraphs. But only having the text content will make us able to
-discern which texts are headers and which are paragraphs. We will
-therefore need to use _name to give us each text’s HTML element. The
-best way to format this data is to make it a tibble, which is type of
-data frame. We therefore create a tibble where the HTML tag is in one
-column, and the text of that HTML element is in another columns.</p>
+the text. To do this we use the function <code>html_text</code>. This
+extracts the content of the HTML elements that specified before,
+i.e. headers and paragraphs. But only having the text content will make
+us able to discern which texts are headers and which are paragraphs. We
+will therefore need to use <code>html_name</code> to give us each text’s
+HTML element.</p>
+<p>The best way to format this data is to make it a tibble, which is
+type of data frame. We therefore create a tibble where the HTML tag is
+in one column, and the text of that HTML element is in another
+columns.</p>
 <div class="codewrapper sourceCode" id="cb7">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -436,14 +442,16 @@ column, and the text of that HTML element is in another columns.</p>
 an HTML element with its corresponding text content.</p>
 <p>But we would like to have a better understanding and overview of
 which paragraphs are found under which headings. To do this let us first
-create a new set of columns. One column for each header, using <br>
-Now we need to make sure that each of these header columns has all its
-cells filled out. This will allow us to for each paragraph see under
+create a new set of columns. One column for each header, using
+<code>mutate</code></p>
+<p>Now we need to make sure that each of these header columns has all
+its cells filled out. This will allow us to for each paragraph see under
 which header 1 it is and under which header 2 it is under and so on. To
-do this we use the  function. Fill allows us to for each of the header
-columns extend the text value in a cell thourgh all the succeeding emtpy
-cells until it reaches a cell that already has text in it. To specify
-this direction we write tht the .direction should be downwards.</p>
+do this we use the <code>fill</code> function. Fill allows us to for
+each of the header columns extend the text value in a cell through all
+the succeeding empty cells until it reaches a cell that already has text
+in it. To specify this direction we write that the
+<code>.direction</code> should be downwards.</p>
 <div class="codewrapper sourceCode" id="cb8">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -478,20 +486,23 @@ we need to remove the rows that come before
 <span><span class="va">df_greenland_us</span> <span class="op">&lt;-</span> <span class="va">df_greenland_us</span> <span class="op">%&gt;%</span></span>
 <span>  <span class="fu">filter</span><span class="op">(</span><span class="fu">cumsum</span><span class="op">(</span><span class="va">tag</span> <span class="op">==</span> <span class="st">"h1"</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span>  <span class="co"># Keep rows after the first h1 appears</span></span></code></pre>
 </div>
-In the bottom of our dataframe, we see that there are som rows that are
-paragraphs and headers but they do not form part of the article text
+</h1>
+</h1>
+</h1>
+</h2></h></div>
+<div class="section level3">
+<h3 id="filtering-away-unwanted-columns">filtering away unwanted columns<a class="anchor" aria-label="anchor" href="#filtering-away-unwanted-columns"></a></h3>
+<p>In the bottom of our dataframe, we see that there are some rows that
+are paragraphs and headers but they do not form part of the article text
 itself. We need to remove them. Because the rows come at then end of the
 dataframe, we can simply find the first of these superfluous rows and
-delete it and everything after that. When this is the case, there is in
-a header, instead of a usual header text there is the text “See also”.
-To find the row where “See also” is the text, we use the  function to
-search the text cells in rows where the tag is a header (except
-<h1>
-</h1>
-</h1>
-</h1>
-</h1>
-</h2>
+delete it and everything after that.</p>
+When this is the case, there is in a header, instead of a usual header
+text there is the text “See also”. To find the row where “See also” is
+the text, we use the <code>which</code> function to search the text
+cells in rows where the tag is a header (except
+<h1 id="filtering-away-unwanted-columns-1">
+<a class="anchor" aria-label="anchor" href="#filtering-away-unwanted-columns-1"></a></h1>
 <p>) and the text starts with “see also”. We specify with “^” that the
 text must begin with “see also”. We convert the text to lowercase to
 increase the probability of a match. R is very literal, so it treats
@@ -505,17 +516,19 @@ increase the probability of a match. R is very literal, so it treats
 <span>                        <span class="fu">str_detect</span><span class="op">(</span><span class="fu">str_to_lower</span><span class="op">(</span><span class="va">df_greenland_us</span><span class="op">$</span><span class="va">text</span><span class="op">)</span>, <span class="st">"^see also"</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
 <p>We now see the number of rows there are until we reach “see also”. We
-can now use this knowledge to do a  so that we only retain the article’s
-proper text. We start by specifying with  that this action should only
-be conducted if there is actually a “see also” found in the scrape. If
-there is not, then nothing should be done. We use  to tell R that it
-should keep the rows beginning from row 1 all the way to the lowest
-number in see_also_row. The lowest number in see_also_row is the row
-that contains “see also”. If we were to do this, we would retain the
-“see also” row in our dataframe but remove everything after it. But the
-row with “see also” should also be removed. So we use -1 to tell R that
-it should not include the last row in the slice, i.e. the row containing
-“see also”.</p>
+can now use this knowledge to do a <code>slice</code> so that we only
+retain the article’s proper text. We start by specifying with
+<code>if</code> that this action should only be conducted if there is
+actually a “see also” found in the scrape. If there is not, then nothing
+should be done.</p>
+<p>We use <code>slice</code> to tell R that it should keep the rows
+beginning from row 1 all the way to the lowest number in see_also_row.
+The lowest number in see_also_row is the row that contains “see also”.
+If we were to do this, we would retain the “see also” row in our
+dataframe but remove everything after it. But the row with “see also”
+should also be removed. So we use -1 to tell R that it should not
+include the last row in the slice, i.e. the row containing “see
+also”.</p>
 <div class="codewrapper sourceCode" id="cb11">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
@@ -531,46 +544,17 @@ mining methods to analyze how the various topics are described, whether
 the words used in the various sections are positive or negative, or
 other sentiments expressed in the text. We can also count the number of
 words under each
-<h2>
+<h2 id="filtering-away-unwanted-columns-2">
 or
 <h3>
 </h3>
-</h2>
+<a class="anchor" aria-label="anchor" href="#filtering-away-unwanted-columns-2"></a></h2>
 <p>, to see which topics are discussed the most.</p>
-</h></section><section><h2 class="section-heading" id="r-markdown">R Markdown<a class="anchor" aria-label="anchor" href="#r-markdown"></a></h2>
-<hr class="half-width"><p>This is an R Markdown document. Markdown is a simple formatting
-syntax for authoring HTML, PDF, and MS Word documents. For more details
-on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="external-link uri">http://rmarkdown.rstudio.com</a>.</p>
-<p>When you click the <strong>Knit</strong> button a document will be
-generated that includes both content as well as the output of any
-embedded R code chunks within the document. You can embed an R code
-chunk like this:</p>
-<div class="codewrapper sourceCode" id="cb12">
-<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">summary</span><span class="op">(</span><span class="va">cars</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="codewrapper">
-<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="output" tabindex="0"><code>     speed           dist
- Min.   : 4.0   Min.   :  2.00
- 1st Qu.:12.0   1st Qu.: 26.00
- Median :15.0   Median : 36.00
- Mean   :15.4   Mean   : 42.98
- 3rd Qu.:19.0   3rd Qu.: 56.00
- Max.   :25.0   Max.   :120.00  </code></pre>
-</div>
-</section><section><h2 class="section-heading" id="including-plots">Including Plots<a class="anchor" aria-label="anchor" href="#including-plots"></a></h2>
-<hr class="half-width"><p>You can also embed plots, for example:</p>
-<figure><img src="fig/paragraph-rendered-pressure-1.png" style="display: block; margin: auto;" class="figure mx-auto d-block"></figure><p>Note that the <code>echo = FALSE</code> parameter was added to the
-code chunk to prevent printing of the R code that generated the
-plot.</p>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
+</div>
 </section></div> <!-- / div.lesson-content -->
     </main><!-- / main#main-content.main-content --><nav class="bottom-pagination mx-md-4" aria-label="Previous and Next Chapter"><div class="d-block d-sm-block d-md-none">
         <a class="chapter-link" href="tables.html"><i aria-hidden="true" class="small-arrow" data-feather="arrow-left"></i>Previous</a>

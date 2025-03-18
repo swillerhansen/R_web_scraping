@@ -350,15 +350,7 @@ challenges associated with the lessons. They appear in the “Instructor
 View”</p>
 <hr>
 <br></section><section id="tables"><h2 class="section-heading"><a href="tables.html">Tables</a></h2>
-<hr class="half-width">
-<h3 id="tables-headingInstructor1">
-<a href="tables.html#headingInstructor1">Instructor Note</a><a class="anchor" aria-label="anchor" href="#tables-headingInstructor1"></a>
-</h3>
-<p>Inline instructor notes can help inform instructors of timing
-challenges associated with the lessons. They appear in the “Instructor
-View”</p>
-<hr>
-<br></section><section id="paragraph"><h2 class="section-heading"><a href="paragraph.html">Paragraph
+<hr class="half-width"></section><section id="paragraph"><h2 class="section-heading"><a href="paragraph.html">Paragraph
 . The second most overall header is called
 <h2>
 and so on. On the Wikipedia page the headers are
@@ -397,62 +389,28 @@ article’s text. The article’s text is in the HTML element
 <h1>
 is the proper header of the article that encompasses all its content. So
 we need to remove the rows that come before
-<h1>
-<div class="codewrapper sourceCode" id="cb9">
+<h1><div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r"><code class="sourceCode R"><span><span class="co"># Step 1: Remove everything before the first h1</span></span><span><span class="va">df_greenland_us</span><span class="op">&lt;-</span><span class="va">df_greenland_us</span><span class="op">%&gt;%</span></span><span><span class="fu">filter</span><span class="op">(</span><span class="fu">cumsum</span><span class="op">(</span><span class="va">tag</span><span class="op">==</span><span class="st">"h1"</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span><span class="op">)</span><span class="co"># Keep rows after the first h1 appears</span></span></code></pre>
-</div>
-In the bottom of our dataframe, we see that there are som rows that are
-paragraphs and headers but they do not form part of the article text
-itself. We need to remove them. Because the rows come at then end of the
-dataframe, we can simply find the first of these superfluous rows and
-delete it and everything after that. When this is the case, there is in
-a header, instead of a usual header text there is the text “See also”.
-To find the row where “See also” is the text, we use the  function to
-search the text cells in rows where the tag is a header (except
-<h1>
-</h1>
-</h1>
+</div></h1>
 </h1>
 
 is the proper header of the article that encompasses all its content. So
 we need to remove the rows that come before
-<h1>
-<div class="codewrapper sourceCode" id="cb9">
+<h1><div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r"><code class="sourceCode R"><span><span class="co"># Step 1: Remove everything before the first h1</span></span><span><span class="va">df_greenland_us</span><span class="op">&lt;-</span><span class="va">df_greenland_us</span><span class="op">%&gt;%</span></span><span><span class="fu">filter</span><span class="op">(</span><span class="fu">cumsum</span><span class="op">(</span><span class="va">tag</span><span class="op">==</span><span class="st">"h1"</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span><span class="op">)</span><span class="co"># Keep rows after the first h1 appears</span></span></code></pre>
-</div>
-In the bottom of our dataframe, we see that there are som rows that are
-paragraphs and headers but they do not form part of the article text
-itself. We need to remove them. Because the rows come at then end of the
-dataframe, we can simply find the first of these superfluous rows and
-delete it and everything after that. When this is the case, there is in
-a header, instead of a usual header text there is the text “See also”.
-To find the row where “See also” is the text, we use the  function to
-search the text cells in rows where the tag is a header (except
-<h1>
-</h1>
-</h1>
+</div></h1>
 
 <div class="codewrapper sourceCode" id="cb9">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r"><code class="sourceCode R"><span><span class="co"># Step 1: Remove everything before the first h1</span></span><span><span class="va">df_greenland_us</span><span class="op">&lt;-</span><span class="va">df_greenland_us</span><span class="op">%&gt;%</span></span><span><span class="fu">filter</span><span class="op">(</span><span class="fu">cumsum</span><span class="op">(</span><span class="va">tag</span><span class="op">==</span><span class="st">"h1"</span><span class="op">)</span><span class="op">&gt;</span><span class="fl">0</span><span class="op">)</span><span class="co"># Keep rows after the first h1 appears</span></span></code></pre>
 </div>
-In the bottom of our dataframe, we see that there are som rows that are
-paragraphs and headers but they do not form part of the article text
-itself. We need to remove them. Because the rows come at then end of the
-dataframe, we can simply find the first of these superfluous rows and
-delete it and everything after that. When this is the case, there is in
-a header, instead of a usual header text there is the text “See also”.
-To find the row where “See also” is the text, we use the  function to
-search the text cells in rows where the tag is a header (except
-<h1>
-</h1>
 
-</a></h2>
+<a class="anchor" aria-label="anchor" href="#filtering-away-unwanted-columns-1"></a></a></h2>
 <hr class="half-width"></section></section>
 </div>
     </main>
