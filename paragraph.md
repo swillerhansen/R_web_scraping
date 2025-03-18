@@ -31,7 +31,8 @@ In this part of the course, we will now look at how to scrape a few  different H
 
 
 We have found a Wikipedia article in English about plans from United States presidents to acquire Greenland. Wikipedia articles are usually licensed with a Creative Commons license. We therefore expect that we are allowed to scrape the page. 
-Let us start by using \bow\ to check if the page allows scraping
+
+Let us start by using `bow` to check if the page allows scraping
 
 ``` r
 bow("https://en.wikipedia.org/wiki/Proposed_United_States_acquisition_of_Greenland")
@@ -45,6 +46,7 @@ bow("https://en.wikipedia.org/wiki/Proposed_United_States_acquisition_of_Greenla
   The path is scrapable for this user-agent
 ```
 
+### scraping the URL
 We see that scraping is allowed, so let us scrape the main page
 
 ``` r
@@ -52,12 +54,17 @@ dat <- bow("https://en.wikipedia.org/wiki/Proposed_United_States_acquisition_of_
   scrape()
 ```
 
-We have successfully scraped the page. Now we need to extract the HTML elements that we are interested in. In HTML the headers elements start with <h>. The headers exist in a hierarchical fashion. The most overall header is called <h1>. The second most overall header is called <h2> and so on. On the Wikipedia page the headers are <h1>, <h2>, <h3>, and <h4>. So we need to specify each of them when we extract the HTML elements from the our scrape. The headers are usful for designating which sections the article's text is divided into. But they do not contain the article's text. The article's text is in the HTML element <p>. But all the text is not found in one <p> element. It is divided into multiple paragraphs. This is because the text is then displayed in separate paragraphs on the page, which makes the article more readable to the human eye. We can write p to extract all paragraphs
+### specifying HTML elements to be extracted from the scraped webpage
+We have successfully scraped the page. Now we need to extract the HTML elements that we are interested in. In HTML the headers elements start with <h>. The headers exist in a hierarchical fashion. The most overall header is called <h1>. The second most overall header is called <h2> and so on. On the Wikipedia page the headers are <h1>, <h2>, <h3>, and <h4>. So we need to specify each of them when we extract the HTML elements from the our scrape. The headers are usful for designating which sections the article's text is divided into. But they do not contain the article's text. The article's text is in the HTML element <p>. But all the text is not found in one <p> element. It is divided into multiple paragraphs. This is because the text is then displayed in separate paragraphs on the page, which makes the article more readable to the human eye. 
+
+We can write p to extract all paragraphs
 
 ``` r
 greenland_us_wiki <- html_elements(dat, "h1, h2, h3, h4, p")
 ```
-We now have the headers and the paragraphs extracted. Now we need to convert their content into a readable format so that we can work with the text. To do this we use the function \html_text\. This extracts the content of the HTML elements that specified before, i.e. headers and paragraphs. But only having the text content will make us able to discern which texts are headers and which are paragraphs. We will therefore need to use \html_name\ to give us each text's HTML element. 
+
+We now have the headers and the paragraphs extracted. Now we need to convert their content into a readable format so that we can work with the text. To do this we use the function `html_text`. This extracts the content of the HTML elements that specified before, i.e. headers and paragraphs. But only having the text content will make us able to discern which texts are headers and which are paragraphs. We will therefore need to use `html_name` to give us each text's HTML element. 
+
 The best way to format this data is to make it a tibble, which is type of data frame. We therefore create a tibble where the HTML tag is in one column, and the text of that HTML element is in another columns. 
 
 ``` r
@@ -69,8 +76,9 @@ df_greenland_us <- tibble(
 
 Now we have the right alignment of rows and columns where each row is an HTML element with its corresponding text content. 
 
-But we would like to have a better understanding and overview of which paragraphs are found under which headings. To do this let us first create a new set of columns. One column for each header, using \mutate\
-Now we need to make sure that each of these header columns has all its cells filled out. This will allow us to for each paragraph see under which header 1 it is and under which header 2 it is under and so on. To do this we use the \fill\ function. Fill allows us to for each of the header columns extend the text value in a cell thourgh all the succeeding emtpy cells until it reaches a cell that already has text in it. To specify this direction we write tht the \.direction\ should be downwards. 
+But we would like to have a better understanding and overview of which paragraphs are found under which headings. To do this let us first create a new set of columns. One column for each header, using `mutate`
+
+Now we need to make sure that each of these header columns has all its cells filled out. This will allow us to for each paragraph see under which header 1 it is and under which header 2 it is under and so on. To do this we use the `fill` function. Fill allows us to for each of the header columns extend the text value in a cell through all the succeeding empty cells until it reaches a cell that already has text in it. To specify this direction we write that the `.direction` should be downwards. 
 
 ``` r
 df_greenland_us <- df_greenland_us %>%
@@ -93,8 +101,11 @@ We see that for some unknown reason the first header in the data frame is <h2> a
 df_greenland_us <- df_greenland_us %>%
   filter(cumsum(tag == "h1") > 0)  # Keep rows after the first h1 appears
 ```
-In the bottom of our dataframe, we see that there are som rows that are paragraphs and headers but they do not form part of the article text itself. We need to remove them. Because the rows come at then end of the dataframe, we can simply find the first of these superfluous rows and delete it and everything after that.
-When this is the case, there is in a header, instead of a usual header text there is the text "See also". To find the row where "See also" is the text, we use the \which\ function to search the text cells in rows where the tag is a header (except <h1>) and the text starts with "see also". We specify with "^" that the text must begin with "see also". We convert the text to lowercase to increase the probability of a match. R is very literal, so it treats "See also" and "see also" as 2 entirely different strings.
+
+### filtering away unwanted columns
+In the bottom of our dataframe, we see that there are some rows that are paragraphs and headers but they do not form part of the article text itself. We need to remove them. Because the rows come at then end of the dataframe, we can simply find the first of these superfluous rows and delete it and everything after that.
+
+When this is the case, there is in a header, instead of a usual header text there is the text "See also". To find the row where "See also" is the text, we use the `which` function to search the text cells in rows where the tag is a header (except <h1>) and the text starts with "see also". We specify with "^" that the text must begin with "see also". We convert the text to lowercase to increase the probability of a match. R is very literal, so it treats "See also" and "see also" as 2 entirely different strings.
 
 ``` r
 # Step 2: Find where "See also" appears in an h2, h3, or h4 and remove everything after
@@ -102,8 +113,9 @@ see_also_row <- which(df_greenland_us$tag %in% c("h2", "h3", "h4") &
                         str_detect(str_to_lower(df_greenland_us$text), "^see also"))
 ```
 
-We now see the number of rows there are until we reach "see also". We can now use this knowledge to do a \slice\ so that we only retain the article's proper text. We start by specifying with \if\ that this action should only be conducted if there is actually a "see also" found in the scrape. If there is not, then nothing should be done. 
-We use \slice\ to tell R that it should keep the rows beginning from row 1 all the way to the lowest number in see_also_row. The lowest number in see_also_row is the row that contains "see also". If we were to do this, we would retain the "see also" row in our dataframe but remove everything after it. But the row with "see also" should also be removed. So we use -1 to tell R that it should not include the last row in the slice, i.e. the row containing "see also".
+We now see the number of rows there are until we reach "see also". We can now use this knowledge to do a `slice` so that we only retain the article's proper text. We start by specifying with `if` that this action should only be conducted if there is actually a "see also" found in the scrape. If there is not, then nothing should be done. 
+
+We use `slice` to tell R that it should keep the rows beginning from row 1 all the way to the lowest number in see_also_row. The lowest number in see_also_row is the row that contains "see also". If we were to do this, we would retain the "see also" row in our dataframe but remove everything after it. But the row with "see also" should also be removed. So we use -1 to tell R that it should not include the last row in the slice, i.e. the row containing "see also".
 
 
 ``` r
@@ -114,33 +126,3 @@ if (length(see_also_row) > 0) {
 ```
 
 Now we have our data frame in the final format. We can analyze the headers to see which topics are described in the text. We can use text mining methods to analyze how the various topics are described, whether the words used in the various sections are positive or negative, or other sentiments expressed in the text. We can also count the number of words under each <h2> or <h3>, to see which topics are discussed the most. 
-
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-
-``` r
-summary(cars)
-```
-
-``` output
-     speed           dist       
- Min.   : 4.0   Min.   :  2.00  
- 1st Qu.:12.0   1st Qu.: 26.00  
- Median :15.0   Median : 36.00  
- Mean   :15.4   Mean   : 42.98  
- 3rd Qu.:19.0   3rd Qu.: 56.00  
- Max.   :25.0   Max.   :120.00  
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-<img src="fig/paragraph-rendered-pressure-1.png" style="display: block; margin: auto;" />
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

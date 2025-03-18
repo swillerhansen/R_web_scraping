@@ -10,14 +10,15 @@ exercises: 2
 
 :::::::::::::::::::::::::::::::::::::: questions 
 
-- How do you write a lesson using R Markdown and `{sandpaper}`?
+- What is HTML?
+- How do you scrape tables from a web page
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
 ::::::::::::::::::::::::::::::::::::: objectives
 
-- Explain how to use markdown with the new lesson template
-- Demonstrate how to include pieces of code, figures, and nested challenge blocks
+- Understand the basics of HTML and how to inspect a web page's HTML
+- Scrape tables on a webpage, including when the tables aer spread across multiple pages
 
 ::::::::::::::::::::::::::::::::::::::::::::::::
 
@@ -47,13 +48,13 @@ library(htmltools)
 library(scales)
 ```
 
-Scraping multiple tables on one page
+### Scraping multiple tables on one page
 One of the formats that data on a website often come in is a table
 
 Let's look at statics about students at The University of Copenhagen (UCPH) at this page:
 https://om.ku.dk/tal-og-fakta/studerende/
 The html element for a table is simply called <table>
-We can use this HTML tag to scrape a table using \html_table\
+We can use this HTML tag to scrape a table using `html_table`
 
 We see on the website that there are multiple elements that can be clicked to reveal some of the stats for UCPH students. 
 
@@ -62,9 +63,9 @@ We can use our internet browser's ability to inspect the HTML of any website tha
 
 When we inspect the HTML, we see that there are many tables in HTML, each corresponding to one drop-down part on the webpage
 
-Fortunately for us, the function \html_table\ will scrape all the tables on the page
+Fortunately for us, the function `html_table` will scrape all the tables on the page
 
-The first thing we need to do is to scrape the webpage. One of the challenges of webscraping is that sometimes, certain webpages won't allow scraping. This prohibition can be for the entire webpage with all its subpages, or it can be for certain subpages. It can be quite laborious read and check this yourself, but fortunately for us, the polite package allows os to automatize this. By using its function \bow\ before we scrape, it will check if scraping is allowed. If scraping is allowed, the scraping will go ahead. If scraping is not allowed, no scraping will take place.
+The first thing we need to do is to scrape the webpage. One of the challenges of webscraping is that sometimes, certain webpages won't allow scraping. This prohibition can be for the entire webpage with all its subpages, or it can be for certain subpages. It can be quite laborious read and check this yourself, but fortunately for us, the polite package allows os to automatize this. By using its function `bow` before we scrape, it will check if scraping is allowed. If scraping is allowed, the scraping will go ahead. If scraping is not allowed, no scraping will take place.
 So let us start by writing the name of our object. Then we use bow and write the link of the page that we want to scrape, in order to check if scraping is allowed. Then we scrape the webpage
 
 ``` r
@@ -73,13 +74,19 @@ dat <-
   scrape()
 ```
 
+### Handling the Danish decimal separators format
 But before we go further with our data, we need to make sure that R will handle decimal separators correctly. The default standard in R for handling decimal separators is to use the American version, where dot is the decimal separator, and comma groups larger numbers together, making it easier for the human eye to read numbers that are from one thousand and above. In the tables that we want to scrape here, the Danish format is used, where comma is the decimal separator, and dot groups larger numbers together. We there need to start by telling R that it should use the Danish format
 
 ``` r
-dansk_locale <- locale(decimal_mark = ",", grouping_mark = ".", date_names = "da", date_format = "%d-%m-%Y", time_format = "%H:%M:%S", tz = "Europe/Copenhagen")
+dansk_locale <- locale(decimal_mark = ",", 
+  grouping_mark = ".", 
+  date_names = "da", 
+  date_format = "%d-%m-%Y", 
+  time_format = "%H:%M:%S", 
+  tz = "Europe/Copenhagen")
 ```
 
-The \scrape\ function scrapes everything on the webpage. So now we need to tell R which part of the HTML that we want to work with. To specify that we want to work with all the tables from the webpage, we can use the function \html_table\. This function scrapes all the tables on the page. So let us first write the name of our new object. Then we tell R to work the the scraped data, which we called dat. Lastly, we tell R that it should take the tables form the scraped webpage.
+The `scrape` function scrapes everything on the webpage. So now we need to tell R which part of the HTML that we want to work with. To specify that we want to work with all the tables from the webpage, we can use the function `html_table`. This function scrapes all the tables on the page. So let us first write the name of our new object. Then we tell R to work the the scraped data, which we called dat. Lastly, we tell R that it should take the tables form the scraped webpage.
 
 ``` r
 tabeller <- 
@@ -87,7 +94,7 @@ tabeller <-
   html_table(fill = TRUE, convert = FALSE)
 ```
 
-Now we have an object with the tables, which is a list. Each table is a separate element in the list. However, we want all the tables to be merged into one dataframe. To do this we use \bind_rows\. 
+Now we have an object with the tables, which is a list. Each table is a separate element in the list. However, we want all the tables to be merged into one dataframe. To do this we use `bind_rows`
 
 
 ``` r
@@ -95,7 +102,7 @@ tabeller <- tabeller %>% bind_rows()
 ```
 Now we have a dataframe with 2 columns. The first column, called X1 contains the the statistic that was calculated. The second column, called X2, contains the number of the calculated statistic. 
 
-We see that some statistics are percentages, and other are absolute numbers. We need to handle this in order to do analysis. To do this we need to do a couple of steps. First, we create a new column that tells if the measured statistic is an absolute number of a percentage. we call the new column X3. Then we need to remove the percentage sign from column X2. Lastly, to make sure that the X2 column can be used for calculations, we trim any unintended whitespace with \str_trim\.
+We see that some statistics are percentages, and other are absolute numbers. We need to handle this in order to do analysis. To do this we need to do a couple of steps. First, we create a new column that tells if the measured statistic is an absolute number of a percentage. we call the new column X3. Then we need to remove the percentage sign from column X2. Lastly, to make sure that the X2 column can be used for calculations, we trim any unintended whitespace with `str_trim`.
 
 ``` r
 tabeller <- tabeller %>% 
@@ -119,8 +126,8 @@ cols(
 )
 ```
 
-Scraping tabels on multiple pages
-Scraping predictable URLs
+## Scraping tables on multiple pages
+### Scraping predictable URLs
 But what if the table is spraed across multiple pages? There's a way to handle that, but it does required a bit more work than the previous example where all tables were on one page. To learning how to scrape webpages where the table is spread across multiple pages, we'll use this example: http://www.scrapethissite.com/pages/forms/?page_num=1. This link contains 24 pages with team statistics for all teams in the North American professional National Hockey League from year 1990 to year 2011.
 
 To begin we must inspect the URL. Fortunately for us, each page has a base URL, and then it ends with a number that is the the page number. So e.g. the URL for the first page is http://www.scrapethissite.com/pages/forms/?page_num=1. The URL for the second page is http://www.scrapethissite.com/pages/forms/?page_num=2, and so on until page 24. We can isolate the base URL, which is http://www.scrapethissite.com/pages/forms/?page_num=, and then create 24 URLs, each with a number going from 1 to 24
@@ -156,7 +163,8 @@ paste0("http://scrapethissite.com/pages/forms/?page_num=", 1:24)
 [24] "http://scrapethissite.com/pages/forms/?page_num=24"
 ```
 But what if the URLs were predictable, but did not increase one integer after another, starting from 1? we can handle this by creating a list of URLs using some functions in R, which will concatenate each element of URL, until we for each page have the full URL necessary
-In this example we will create URLs which will allow us to download results from political elections in various states in The United States in 2012 and 2016. In this case, instead of number starting with 1 and then increasing one integer at a time, we need to specify in the URL which year the election took place and in which state it took place. To do this we first write the name of our new object. Now we need to concatenate a series of text strings. To indicate that we want to start concatenation we use the \crossing\ function. The first part of our URL will be the base URL, which is https://www.example.com/. Then we add state to the URL. Then we draw a list of states, starting in alphabetical oorder with the first state, Alaska, and going onwards in alphabetical to the 5th state, which is California. Then we need to tell R that for each state, it should create 2 URLs. One with the year number 2012, and one with the year number 2016. So we put them as a vector. Then we need to tell R that it should unite all these elements into one URL, and that there should be no space between the elements that constitute the URL. When then call the URLs with the function \pull\
+
+In this example we will create URLs which will allow us to download results from political elections in various states in The United States in 2012 and 2016. In this case, instead of number starting with 1 and then increasing one integer at a time, we need to specify in the URL which year the election took place and in which state it took place. To do this we first write the name of our new object. Now we need to concatenate a series of text strings. To indicate that we want to start concatenation we use the `crossing` function. The first part of our URL will be the base URL, which is https://www.example.com/. Then we add state to the URL. Then we draw a list of states, starting in alphabetical oorder with the first state, Alaska, and going onwards in alphabetical to the 5th state, which is California. Then we need to tell R that for each state, it should create 2 URLs. One with the year number 2012, and one with the year number 2016. So we put them as a vector. Then we need to tell R that it should unite all these elements into one URL, and that there should be no space between the elements that constitute the URL. When then call the URLs with the function `pull`
 
 ``` r
 urls <-
@@ -170,7 +178,7 @@ urls <-
 ```
 
 Let us return to the data with hockey results. We know that there are 24 pages with tables containing the statistics, and we have a predictable URL, so we can easily create each URLs for each page.
-But let us imagine that we have a predictable URL, but we don't know how many pages there. We need to write a script that will automatically find out how many pages there are. This is really usefule if there are 100s of pages, and it would take too long to click to the last page in order to find out how many there are
+But let us imagine that we have a predictable URL, but we don't know how many pages there. We need to write a script that will automatically find out how many pages there are. This is really useful if there are 100s of pages, and it would take too long to click to the last page in order to find out how many there are
 Let us start be scraping the website
 
 
@@ -181,7 +189,7 @@ dat <-
 ```
 
 We know need to go to the webpage in our internet browser and inspect the HTML
-We find that there is an HTML element which shows how many pages there are in total. This element is called ".pagination>li". We can specify that the specific HTML element that we want to work with the function \html_elements\. Now we need to draw out the actual content of the selected HTML-element by using the function \html_text2\. The content that we draw out is a series of numbers, but they are in the format of character. We need to convert them to numbers by using \as.numeric\. we now have a series of all page numbers, from 1 to 24. However, we are only interested in the last page number, which in our case has the highest numerical value. We can therefore isolate this number by using the function \max\
+We find that there is an HTML element which shows how many pages there are in total. This element is called ".pagination>li". We can specify that the specific HTML element that we want to work with the function `html_elements`. Now we need to draw out the actual content of the selected HTML-element by using the function `html_text2`. The content that we draw out is a series of numbers, but they are in the format of character. We need to convert them to numbers by using `as.numeric` we now have a series of all page numbers, from 1 to 24. However, we are only interested in the last page number, which in our case has the highest numerical value. We can therefore isolate this number by using the function `max`
 
 
 ``` r
@@ -204,7 +212,7 @@ Now we can create all the URLs by pasting our basic URL with the page numbers, g
 urls <- paste0("https://scrapethissite.com/pages/forms/?page_num=", 1:n_pages)
 ```
 
-Now it is time to scrape data from all the URLs that we have created. First we write the name of our new object. Then we use the \map\ function to tell R that it must do the scrape for each URL in our urls vector. The we use \bow\ for each URL to ensure that scraping is allowed. Lastly, we scrape the pages with the \scrape\ function
+Now it is time to scrape data from all the URLs that we have created. First we write the name of our new object. Then we use the `map` function to tell R that it must do the scrape for each URL in our urls vector. The we use `bow` for each URL to ensure that scraping is allowed. Lastly, we scrape the pages with the `scrape` function
 
 ``` r
 # downloading multiple pages
@@ -213,9 +221,9 @@ dat_all <-
       ~ bow(.x) %>% 
         scrape())
 ```
-The \map\ function returns a list, where each element is a page.
+The `map` function returns a list, where each element is a page.
 
-Now we need to tell R that we want each element in the list to be combined with the other elements, so that our list can be turned into a dataframe. First we write the name of our new dataframe. Then we tell R that it should turn the list elements into a dataframe by using the \map_dfr\ function. We tell R what the name of our list is, and that we want to draw the table from each element in the list, and then we draw the table with \html_table\
+Now we need to tell R that we want each element in the list to be combined with the other elements, so that our list can be turned into a dataframe. First we write the name of our new dataframe. Then we tell R that it should turn the list elements into a dataframe by using the `map_dfr` function. We tell R what the name of our list is, and that we want to draw the table from each element in the list, and then we draw the table with `html_table`
 
 ``` r
 # formatting downloaded list into a dataframe
@@ -225,7 +233,7 @@ dat_tables <-
             html_table())
 ```
 
-Scraping pages with unpredictable URLs
+## Scraping pages with unpredictable URLs
 
 What if there are tables on multiple pages that we want to scrape, but the pagination does not give us a predictable URL? i.e. instead of a sequence of integers increasing by one, or letters change in alphabetical order or reverse alphabetic order, there is a custom sequence of letters and digits? There is a way to handle this so that we can scrape all pages in one action, but it requires some inspection of the data and writing some functions
 
@@ -239,7 +247,8 @@ page1 <-
   scrape()
 ```
 
-In order to automate the finding of all URLs, we need to identify in the HTML where there is the button that allows us to go to the next page. We inspect the HTML of the webpage http://www.scrapethissite.com/pages/forms/ and see that there is an HTML element which describes the button that moves us to the next page. This button is a link. A link in HTML has is href. We see that HTML for the next button is aria-label='Next'. We need to extract the link from the button that goes to the next page. To do this we write the name of our new object. Then we write the name of object with the scraped webpage. Then we use \html_elements\ o tell R that we want to work with the HTML that constitutes the Next-button. The last thing we need to do is to extract the link itself. To do this we use the function \html_attr\ and write the HTML element for the link, which is href
+### Finding the link to the proceeding pages
+In order to automate the finding of all URLs, we need to identify in the HTML where there is the button that allows us to go to the next page. We inspect the HTML of the webpage http://www.scrapethissite.com/pages/forms/ and see that there is an HTML element which describes the button that moves us to the next page. This button is a link. A link in HTML has is href. We see that HTML for the next button is aria-label='Next'. We need to extract the link from the button that goes to the next page. To do this we write the name of our new object. Then we write the name of object with the scraped webpage. Then we use `html_elements` o tell R that we want to work with the HTML that constitutes the Next-button. The last thing we need to do is to extract the link itself. To do this we use the function `html_attr` and write the HTML element for the link, which is <href>
 
 ``` r
 # find the next button, write a CSS selector for it, and pull the value of href
@@ -249,6 +258,7 @@ next_page <-
   html_attr("href")
 ```
 
+### creating the set of URLs
 Now that we have the pagination number for the first page, we need to concatenate it with the base URL, with the pagination number coming last
 
 ``` r
@@ -259,7 +269,7 @@ next_page <-
          next_page)
 ```
 
-HAVE REACHED HERE IN THE EPISODE
+### Finding the last page
 We need to tell R that it should keep scraping pages until it comes to a page where there is no Next-button. So we scrape the last page and draw out the link
 
 
@@ -271,7 +281,7 @@ next_page_final <-
   html_attr("href")
 ```
 
-We need to test if the last page i.e. our objects are indeed our the last page. We use the function \is_empty\. If the object is the last page, it will give the result TRUE. If the object is not the last page it will give us the value FALSE
+We need to test if the last page i.e. our objects are indeed our the last page. We use the function `is_empty`. If the object is the last page, it will give the result TRUE. If the object is not the last page it will give us the value FALSE
 
 ``` r
 # testing if condition for both are correct. next_page_final should be TRUE, next_page should be FALSE
@@ -290,8 +300,10 @@ is_empty(next_page)
 [1] FALSE
 ```
 
+### Assembling the URLs
 Now we need to tell R that it should scrape a page, finds the URL for the next page and then scrape that next page until it finds the last page. 
-First we create an empty list in which our scraped data will be placed into. Then we tell R that the first page to download is the URL for the first page. Then we write our own function. We tell R that it should run this function if the page it scrapes has a page coming after that. Then it should create a link by pasting the base URL with the number of the next pages. Then it should the link that it has created by the \paste0\ function. The downloaded page should be stored in a list. Then from the scraped webpage it should draw out the link for the next-page button. 
+
+First we create an empty list in which our scraped data will be placed into. Then we tell R that the first page to download is the URL for the first page. Then we write our own function. We tell R that it should run this function if the page it scrapes has a page coming after that. Then it should create a link by pasting the base URL with the number of the next pages. Then it should the link that it has created by the `paste0` function. The downloaded page should be stored in a list. Then from the scraped webpage it should draw out the link for the next-page button. 
 
 ``` r
 all_dat <- list()
@@ -333,7 +345,8 @@ Now we need to paste the 24 pages into a vector, each element in the vector bein
 urls <- paste0("http://scrapethissite.com/pages/forms/?page_num=", 1:24)
 ```
 
-Now we scrape each of the 24 URLs that we have created. We have 24 elements in our URL vector, so we use the \map\ function to tell R that it should scrape each URL in our URL vector. 
+### scraping the URLs
+Now we scrape each of the 24 URLs that we have created. We have 24 elements in our URL vector, so we use the `map` function to tell R that it should scrape each URL in our URL vector. 
 
 ``` r
 dat_all <-
@@ -342,7 +355,7 @@ dat_all <-
         scrape())
 ```
 
-Now we need to tell R that for each page in our list element in our scraped data, it should draw out the table, and combine them together into one dataframe with the \map_dfr\ function
+Now we need to tell R that for each page in our list element in our scraped data, it should draw out the table, and combine them together into one dataframe with the `map_dfr` function
 
 ``` r
 # go through each element of the page list and pull out a dataframe
@@ -352,107 +365,4 @@ dat_tables <-
           ~ html_elements(.x, "table") %>% 
             html_table())
 ```
-
-
-This is a lesson created via The Carpentries Workbench. It is written in
-[Pandoc-flavored Markdown][pandoc] for static files (with extension `.md`) and
-[R Markdown][r-markdown] for dynamic files that can render code into output
-(with extension `.Rmd`). Please refer to the [Introduction to The Carpentries
-Workbench][carpentries-workbench] for full documentation.
-
-What you need to know is that there are three sections required for a valid
-Carpentries lesson template:
-
- 1. `questions` are displayed at the beginning of the episode to prime the
-    learner for the content.
- 2. `objectives` are the learning objectives for an episode displayed with
-    the questions.
- 3. `keypoints` are displayed at the end of the episode to reinforce the
-    objectives.
-
-:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::: instructor
-
-Inline instructor notes can help inform instructors of timing challenges
-associated with the lessons. They appear in the "Instructor View"
-
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-::::::::::::::::::::::::::::::::::::: challenge 
-
-
-``` r
-# here you can write some code
-```
-
-
-## Challenge 1: Can you do it?
-
-What is the output of this command?
-
-```r
-paste("This", "new", "lesson", "looks", "good")
-```
-
-:::::::::::::::::::::::: solution 
-
-## Output
- 
-```output
-[1] "This new lesson looks good"
-```
-
-:::::::::::::::::::::::::::::::::
-
-
-## Challenge 2: how do you nest solutions within challenge blocks?
-
-:::::::::::::::::::::::: solution 
-
-You can add a line with at least three colons and a `solution` tag.
-
-:::::::::::::::::::::::::::::::::
-::::::::::::::::::::::::::::::::::::::::::::::::
-
-## Figures
-
-You can include figures generated from R Markdown:
-
-
-``` r
-pie(
-  c(Sky = 78, "Sunny side of pyramid" = 17, "Shady side of pyramid" = 5), 
-  init.angle = 315, 
-  col = c("deepskyblue", "yellow", "yellow3"), 
-  border = FALSE
-)
-```
-
-<div class="figure" style="text-align: center">
-<img src="fig/tables-rendered-pyramid-1.png" alt="pie chart illusion of a pyramid"  />
-<p class="caption">Sun arise each and every morning</p>
-</div>
-Or you can use pandoc markdown for static figures with the following syntax:
-
-`![optional caption that appears below the figure](figure url){alt='alt text for
-accessibility purposes'}`
-
-![You belong in The Carpentries!](https://raw.githubusercontent.com/carpentries/logo/master/Badge_Carpentries.svg){alt='Blue Carpentries hex person logo with no text.'}
-
-## Math
-
-One of our episodes contains $\LaTeX$ equations when describing how to create
-dynamic reports with {knitr}, so we now use mathjax to describe this:
-
-`$\alpha = \dfrac{1}{(1 - \beta)^2}$` becomes: $\alpha = \dfrac{1}{(1 - \beta)^2}$
-
-Cool, right?
-
-::::::::::::::::::::::::::::::::::::: keypoints 
-
-- Use `.md` files for episodes when you want static content
-- Use `.Rmd` files for episodes when you need to generate output
-- Run `sandpaper::check_lesson()` to identify any issues with your lesson
-- Run `sandpaper::build_lesson()` to preview your lesson locally
-
-::::::::::::::::::::::::::::::::::::::::::::::::
 
