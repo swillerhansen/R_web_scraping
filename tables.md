@@ -355,6 +355,13 @@ dat_all <-
         scrape())
 ```
 
+``` error
+Error in `map()`:
+ℹ In index: 1.
+Caused by error in `request_handler_handler()`:
+! Event: on_server_error
+```
+
 Now we need to tell R that for each page in our list element in our scraped data, it should draw out the table, and combine them together into one dataframe with the `map_dfr` function
 
 ``` r
