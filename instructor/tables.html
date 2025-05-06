@@ -301,7 +301,7 @@
       </div>
       <hr></nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Tables</h1>
-        <p>Last updated on 2025-04-29 |
+        <p>Last updated on 2025-05-06 |
 
         <a href="https://github.com/KUBDatalab/R_web_scraping/edit/main/episodes/tables.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -852,18 +852,10 @@ tell R that it should scrape each URL in our URL vector.</p>
 <span>      <span class="op">~</span> <span class="fu">bow</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
 <span>        <span class="fu">scrape</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre>
 </div>
-<div class="codewrapper">
-<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
-</h3>
-<pre class="error" tabindex="0"><code>Error in `map()`:
-ℹ In index: 1.
-Caused by error in `request_handler_handler()`:
-! Event: on_server_error</code></pre>
-</div>
 <p>Now we need to tell R that for each page in our list element in our
 scraped data, it should draw out the table, and combine them together
 into one dataframe with the <code>map_dfr</code> function</p>
-<div class="codewrapper sourceCode" id="cb31">
+<div class="codewrapper sourceCode" id="cb30">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -937,8 +929,8 @@ any links that you are not going to use.
   "url": "https://KUBDatalab.github.io/R_web_scraping/instructor/tables.html",
   "identifier": "https://KUBDatalab.github.io/R_web_scraping/instructor/tables.html",
   "dateCreated": "2024-10-14",
-  "dateModified": "2025-04-29",
-  "datePublished": "2025-04-29"
+  "dateModified": "2025-05-06",
+  "datePublished": "2025-05-06"
 }
 
   </script><script>
