@@ -4,11 +4,7 @@ output: html_document
 date: "2025-12-02"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
-Lets us start by installing the libraries that will give us the necessary functionality to do webscraping
+Lets us start by installing the libraries that will give us the necessary functionality to do web scraping
 ```{r message=FALSE, eval=FALSE, warning=FALSE}
 install.packages("polite")
 install.packages("rvest")
