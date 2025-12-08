@@ -75,6 +75,7 @@
 </li>
       </div>
 
+
       <div class="dropdown" id="instructor-dropdown">
         <button class="btn btn-secondary dropdown-toggle bordered-button" type="button" id="dropdownMenu1" data-bs-toggle="dropdown" aria-expanded="false">
           <i aria-hidden="true" class="icon" data-feather="eye"></i> Instructor View <i data-feather="chevron-down"></i>
@@ -256,7 +257,7 @@
 <div class="accordion accordion-flush" id="accordionFlush3">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading3">
-        <a href="tables.html">2. Tables</a>
+        <a href="Scraping_tables_on_a_page.html">2. Scraping tables on a page</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -268,7 +269,43 @@
 <div class="accordion accordion-flush" id="accordionFlush4">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading4">
-        <a href="paragraph.html">3. Scraping text and headers</a>
+        <a href="scraping_tables_on_multiple_pages_with_predictable_URLS.html">3. scraping_tables_on_multiple_pages_with_predictable_URLS</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush5">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading5">
+        <a href="scraping_tables_on_pages_with_unpredictable_URLs.html">4. Scraping tables on pages with unpredictable URLs</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush6">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading6">
+        <a href="tables.html">5. Tables</a>
+    </div>
+<!--/div.accordion-header-->
+
+  </div>
+<!--/div.accordion-item-->
+</div>
+<!--/div.accordion-flush-->
+
+<div class="accordion accordion-flush" id="accordionFlush7">
+  <div class="accordion-item">
+    <div class="accordion-header" id="flush-heading7">
+        <a href="paragraph.html">6. Scraping text and headers</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -334,7 +371,7 @@
         
 <section id="aio-introduction"><p>Content from <a href="introduction.html">introduction</a></p>
 <hr>
-<p>Last updated on 2025-12-02 |
+<p>Last updated on 2025-12-08 |
 
         <a href="https://github.com/KUBDatalab/R_web_scraping/edit/main/episodes/introduction.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -392,9 +429,644 @@ consistency</p>
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
+</section></section><section id="aio-Scraping_tables_on_a_page"><p>Content from <a href="Scraping_tables_on_a_page.html">Scraping tables on a page</a></p>
+<hr>
+<p>Last updated on 2025-12-08 |
+
+        <a href="https://github.com/KUBDatalab/R_web_scraping/edit/main/episodes/Scraping_tables_on_a_page.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<section><h2 class="section-heading" id="scraping-tables-on-a-single-page">Scraping tables on a single page<a class="anchor" aria-label="anchor" href="#scraping-tables-on-a-single-page"></a>
+</h2>
+<hr class="half-width"></section><section><h2 class="section-heading" id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<hr class="half-width">
+<p>Lets us start by installing the libraries that will give us the
+necessary functionality to do web scraping</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"polite"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"rvest"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"purrr"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"htmlTable"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"htmltools"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"scales"</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Lets us now activate our installed libraries to activate their
+functionality</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">polite</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">rvest</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">purrr</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">htmlTable</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">htmltools</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">scales</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="section level3">
+<h3 id="scraping-multiple-tables-on-one-page">Scraping multiple tables on one page<a class="anchor" aria-label="anchor" href="#scraping-multiple-tables-on-one-page"></a>
+</h3>
+<p>One of the formats that data on a website often come in is a
+table</p>
+<p>Let’s look at statics about students at The University of Copenhagen
+(UCPH) at this page: <a href="https://om.ku.dk/tal-og-fakta/studerende/" class="external-link uri">https://om.ku.dk/tal-og-fakta/studerende/</a> The html
+element for a table is simply called <code>&lt;table&gt;</code> We can
+use this HTML tag to scrape a table using <code>html_table</code></p>
+<p>We see on the website that there are multiple elements that can be
+clicked to reveal some of the stats for UCPH students.</p>
+<p>We want to see what HTML tags that the stats from the website have.
+We can use our internet browser’s ability to inspect the HTML of any
+website that we visit. This is the HTML that generates the website that
+we see when we type a URL and go to the website. Most internet browsers
+are able to inspect a website’s HTML. If the browser that you use cannot
+do this, then try to do it with a different browser</p>
+<p>When we inspect the HTML, we see that there are many tables in HTML,
+each corresponding to one drop-down part on the webpage</p>
+<p>Fortunately for us, the function <code>html_table</code> will scrape
+all the tables on the page</p>
+<p>The first thing we need to do is to scrape the webpage. One of the
+challenges of webscraping is that sometimes, certain webpages won’t
+allow scraping. This prohibition can be for the entire webpage with all
+its subpages, or it can be for certain subpages. It can be quite
+laborious read and check this yourself, but fortunately for us, the
+polite package allows os to automatize this. By using its function
+<code>bow</code> before we scrape, it will check if scraping is allowed.
+If scraping is allowed, the scraping will go ahead. If scraping is not
+allowed, no scraping will take place. So let us start by writing the
+name of our object. Then we use bow and write the link of the page that
+we want to scrape, in order to check if scraping is allowed. Then we
+scrape the webpage</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">bow</span><span class="op">(</span><span class="st">"https://om.ku.dk/tal-og-fakta/studerende/"</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">scrape</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+</div>
+<div class="section level3">
+<h3 id="handling-the-danish-decimal-separators-format">Handling the Danish decimal separators format<a class="anchor" aria-label="anchor" href="#handling-the-danish-decimal-separators-format"></a>
+</h3>
+<p>But before we go further with our data, we need to make sure that R
+will handle decimal separators correctly. The default standard in R for
+handling decimal separators is to use the American version, where dot is
+the decimal separator, and comma groups larger numbers together, making
+it easier for the human eye to read numbers that are from one thousand
+and above. In the tables that we want to scrape here, the Danish format
+is used, where comma is the decimal separator, and dot groups larger
+numbers together. We there need to start by telling R that it should use
+the Danish format</p>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dansk_locale</span> <span class="op">&lt;-</span> <span class="fu">locale</span><span class="op">(</span>decimal_mark <span class="op">=</span> <span class="st">","</span>, </span>
+<span>  grouping_mark <span class="op">=</span> <span class="st">"."</span>, </span>
+<span>  date_names <span class="op">=</span> <span class="st">"da"</span>, </span>
+<span>  date_format <span class="op">=</span> <span class="st">"%d-%m-%Y"</span>, </span>
+<span>  time_format <span class="op">=</span> <span class="st">"%H:%M:%S"</span>, </span>
+<span>  tz <span class="op">=</span> <span class="st">"Europe/Copenhagen"</span><span class="op">)</span></span></code></pre>
+</div>
+<p>The <code>scrape</code> function scrapes everything on the webpage.
+So now we need to tell R which part of the HTML that we want to work
+with. To specify that we want to work with all the tables from the
+webpage, we can use the function <code>html_table</code>. This function
+scrapes all the tables on the page. So let us first write the name of
+our new object. Then we tell R to work the the scraped data, which we
+called dat. Lastly, we tell R that it should take the tables form the
+scraped webpage.</p>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tabeller</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">dat</span> <span class="op">%&gt;%</span>  </span>
+<span>  <span class="fu">html_table</span><span class="op">(</span>fill <span class="op">=</span> <span class="cn">TRUE</span>, convert <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Now we have an object with the tables, which is a list. Each table is
+a separate element in the list. However, we want all the tables to be
+merged into one dataframe. To do this we use <code>bind_rows</code></p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tabeller</span> <span class="op">&lt;-</span> <span class="va">tabeller</span> <span class="op">%&gt;%</span> <span class="fu">bind_rows</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Now we have a dataframe with 2 columns. The first column, called X1
+contains the the statistic that was calculated. The second column,
+called X2, contains the number of the calculated statistic.</p>
+<p>We see that some statistics are percentages, and other are absolute
+numbers. We need to handle this in order to do analysis. To do this we
+need to do a couple of steps. First, we create a new column that tells
+if the measured statistic is an absolute number of a percentage. we call
+the new column X3. Then we need to remove the percentage sign from
+column X2. Lastly, to make sure that the X2 column can be used for
+calculations, we trim any unintended whitespace with
+<code>str_trim</code>.</p>
+<div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tabeller</span> <span class="op">&lt;-</span> <span class="va">tabeller</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>X3 <span class="op">=</span> <span class="fu">str_detect</span><span class="op">(</span><span class="va">X2</span>, <span class="st">"%"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>X2 <span class="op">=</span> <span class="fu">str_remove</span><span class="op">(</span><span class="va">X2</span>, <span class="st">"%"</span><span class="op">)</span>, </span>
+<span>         X2 <span class="op">=</span> <span class="fu">str_trim</span><span class="op">(</span><span class="va">X2</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Now that we have scraped and cleaned our data, we need to tell R that
+it should use the Danish format for numbers, date format, and use the
+time zone for Copenhagen</p>
+<div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">tabeller</span> <span class="op">&lt;-</span> <span class="fu">type_convert</span><span class="op">(</span><span class="va">tabeller</span>, locale <span class="op">=</span> <span class="va">dansk_locale</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>
+── Column specification ────────────────────────────────────────────────────────
+cols(
+  X1 = col_character(),
+  X2 = col_number()
+)</code></pre>
+</div>
+<!--
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use.
+ -->
+</div>
+</section></section><section id="aio-scraping_tables_on_multiple_pages_with_predictable_URLS"><p>Content from <a href="scraping_tables_on_multiple_pages_with_predictable_URLS.html">scraping_tables_on_multiple_pages_with_predictable_URLS</a></p>
+<hr>
+<p>Last updated on 2025-12-08 |
+
+        <a href="https://github.com/KUBDatalab/R_web_scraping/edit/main/episodes/scraping_tables_on_multiple_pages_with_predictable_URLS.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<p>Lets us start by installing the libraries that will give us the
+necessary functionality to do web scraping</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"polite"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"rvest"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"purrr"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"htmlTable"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"htmltools"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"scales"</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Lets us now activate our installed libraries to activate their
+functionality</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">polite</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">rvest</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">purrr</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">htmlTable</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">htmltools</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">scales</span><span class="op">)</span></span></code></pre>
+</div>
+<section><h2 class="section-heading" id="scraping-tables-on-multiple-pages">Scraping tables on multiple pages<a class="anchor" aria-label="anchor" href="#scraping-tables-on-multiple-pages"></a>
+</h2>
+<hr class="half-width">
+<div class="section level3">
+<h3 id="scraping-predictable-urls">Scraping predictable URLs<a class="anchor" aria-label="anchor" href="#scraping-predictable-urls"></a>
+</h3>
+<p>But what if the table is spraed across multiple pages? There’s a way
+to handle that, but it does required a bit more work than the previous
+example where all tables were on one page. To learning how to scrape
+webpages where the table is spread across multiple pages, we’ll use this
+example: <a href="http://www.scrapethissite.com/pages/forms/?page_num=1" class="external-link uri">http://www.scrapethissite.com/pages/forms/?page_num=1</a>.
+This link contains 24 pages with team statistics for all teams in the
+North American professional National Hockey League from year 1990 to
+year 2011.</p>
+<p>To begin we must inspect the URL. Fortunately for us, each page has a
+base URL, and then it ends with a number that is the the page number. So
+e.g. the URL for the first page is <a href="http://www.scrapethissite.com/pages/forms/?page_num=1" class="external-link uri">http://www.scrapethissite.com/pages/forms/?page_num=1</a>.
+The URL for the second page is <a href="http://www.scrapethissite.com/pages/forms/?page_num=2" class="external-link uri">http://www.scrapethissite.com/pages/forms/?page_num=2</a>,
+and so on until page 24. We can isolate the base URL, which is <a href="http://www.scrapethissite.com/pages/forms/?page_num=" class="external-link uri">http://www.scrapethissite.com/pages/forms/?page_num=</a>,
+and then create 24 URLs, each with a number going from 1 to 24</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">paste0</span><span class="op">(</span><span class="st">"http://scrapethissite.com/pages/forms/?page_num="</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">24</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code> [1] "http://scrapethissite.com/pages/forms/?page_num=1"
+ [2] "http://scrapethissite.com/pages/forms/?page_num=2"
+ [3] "http://scrapethissite.com/pages/forms/?page_num=3"
+ [4] "http://scrapethissite.com/pages/forms/?page_num=4"
+ [5] "http://scrapethissite.com/pages/forms/?page_num=5"
+ [6] "http://scrapethissite.com/pages/forms/?page_num=6"
+ [7] "http://scrapethissite.com/pages/forms/?page_num=7"
+ [8] "http://scrapethissite.com/pages/forms/?page_num=8"
+ [9] "http://scrapethissite.com/pages/forms/?page_num=9"
+[10] "http://scrapethissite.com/pages/forms/?page_num=10"
+[11] "http://scrapethissite.com/pages/forms/?page_num=11"
+[12] "http://scrapethissite.com/pages/forms/?page_num=12"
+[13] "http://scrapethissite.com/pages/forms/?page_num=13"
+[14] "http://scrapethissite.com/pages/forms/?page_num=14"
+[15] "http://scrapethissite.com/pages/forms/?page_num=15"
+[16] "http://scrapethissite.com/pages/forms/?page_num=16"
+[17] "http://scrapethissite.com/pages/forms/?page_num=17"
+[18] "http://scrapethissite.com/pages/forms/?page_num=18"
+[19] "http://scrapethissite.com/pages/forms/?page_num=19"
+[20] "http://scrapethissite.com/pages/forms/?page_num=20"
+[21] "http://scrapethissite.com/pages/forms/?page_num=21"
+[22] "http://scrapethissite.com/pages/forms/?page_num=22"
+[23] "http://scrapethissite.com/pages/forms/?page_num=23"
+[24] "http://scrapethissite.com/pages/forms/?page_num=24"</code></pre>
+</div>
+<p>But what if the URLs were predictable, but did not increase one
+integer after another, starting from 1? we can handle this by creating a
+list of URLs using some functions in R, which will concatenate each
+element of URL, until we for each page have the full URL necessary</p>
+<p>In this example we will create URLs which will allow us to download
+results from political elections in various states in The United States
+in 2012 and 2016. In this case, instead of number starting with 1 and
+then increasing one integer at a time, we need to specify in the URL
+which year the election took place and in which state it took place. To
+do this we first write the name of our new object. Now we need to
+concatenate a series of text strings. To indicate that we want to start
+concatenation we use the <code>crossing</code> function. The first part
+of our URL will be the base URL, which is <a href="https://www.example.com/" class="external-link uri">https://www.example.com/</a>. Then we add state to the URL.
+Then we draw a list of states, starting in alphabetical oorder with the
+first state, Alaska, and going onwards in alphabetical to the 5th state,
+which is California. Then we need to tell R that for each state, it
+should create 2 URLs. One with the year number 2012, and one with the
+year number 2016. So we put them as a vector. Then we need to tell R
+that it should unite all these elements into one URL, and that there
+should be no space between the elements that constitute the URL. When
+then call the URLs with the function <code>pull</code></p>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">urls</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">crossing</span><span class="op">(</span><span class="st">"https://www.example.com/"</span>, </span>
+<span>           <span class="st">"?state="</span>, </span>
+<span>           <span class="va">state.abb</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">]</span>, </span>
+<span>           <span class="st">"?year"</span>, </span>
+<span>           <span class="fu">c</span><span class="op">(</span><span class="fl">2012</span>, <span class="fl">2016</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">unite</span><span class="op">(</span><span class="st">"urls"</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">pull</span><span class="op">(</span><span class="va">urls</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Let us return to the data with hockey results. We know that there are
+24 pages with tables containing the statistics, and we have a
+predictable URL, so we can easily create each URLs for each page. But
+let us imagine that we have a predictable URL, but we don’t know how
+many pages there. We need to write a script that will automatically find
+out how many pages there are. This is really useful if there are 100s of
+pages, and it would take too long to click to the last page in order to
+find out how many there are Let us start be scraping the website</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">bow</span><span class="op">(</span><span class="st">"http://www.scrapethissite.com/pages/forms/"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">scrape</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<p>We know need to go to the webpage in our internet browser and inspect
+the HTML We find that there is an HTML element which shows how many
+pages there are in total. This element is called “.pagination&gt;li”. We
+can specify that the specific HTML element that we want to work with the
+function <code>html_elements</code>. Now we need to draw out the actual
+content of the selected HTML-element by using the function
+<code>html_text2</code>. The content that we draw out is a series of
+numbers, but they are in the format of character. We need to convert
+them to numbers by using <code>as.numeric</code> we now have a series of
+all page numbers, from 1 to 24. However, we are only interested in the
+last page number, which in our case has the highest numerical value. We
+can therefore isolate this number by using the function
+<code>max</code></p>
+<div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">n_pages</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">dat</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">html_elements</span><span class="op">(</span><span class="st">".pagination&gt;li"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">html_text2</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">as.numeric</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">max</span><span class="op">(</span>na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="warning" tabindex="0"><code>Warning in dat %&gt;% html_elements(".pagination&gt;li") %&gt;% html_text2() %&gt;% : NAs
+introduced by coercion</code></pre>
+</div>
+<p>Now we can create all the URLs by pasting our basic URL with the page
+numbers, going from 1 until the last page number. Our URLs become a
+vector with 24 elements, each element being the base URL with a number
+at the end</p>
+<div class="codewrapper sourceCode" id="cb9">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">urls</span> <span class="op">&lt;-</span> <span class="fu">paste0</span><span class="op">(</span><span class="st">"https://scrapethissite.com/pages/forms/?page_num="</span>, <span class="fl">1</span><span class="op">:</span><span class="va">n_pages</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Now it is time to scrape data from all the URLs that we have created.
+First we write the name of our new object. Then we use the
+<code>map</code> function to tell R that it must do the scrape for each
+URL in our urls vector. The we use <code>bow</code> for each URL to
+ensure that scraping is allowed. Lastly, we scrape the pages with the
+<code>scrape</code> function</p>
+<div class="codewrapper sourceCode" id="cb10">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># downloading multiple pages</span></span>
+<span><span class="va">dat_all</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">map</span><span class="op">(</span><span class="va">urls</span>, </span>
+<span>      <span class="op">~</span> <span class="fu">bow</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>        <span class="fu">scrape</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+</div>
+<p>The <code>map</code> function returns a list, where each element is a
+page.</p>
+<p>Now we need to tell R that we want each element in the list to be
+combined with the other elements, so that our list can be turned into a
+dataframe. First we write the name of our new dataframe. Then we tell R
+that it should turn the list elements into a dataframe by using the
+<code>map_dfr</code> function. We tell R what the name of our list is,
+and that we want to draw the table from each element in the list, and
+then we draw the table with <code>html_table</code></p>
+<div class="codewrapper sourceCode" id="cb11">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># formatting downloaded list into a dataframe</span></span>
+<span><span class="va">dat_tables</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">map_dfr</span><span class="op">(</span><span class="va">dat_all</span>, </span>
+<span>          <span class="op">~</span> <span class="fu">html_elements</span><span class="op">(</span><span class="va">.x</span>, <span class="st">"table"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>            <span class="fu">html_table</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+</div>
+<!--
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use.
+ -->
+</div>
+</section></section><section id="aio-scraping_tables_on_pages_with_unpredictable_URLs"><p>Content from <a href="scraping_tables_on_pages_with_unpredictable_URLs.html">Scraping tables on pages with unpredictable URLs</a></p>
+<hr>
+<p>Last updated on 2025-12-08 |
+
+        <a href="https://github.com/KUBDatalab/R_web_scraping/edit/main/episodes/scraping_tables_on_pages_with_unpredictable_URLs.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
+<div class="text-end">
+          <button role="button" aria-pressed="false" tabindex="0" id="expand-code" class="pull-right" data-expand="Expand All Solutions " data-collapse="Collapse All Solutions "> Expand All Solutions <i aria-hidden="true" data-feather="plus"></i></button>
+        </div>
+<p>Lets us start by installing the libraries that will give us the
+necessary functionality to do web scraping</p>
+<div class="codewrapper sourceCode" id="cb1">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"polite"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"rvest"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"tidyverse"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"purrr"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"htmlTable"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"htmltools"</span><span class="op">)</span></span>
+<span><span class="fu">install.packages</span><span class="op">(</span><span class="st">"scales"</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Lets us now activate our installed libraries to activate their
+functionality</p>
+<div class="codewrapper sourceCode" id="cb2">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">polite</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">rvest</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">purrr</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">htmlTable</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">htmltools</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">scales</span><span class="op">)</span></span></code></pre>
+</div>
+<section><h2 class="section-heading" id="scraping-pages-with-unpredictable-urls">Scraping pages with unpredictable URLs<a class="anchor" aria-label="anchor" href="#scraping-pages-with-unpredictable-urls"></a>
+</h2>
+<hr class="half-width">
+<p>What if there are tables on multiple pages that we want to scrape,
+but the pagination does not give us a predictable URL? i.e. instead of a
+sequence of integers increasing by one, or letters change in
+alphabetical order or reverse alphabetic order, there is a custom
+sequence of letters and digits? There is a way to handle this so that we
+can scrape all pages in one action, but it requires some inspection of
+the data and writing some functions</p>
+<p>We cannot anticipate what the all the various URLs will be, so we to
+find a method to automate the finding of all URLs, so that we can scrape
+all of them in one action.</p>
+<p>Let us start by scraping the base URL</p>
+<div class="codewrapper sourceCode" id="cb3">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">page1</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">bow</span><span class="op">(</span><span class="st">"http://www.scrapethissite.com/pages/forms/"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">scrape</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="section level3">
+<h3 id="finding-the-link-to-the-proceeding-pages">Finding the link to the proceeding pages<a class="anchor" aria-label="anchor" href="#finding-the-link-to-the-proceeding-pages"></a>
+</h3>
+<p>In order to automate the finding of all URLs, we need to identify in
+the HTML where there is the button that allows us to go to the next
+page. We inspect the HTML of the webpage <a href="http://www.scrapethissite.com/pages/forms/" class="external-link uri">http://www.scrapethissite.com/pages/forms/</a> and see that
+there is an HTML element which describes the button that moves us to the
+next page. This button is a link. A link in HTML has is href. We see
+that HTML for the next button is aria-label=‘Next’. We need to extract
+the link from the button that goes to the next page. To do this we write
+the name of our new object. Then we write the name of object with the
+scraped webpage. Then we use <code>html_elements</code> o tell R that we
+want to work with the HTML that constitutes the Next-button. The last
+thing we need to do is to extract the link itself. To do this we use the
+function <code>html_attr</code> and write the HTML element for the link,
+which is <code>&lt;href&gt;</code></p>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># find the next button, write a CSS selector for it, and pull the value of href</span></span>
+<span><span class="va">next_page</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="va">page1</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">html_elements</span><span class="op">(</span><span class="st">"[aria-label='Next']"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">html_attr</span><span class="op">(</span><span class="st">"href"</span><span class="op">)</span></span></code></pre>
+</div>
+</div>
+<div class="section level3">
+<h3 id="creating-the-set-of-urls">creating the set of URLs<a class="anchor" aria-label="anchor" href="#creating-the-set-of-urls"></a>
+</h3>
+<p>Now that we have the pagination number for the first page, we need to
+concatenate it with the base URL, with the pagination number coming
+last</p>
+<div class="codewrapper sourceCode" id="cb5">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># verify that this is a full URL (starting with "http") that we can scrape, and it if not. </span></span>
+<span><span class="co"># This is a root-relative path, so prefix it with the website's root URL</span></span>
+<span><span class="va">next_page</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">paste0</span><span class="op">(</span><span class="st">"http://www.scrapethissite.com"</span>, </span>
+<span>         <span class="va">next_page</span><span class="op">)</span></span></code></pre>
+</div>
+</div>
+<div class="section level3">
+<h3 id="finding-the-last-page">Finding the last page<a class="anchor" aria-label="anchor" href="#finding-the-last-page"></a>
+</h3>
+<p>We need to tell R that it should keep scraping pages until it comes
+to a page where there is no Next-button. So we scrape the last page and
+draw out the link</p>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">next_page_final</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">bow</span><span class="op">(</span><span class="st">"http://www.scrapethissite.com/pages/forms/?page_num=24"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">scrape</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">html_elements</span><span class="op">(</span><span class="st">"[aria-label='Next']"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">html_attr</span><span class="op">(</span><span class="st">"href"</span><span class="op">)</span></span></code></pre>
+</div>
+<p>We need to test if the last page i.e. our objects are indeed our the
+last page. We use the function <code>is_empty</code>. If the object is
+the last page, it will give the result TRUE. If the object is not the
+last page it will give us the value FALSE</p>
+<div class="codewrapper sourceCode" id="cb7">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># testing if condition for both are correct. next_page_final should be TRUE, next_page should be FALSE</span></span>
+<span><span class="fu">is_empty</span><span class="op">(</span><span class="va">next_page_final</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] TRUE</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb9">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">is_empty</span><span class="op">(</span><span class="va">next_page</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">OUTPUT<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="output" tabindex="0"><code>[1] FALSE</code></pre>
+</div>
+</div>
+<div class="section level3">
+<h3 id="assembling-the-urls">Assembling the URLs<a class="anchor" aria-label="anchor" href="#assembling-the-urls"></a>
+</h3>
+<p>Now we need to tell R that it should scrape a page, finds the URL for
+the next page and then scrape that next page until it finds the last
+page.</p>
+<p>First we create an empty list in which our scraped data will be
+placed into. Then we tell R that the first page to download is the URL
+for the first page. Then we write our own function. We tell R that it
+should run this function if the page it scrapes has a page coming after
+that. Then it should create a link by pasting the base URL with the
+number of the next pages. Then it should the link that it has created by
+the <code>paste0</code> function. The downloaded page should be stored
+in a list. Then from the scraped webpage it should draw out the link for
+the next-page button.</p>
+<div class="codewrapper sourceCode" id="cb11">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">all_dat</span> <span class="op">&lt;-</span> <span class="fu">list</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">next_page</span> <span class="op">&lt;-</span> <span class="st">"/pages/forms/?page_num=1"</span></span>
+<span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fl">0</span></span>
+<span><span class="co"># proceed if there is a next page from the last scrape</span></span>
+<span><span class="kw">while</span> <span class="op">(</span><span class="op">!</span><span class="fu">is_empty</span><span class="op">(</span><span class="va">next_page</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># increase iteration count</span></span>
+<span>  <span class="va">i</span> <span class="op">&lt;-</span> <span class="va">i</span> <span class="op">+</span> <span class="fl">1</span></span>
+<span>  </span>
+<span>  <span class="co"># assemble URL</span></span>
+<span>  <span class="va">link</span> <span class="op">&lt;-</span> </span>
+<span>    <span class="fu">paste0</span><span class="op">(</span><span class="st">"http://www.scrapethissite.com"</span>, </span>
+<span>           <span class="va">next_page</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># download current page</span></span>
+<span>  <span class="va">dat</span> <span class="op">&lt;-</span> </span>
+<span>    <span class="fu">bow</span><span class="op">(</span><span class="va">link</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">scrape</span><span class="op">(</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># store downloaded page in list</span></span>
+<span>  <span class="va">all_dat</span><span class="op">[[</span><span class="va">i</span><span class="op">]</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">dat</span></span>
+<span>  </span>
+<span>  <span class="co"># get link for next page</span></span>
+<span>  <span class="va">next_page</span> <span class="op">&lt;-</span> </span>
+<span>    <span class="va">dat</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">html_elements</span><span class="op">(</span><span class="st">"[aria-label='Next']"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">html_attr</span><span class="op">(</span><span class="st">"href"</span><span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="co"># delay for five seconds before next download</span></span>
+<span>  <span class="fu">Sys.sleep</span><span class="op">(</span><span class="fl">5</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre>
+</div>
+<p>Now we need to paste the 24 pages into a vector, each element in the
+vector being a page</p>
+<div class="codewrapper sourceCode" id="cb12">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># downloading multiple pages</span></span>
+<span><span class="va">urls</span> <span class="op">&lt;-</span> <span class="fu">paste0</span><span class="op">(</span><span class="st">"http://scrapethissite.com/pages/forms/?page_num="</span>, <span class="fl">1</span><span class="op">:</span><span class="fl">24</span><span class="op">)</span></span></code></pre>
+</div>
+</div>
+<div class="section level3">
+<h3 id="scraping-the-urls">scraping the URLs<a class="anchor" aria-label="anchor" href="#scraping-the-urls"></a>
+</h3>
+<p>Now we scrape each of the 24 URLs that we have created. We have 24
+elements in our URL vector, so we use the <code>map</code> function to
+tell R that it should scrape each URL in our URL vector.</p>
+<div class="codewrapper sourceCode" id="cb13">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dat_all</span> <span class="op">&lt;-</span></span>
+<span>  <span class="fu">map</span><span class="op">(</span><span class="va">urls</span>,</span>
+<span>      <span class="op">~</span> <span class="fu">bow</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>        <span class="fu">scrape</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+</div>
+<p>Now we need to tell R that for each page in our list element in our
+scraped data, it should draw out the table, and combine them together
+into one dataframe with the <code>map_dfr</code> function</p>
+<div class="codewrapper sourceCode" id="cb14">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># go through each element of the page list and pull out a dataframe</span></span>
+<span><span class="co"># and then row-bind all of them together</span></span>
+<span><span class="va">dat_tables</span> <span class="op">&lt;-</span> </span>
+<span>  <span class="fu">map_dfr</span><span class="op">(</span><span class="va">all_dat</span>, </span>
+<span>          <span class="op">~</span> <span class="fu">html_elements</span><span class="op">(</span><span class="va">.x</span>, <span class="st">"table"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>            <span class="fu">html_table</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+</div>
+<!--
+Place links that you need to refer to multiple times across pages here. Delete
+any links that you are not going to use.
+ -->
+</div>
 </section></section><section id="aio-tables"><p>Content from <a href="tables.html">Tables</a></p>
 <hr>
-<p>Last updated on 2025-12-02 |
+<p>Last updated on 2025-12-08 |
 
         <a href="https://github.com/KUBDatalab/R_web_scraping/edit/main/episodes/tables.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -977,7 +1649,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-paragraph"><p>Content from <a href="paragraph.html">Scraping text and headers</a></p>
 <hr>
-<p>Last updated on 2025-12-02 |
+<p>Last updated on 2025-12-08 |
 
         <a href="https://github.com/KUBDatalab/R_web_scraping/edit/main/episodes/paragraph.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1034,7 +1706,7 @@ scraping</p>
 </h3>
 <pre class="output" tabindex="0"><code>&lt;polite session&gt; https://en.wikipedia.org/wiki/Proposed_United_States_acquisition_of_Greenland
     User-agent: polite R package
-    robots.txt: 465 rules are defined for 34 bots
+    robots.txt: 464 rules are defined for 34 bots
    Crawl delay: 5 sec
   The path is scrapable for this user-agent</code></pre>
 </div>
@@ -1220,15 +1892,17 @@ any links that you are not going to use.
 	
         | <a href="https://github.com/KUBDatalab/R_web_scraping/blob/main/CONTRIBUTING.md" class="external-link">Contributing</a>
         | <a href="https://github.com/KUBDatalab/R_web_scraping/" class="external-link">Source</a></p>
-				<p><a href="https://github.com/KUBDatalab/R_web_scraping/blob/main/CITATION.cff" class="external-link">Cite</a> | <a href="mailto:swha@kb.dk">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
-			</div>
-			<div class="col-md-6">
+        <p>
+        <a href="../citation.html">Cite</a>
+        | <a href="mailto:swha@kb.dk">Contact</a> | <a href="https://carpentries.org/about/" class="external-link">About</a></p>
+		</div>
+		<div class="col-md-6">
 
         <p>Materials licensed under <a href="LICENSE.html">CC-BY 4.0</a> by the authors</p>
 
         <p>Template licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/" class="external-link">CC-BY 4.0</a> by <a href="https://carpentries.org/" class="external-link">The Carpentries</a></p>
-        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.17.1" class="external-link">sandpaper (0.17.1)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.9" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.7" class="external-link">varnish (1.0.7)</a></p>
-			</div>
+        <p>Built with <a href="https://github.com/carpentries/sandpaper/tree/0.17.3" class="external-link">sandpaper (0.17.3)</a>, <a href="https://github.com/carpentries/pegboard/tree/0.7.9" class="external-link">pegboard (0.7.9)</a>, and <a href="https://github.com/carpentries/varnish/tree/1.0.9" class="external-link">varnish (1.0.9)</a></p>
+		</div>
 		</footer>
 </div> <!-- / div.container -->
 	<div id="to-top">
@@ -1250,8 +1924,8 @@ any links that you are not going to use.
   "url": "https://KUBDatalab.github.io/R_web_scraping/instructor/aio.html",
   "identifier": "https://KUBDatalab.github.io/R_web_scraping/instructor/aio.html",
   "dateCreated": "2024-10-14",
-  "dateModified": "2025-12-02",
-  "datePublished": "2025-12-02"
+  "dateModified": "2025-12-08",
+  "datePublished": "2025-12-08"
 }
 
   </script><script>

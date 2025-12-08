@@ -10,7 +10,13 @@
     <loc>https://KUBDatalab.github.io/R_web_scraping/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/Scraping_tables_on_a_page.html</loc>
+  </url>
+  <url>
     <loc>https://KUBDatalab.github.io/R_web_scraping/aio.html</loc>
+  </url>
+  <url>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/citation.html</loc>
   </url>
   <url>
     <loc>https://KUBDatalab.github.io/R_web_scraping/images.html</loc>
@@ -28,7 +34,13 @@
     <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/LICENSE.html</loc>
   </url>
   <url>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/Scraping_tables_on_a_page.html</loc>
+  </url>
+  <url>
     <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/aio.html</loc>
+  </url>
+  <url>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/citation.html</loc>
   </url>
   <url>
     <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/images.html</loc>
@@ -55,6 +67,12 @@
     <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/reference.html</loc>
   </url>
   <url>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/scraping_tables_on_multiple_pages_with_predictable_URLS.html</loc>
+  </url>
+  <url>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/scraping_tables_on_pages_with_unpredictable_URLs.html</loc>
+  </url>
+  <url>
     <loc>https://KUBDatalab.github.io/R_web_scraping/instructor/tables.html</loc>
   </url>
   <url>
@@ -74,6 +92,12 @@
   </url>
   <url>
     <loc>https://KUBDatalab.github.io/R_web_scraping/reference.html</loc>
+  </url>
+  <url>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/scraping_tables_on_multiple_pages_with_predictable_URLS.html</loc>
+  </url>
+  <url>
+    <loc>https://KUBDatalab.github.io/R_web_scraping/scraping_tables_on_pages_with_unpredictable_URLs.html</loc>
   </url>
   <url>
     <loc>https://KUBDatalab.github.io/R_web_scraping/tables.html</loc>
