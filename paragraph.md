@@ -41,7 +41,7 @@ bow("https://en.wikipedia.org/wiki/Proposed_United_States_acquisition_of_Greenla
 ``` output
 <polite session> https://en.wikipedia.org/wiki/Proposed_United_States_acquisition_of_Greenland
     User-agent: polite R package
-    robots.txt: 465 rules are defined for 34 bots
+    robots.txt: 464 rules are defined for 34 bots
    Crawl delay: 5 sec
   The path is scrapable for this user-agent
 ```
