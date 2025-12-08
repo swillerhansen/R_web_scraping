@@ -1,5 +1,5 @@
 ---
-title: "scraping_tables_on_multiple_pages_with_predictable_URLS"
+title: "Scraping tables on multiple pages with predictable URLs"
 output: html_document
 date: "2025-12-02"
 ---
