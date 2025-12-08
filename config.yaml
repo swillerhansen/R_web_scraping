@@ -66,6 +66,9 @@ contact: 'swha@kb.dk'
 # Order of episodes in your lesson
 episodes: 
 - introduction.Rmd
+- Scraping_tables_on_a_page.Rmd
+- scraping_tables_on_multiple_pages_with_predictable_URLS.Rmd
+- scraping_tables_on_pages_with_unpredictable_URLs.Rmd
 - tables.Rmd
 - paragraph.Rmd
 
