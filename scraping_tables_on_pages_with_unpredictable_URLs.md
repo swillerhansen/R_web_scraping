@@ -98,7 +98,7 @@ is_empty(next_page)
 ```
 
 ### Assembling the URLs
-Now we need to tell R that it should scrape a page, finds the URL for the next page and then scrape that next page until it finds the last page. 
+Now we need to tell R that it should scrape a page, find the URL for the next page and then scrape that next page until it finds the last page. 
 
 First we create an empty list in which our scraped data will be placed into. Then we tell R that the first page to download is the URL for the first page. Then we write our own function. We tell R that it should run this function if the page it scrapes has a page coming after that. Then it should create a link by pasting the base URL with the number of the next pages. Then it should the link that it has created by the `paste0` function. The downloaded page should be stored in a list. Then from the scraped webpage it should draw out the link for the next-page button. 
 

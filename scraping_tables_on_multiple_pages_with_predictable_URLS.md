@@ -84,7 +84,7 @@ urls <-
 
 Let us return to the data with hockey results. We know that there are 24 pages with tables containing the statistics, and we have a predictable URL, so we can easily create each URLs for each page.
 But let us imagine that we have a predictable URL, but we don't know how many pages there. We need to write a script that will automatically find out how many pages there are. This is really useful if there are 100s of pages, and it would take too long to click to the last page in order to find out how many there are
-Let us start be scraping the website
+Let us start by scraping the website
 
 
 ``` r
