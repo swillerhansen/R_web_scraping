@@ -245,7 +245,7 @@
 <div class="accordion accordion-flush" id="accordionFlush2">
   <div class="accordion-item">
     <div class="accordion-header" id="flush-heading2">
-        <a href="introduction.html">1. introduction</a>
+        <a href="introduction.html">1. Introduction</a>
     </div>
 <!--/div.accordion-header-->
 
@@ -357,9 +357,9 @@
     <main id="main-content" class="main-content"><div class="container lesson-content">
         
         
-<section id="aio-introduction"><p>Content from <a href="introduction.html">introduction</a></p>
+<section id="aio-introduction"><p>Content from <a href="introduction.html">Introduction</a></p>
 <hr>
-<p>Last updated on 2025-12-09 |
+<p>Last updated on 2025-12-12 |
 
         <a href="https://github.com/KUBDatalab/R_web_scraping/edit/main/episodes/introduction.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <p>Estimated time: <i aria-hidden="true" data-feather="clock"></i> 12 minutes</p>
@@ -401,25 +401,59 @@ challenge blocks</li>
 scraping. Web scraping is a set of methods to systematically download
 parts of web pages by writing code in a script instead of copy-pasting
 from the web page.</p>
-<p>A web pages is made up of elements in the HTML language. HTML is a
-hierarchical file format Insert example of HTML hierarchy here</p>
+</section><section><h2 class="section-heading" id="what-makes-up-a-web-page">What makes up a web page?<a class="anchor" aria-label="anchor" href="#what-makes-up-a-web-page"></a>
+</h2>
+<hr class="half-width">
+<p>A web pages is made up of elements in the HTML language.</p>
+</section><section><h2 class="section-heading" id="why-learn-to-scrape-instead-of-copy-pasting">Why learn to scrape instead of copy-pasting?<a class="anchor" aria-label="anchor" href="#why-learn-to-scrape-instead-of-copy-pasting"></a>
+</h2>
+<hr class="half-width">
 <p>The advantage with using web scraping is that we can in our script
 specify which specific parts of the web page that we want to download by
 referring to those elements’ HTML code. This allows for precision in
 what we download.</p>
-<p>Furthermore, as we will do in this course, we can scrape the same
-element on multiple pages. i.e. instead of opening each page separately
-and for each page marking the parts of the page that we want to download
-and copy-pasting it, we can write a script that will scrape the same
-HTML element on multiple pages. This allows for speed and
-consistency</p>
+<p>Furthermore, the scraped content is often in a format that can more
+easily be handled. By scraping we do not run the risk of having the
+content in a weird format when it is copy-pasted into a text file or an
+Excel sheet that makes it unsuited for analysis</p>
+<p>Another advantage of web scraping, which we will do in this course,
+is that we can scrape the same element on multiple pages. i.e. instead
+of opening each page separately and for each page marking the parts of
+the page that we want to download and copy-pasting it, we can write a
+script that will scrape the same HTML element on multiple pages. This
+allows for speed and consistency</p>
+</section><section><h2 class="section-heading" id="am-i-allowed-to-scrape">Am I allowed to scrape?<a class="anchor" aria-label="anchor" href="#am-i-allowed-to-scrape"></a>
+</h2>
+<hr class="half-width">
+<p>Not all web pages allow for scraping. Just because you can scrape
+doesn’t mean that you’re allowed to. It is necessary to read the terms
+and conditions for scraping.</p>
+<p>Sometimes scraping rules differ depending on who does the scraping.
+E.g. many web pages allow search engines to scrape them in order to
+index them in the search engines index, but do not allow others to
+scrape their pages. Sometimes</p>
+<p>Some organizations allow scraping of some of their web pages, but not
+all of them. E.g. they may allow scraping of their front page, but not
+of sub-pages. Or they allow scraping of a few of their sub-pages but not
+all their other sub-pages on their front page.</p>
+<p>Fortunately for us, we don’t have to read through this ourselves. The
+package <code>polite</code> has a function called <code>bow()</code>.
+This function ensures that we only scrape web pages that allow scraping.
+When we run it on a URL, if it gives the message
+<code>The path is scrapable for this user-agent</code> it means that we
+are allowed to scrape. If it gives the message
+<code>The path is not scrapable for this user-agent</code> it means that
+scraping is not allowed. We can integrate <code>polite</code> and
+<code>bow()</code> into our workflow so that if we run the function
+before we scrape the web page, it will prevent us from scraping and thus
+ensure that we don’t do something that we’re not allowed to.</p>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
 any links that you are not going to use.
  -->
 </section></section><section id="aio-Scraping_tables_on_a_page"><p>Content from <a href="Scraping_tables_on_a_page.html">Scraping tables on a page</a></p>
 <hr>
-<p>Last updated on 2025-12-09 |
+<p>Last updated on 2025-12-12 |
 
         <a href="https://github.com/KUBDatalab/R_web_scraping/edit/main/episodes/Scraping_tables_on_a_page.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -594,7 +628,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-scraping_tables_on_multiple_pages_with_predictable_URLS"><p>Content from <a href="scraping_tables_on_multiple_pages_with_predictable_URLS.html">Scraping tables on multiple pages with predictable URLs</a></p>
 <hr>
-<p>Last updated on 2025-12-09 |
+<p>Last updated on 2025-12-12 |
 
         <a href="https://github.com/KUBDatalab/R_web_scraping/edit/main/episodes/scraping_tables_on_multiple_pages_with_predictable_URLS.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -814,7 +848,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-scraping_tables_on_pages_with_unpredictable_URLs"><p>Content from <a href="scraping_tables_on_pages_with_unpredictable_URLs.html">Scraping tables on pages with unpredictable URLs</a></p>
 <hr>
-<p>Last updated on 2025-12-09 |
+<p>Last updated on 2025-12-12 |
 
         <a href="https://github.com/KUBDatalab/R_web_scraping/edit/main/episodes/scraping_tables_on_pages_with_unpredictable_URLs.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1054,7 +1088,7 @@ any links that you are not going to use.
 </div>
 </section></section><section id="aio-paragraph"><p>Content from <a href="paragraph.html">Scraping text and headers</a></p>
 <hr>
-<p>Last updated on 2025-12-09 |
+<p>Last updated on 2025-12-12 |
 
         <a href="https://github.com/KUBDatalab/R_web_scraping/edit/main/episodes/paragraph.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 <div class="text-end">
@@ -1329,8 +1363,8 @@ any links that you are not going to use.
   "url": "https://KUBDatalab.github.io/R_web_scraping/instructor/aio.html",
   "identifier": "https://KUBDatalab.github.io/R_web_scraping/instructor/aio.html",
   "dateCreated": "2024-10-14",
-  "dateModified": "2025-12-09",
-  "datePublished": "2025-12-09"
+  "dateModified": "2025-12-12",
+  "datePublished": "2025-12-12"
 }
 
   </script><script>
