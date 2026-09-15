@@ -310,7 +310,7 @@
       </div>
     </nav><main id="main-content" class="main-content"><div class="container lesson-content">
         <h1>Scraping tables on multiple pages with predictable URLs</h1>
-        <p>Last updated on 2026-09-08 |
+        <p>Last updated on 2026-09-15 |
 
         <a href="https://github.com/KUBDatalab/R_web_scraping/edit/main/episodes/scraping_tables_on_multiple_pages_with_predictable_URLS.Rmd" class="external-link">Edit this page <i aria-hidden="true" data-feather="edit"></i></a></p>
 
@@ -344,13 +344,63 @@ functionality</p>
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">polite</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">rvest</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">purrr</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">htmlTable</span><span class="op">)</span></span>
-<span><span class="kw">library</span><span class="op">(</span><span class="va">htmltools</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">polite</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in `library()`:
+! there is no package called 'polite'</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb4">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">rvest</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in `library()`:
+! there is no package called 'rvest'</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb6">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">tidyverse</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in `library()`:
+! there is no package called 'tidyverse'</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb8">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">purrr</span><span class="op">)</span></span>
+<span><span class="kw">library</span><span class="op">(</span><span class="va">htmlTable</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in `library()`:
+! there is no package called 'htmlTable'</code></pre>
+</div>
+<div class="codewrapper sourceCode" id="cb10">
+<h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">library</span><span class="op">(</span><span class="va">htmltools</span><span class="op">)</span></span>
 <span><span class="kw">library</span><span class="op">(</span><span class="va">scales</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in `library()`:
+! there is no package called 'scales'</code></pre>
 </div>
 <section><h2 class="section-heading" id="scraping-tables-on-multiple-pages">Scraping tables on multiple pages<a class="anchor" aria-label="anchor" href="#scraping-tables-on-multiple-pages"></a></h2>
 <hr class="half-width"><div class="section level3">
@@ -369,7 +419,7 @@ e.g. the URL for the first page is <a href="http://www.scrapethissite.com/pages
 The URL for the second page is <a href="http://www.scrapethissite.com/pages/forms/?page_num=2" class="external-link uri">http://www.scrapethissite.com/pages/forms/?page_num=2</a>,
 and so on until page 24. We can isolate the base URL, which is <a href="http://www.scrapethissite.com/pages/forms/?page_num=" class="external-link uri">http://www.scrapethissite.com/pages/forms/?page_num=</a>,
 and then create 24 URLs, each with a number going from 1 to 24</p>
-<div class="codewrapper sourceCode" id="cb3">
+<div class="codewrapper sourceCode" id="cb12">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -424,7 +474,7 @@ year number 2016. So we put them as a vector. Then we need to tell R
 that it should unite all these elements into one URL, and that there
 should be no space between the elements that constitute the URL. When
 then call the URLs with the function <code>pull</code></p>
-<div class="codewrapper sourceCode" id="cb5">
+<div class="codewrapper sourceCode" id="cb14">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -437,6 +487,12 @@ then call the URLs with the function <code>pull</code></p>
 <span>  <span class="fu">unite</span><span class="op">(</span><span class="st">"urls"</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">pull</span><span class="op">(</span><span class="va">urls</span><span class="op">)</span></span></code></pre>
 </div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in `pull()`:
+! could not find function "pull"</code></pre>
+</div>
 <p>Let us return to the data with hockey results. We know that there are
 24 pages with tables containing the statistics, and we have a
 predictable URL, so we can easily create each URLs for each page. But
@@ -445,13 +501,19 @@ many pages there. We need to write a script that will automatically find
 out how many pages there are. This is really useful if there are 100s of
 pages, and it would take too long to click to the last page in order to
 find out how many there are Let us start by scraping the website</p>
-<div class="codewrapper sourceCode" id="cb6">
+<div class="codewrapper sourceCode" id="cb16">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat</span> <span class="op">&lt;-</span> </span>
 <span>  <span class="fu">bow</span><span class="op">(</span><span class="st">"http://www.scrapethissite.com/pages/forms/"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>  <span class="fu">scrape</span><span class="op">(</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in `scrape()`:
+! could not find function "scrape"</code></pre>
 </div>
 <p>We know need to go to the webpage in our internet browser and inspect
 the HTML We find that there is an HTML element which shows how many
@@ -466,7 +528,7 @@ all page numbers, from 1 to 24. However, we are only interested in the
 last page number, which in our case has the highest numerical value. We
 can therefore isolate this number by using the function
 <code>max</code></p>
-<div class="codewrapper sourceCode" id="cb7">
+<div class="codewrapper sourceCode" id="cb18">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -478,20 +540,26 @@ can therefore isolate this number by using the function
 <span>  <span class="fu">max</span><span class="op">(</span>na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="codewrapper">
-<h3 class="code-label">WARNING<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
-<pre class="warning" tabindex="0"><code>Warning in dat %&gt;% html_elements(".pagination&gt;li") %&gt;% html_text2() %&gt;% : NAs
-introduced by coercion</code></pre>
+<pre class="error" tabindex="0"><code>Error in `html_text2()`:
+! could not find function "html_text2"</code></pre>
 </div>
 <p>Now we can create all the URLs by pasting our basic URL with the page
 numbers, going from 1 until the last page number. Our URLs become a
 vector with 24 elements, each element being the base URL with a number
 at the end</p>
-<div class="codewrapper sourceCode" id="cb9">
+<div class="codewrapper sourceCode" id="cb20">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">urls</span> <span class="op">&lt;-</span> <span class="fu">paste0</span><span class="op">(</span><span class="st">"https://scrapethissite.com/pages/forms/?page_num="</span>, <span class="fl">1</span><span class="op">:</span><span class="va">n_pages</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error:
+! object 'n_pages' not found</code></pre>
 </div>
 <p>Now it is time to scrape data from all the URLs that we have created.
 First we write the name of our new object. Then we use the
@@ -499,7 +567,7 @@ First we write the name of our new object. Then we use the
 URL in our urls vector. The we use <code>bow</code> for each URL to
 ensure that scraping is allowed. Lastly, we scrape the pages with the
 <code>scrape</code> function</p>
-<div class="codewrapper sourceCode" id="cb10">
+<div class="codewrapper sourceCode" id="cb22">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -508,6 +576,12 @@ ensure that scraping is allowed. Lastly, we scrape the pages with the
 <span>  <span class="fu">map</span><span class="op">(</span><span class="va">urls</span>, </span>
 <span>      <span class="op">~</span> <span class="fu">bow</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>        <span class="fu">scrape</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error:
+! object 'urls' not found</code></pre>
 </div>
 <p>The <code>map</code> function returns a list, where each element is a
 page.</p>
@@ -518,7 +592,7 @@ that it should turn the list elements into a dataframe by using the
 <code>map_dfr</code> function. We tell R what the name of our list is,
 and that we want to draw the table from each element in the list, and
 then we draw the table with <code>html_table</code></p>
-<div class="codewrapper sourceCode" id="cb11">
+<div class="codewrapper sourceCode" id="cb24">
 <h3 class="code-label">R<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
 </h3>
 <pre class="downlit sourceCode r">
@@ -527,6 +601,12 @@ then we draw the table with <code>html_table</code></p>
 <span>  <span class="fu">map_dfr</span><span class="op">(</span><span class="va">dat_all</span>, </span>
 <span>          <span class="op">~</span> <span class="fu">html_elements</span><span class="op">(</span><span class="va">.x</span>, <span class="st">"table"</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
 <span>            <span class="fu">html_table</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></code></pre>
+</div>
+<div class="codewrapper">
+<h3 class="code-label">ERROR<i aria-hidden="true" data-feather="chevron-left"></i><i aria-hidden="true" data-feather="chevron-right"></i>
+</h3>
+<pre class="error" tabindex="0"><code>Error in `map_dfr()`:
+! The package "dplyr" is required for `map_dfr()`.</code></pre>
 </div>
 <!--
 Place links that you need to refer to multiple times across pages here. Delete
@@ -593,8 +673,8 @@ any links that you are not going to use.
   "url": "https://KUBDatalab.github.io/R_web_scraping/instructor/scraping_tables_on_multiple_pages_with_predictable_URLS.html",
   "identifier": "https://KUBDatalab.github.io/R_web_scraping/instructor/scraping_tables_on_multiple_pages_with_predictable_URLS.html",
   "dateCreated": "2024-10-14",
-  "dateModified": "2026-09-08",
-  "datePublished": "2026-09-08"
+  "dateModified": "2026-09-15",
+  "datePublished": "2026-09-15"
 }
 
   </script><script>
