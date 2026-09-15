@@ -22,12 +22,49 @@ Lets us now activate our installed libraries to activate their functionality
 
 ``` r
 library(polite)
+```
+
+``` error
+Error in `library()`:
+! there is no package called 'polite'
+```
+
+``` r
 library(rvest)
+```
+
+``` error
+Error in `library()`:
+! there is no package called 'rvest'
+```
+
+``` r
 library(tidyverse)
+```
+
+``` error
+Error in `library()`:
+! there is no package called 'tidyverse'
+```
+
+``` r
 library(purrr)
 library(htmlTable)
+```
+
+``` error
+Error in `library()`:
+! there is no package called 'htmlTable'
+```
+
+``` r
 library(htmltools)
 library(scales)
+```
+
+``` error
+Error in `library()`:
+! there is no package called 'scales'
 ```
 
 
@@ -82,6 +119,11 @@ urls <-
   pull(urls)
 ```
 
+``` error
+Error in `pull()`:
+! could not find function "pull"
+```
+
 Let us return to the data with hockey results. We know that there are 24 pages with tables containing the statistics, and we have a predictable URL, so we can easily create each URLs for each page.
 But let us imagine that we have a predictable URL, but we don't know how many pages there. We need to write a script that will automatically find out how many pages there are. This is really useful if there are 100s of pages, and it would take too long to click to the last page in order to find out how many there are
 Let us start by scraping the website
@@ -91,6 +133,11 @@ Let us start by scraping the website
 dat <- 
   bow("http://www.scrapethissite.com/pages/forms/") %>% 
   scrape()
+```
+
+``` error
+Error in `scrape()`:
+! could not find function "scrape"
 ```
 
 We know need to go to the webpage in our internet browser and inspect the HTML
@@ -106,15 +153,20 @@ n_pages <-
   max(na.rm = TRUE)
 ```
 
-``` warning
-Warning in dat %>% html_elements(".pagination>li") %>% html_text2() %>% : NAs
-introduced by coercion
+``` error
+Error in `html_text2()`:
+! could not find function "html_text2"
 ```
 
 Now we can create all the URLs by pasting our basic URL with the page numbers, going from 1 until the last page number. Our URLs become a vector with 24 elements, each element being the base URL with a number at the end
 
 ``` r
 urls <- paste0("https://scrapethissite.com/pages/forms/?page_num=", 1:n_pages)
+```
+
+``` error
+Error:
+! object 'n_pages' not found
 ```
 
 Now it is time to scrape data from all the URLs that we have created. First we write the name of our new object. Then we use the `map` function to tell R that it must do the scrape for each URL in our urls vector. The we use `bow` for each URL to ensure that scraping is allowed. Lastly, we scrape the pages with the `scrape` function
@@ -126,6 +178,11 @@ dat_all <-
       ~ bow(.x) %>% 
         scrape())
 ```
+
+``` error
+Error:
+! object 'urls' not found
+```
 The `map` function returns a list, where each element is a page.
 
 Now we need to tell R that we want each element in the list to be combined with the other elements, so that our list can be turned into a dataframe. First we write the name of our new dataframe. Then we tell R that it should turn the list elements into a dataframe by using the `map_dfr` function. We tell R what the name of our list is, and that we want to draw the table from each element in the list, and then we draw the table with `html_table`
@@ -136,5 +193,10 @@ dat_tables <-
   map_dfr(dat_all, 
           ~ html_elements(.x, "table") %>% 
             html_table())
+```
+
+``` error
+Error in `map_dfr()`:
+! The package "dplyr" is required for `map_dfr()`.
 ```
 

@@ -21,12 +21,49 @@ Lets us now activate our installed libraries to activate their functionality
 
 ``` r
 library(polite)
+```
+
+``` error
+Error in `library()`:
+! there is no package called 'polite'
+```
+
+``` r
 library(rvest)
+```
+
+``` error
+Error in `library()`:
+! there is no package called 'rvest'
+```
+
+``` r
 library(tidyverse)
+```
+
+``` error
+Error in `library()`:
+! there is no package called 'tidyverse'
+```
+
+``` r
 library(purrr)
 library(htmlTable)
+```
+
+``` error
+Error in `library()`:
+! there is no package called 'htmlTable'
+```
+
+``` r
 library(htmltools)
 library(scales)
+```
+
+``` error
+Error in `library()`:
+! there is no package called 'scales'
 ```
 
 
@@ -44,6 +81,11 @@ page1 <-
   scrape()
 ```
 
+``` error
+Error in `scrape()`:
+! could not find function "scrape"
+```
+
 ### Finding the link to the proceeding pages
 In order to automate the finding of all URLs, we need to identify in the HTML where there is the button that allows us to go to the next page. We inspect the HTML of the webpage http://www.scrapethissite.com/pages/forms/ and see that there is an HTML element which describes the button that moves us to the next page. This button is a link. A link in HTML has is href. We see that HTML for the next button is aria-label='Next'. We need to extract the link from the button that goes to the next page. To do this we write the name of our new object. Then we write the name of object with the scraped webpage. Then we use `html_elements` o tell R that we want to work with the HTML that constitutes the Next-button. The last thing we need to do is to extract the link itself. To do this we use the function `html_attr` and write the HTML element for the link, which is `<href>`
 
@@ -55,6 +97,11 @@ next_page <-
   html_attr("href")
 ```
 
+``` error
+Error in `html_attr()`:
+! could not find function "html_attr"
+```
+
 ### creating the set of URLs
 Now that we have the pagination number for the first page, we need to concatenate it with the base URL, with the pagination number coming last
 
@@ -64,6 +111,11 @@ Now that we have the pagination number for the first page, we need to concatenat
 next_page <- 
   paste0("http://www.scrapethissite.com", 
          next_page)
+```
+
+``` error
+Error:
+! object 'next_page' not found
 ```
 
 ### Finding the last page
@@ -78,6 +130,11 @@ next_page_final <-
   html_attr("href")
 ```
 
+``` error
+Error in `html_attr()`:
+! could not find function "html_attr"
+```
+
 We need to test if the last page i.e. our objects are indeed our the last page. We use the function `is_empty`. If the object is the last page, it will give the result TRUE. If the object is not the last page it will give us the value FALSE
 
 ``` r
@@ -85,16 +142,18 @@ We need to test if the last page i.e. our objects are indeed our the last page. 
 is_empty(next_page_final)
 ```
 
-``` output
-[1] TRUE
+``` error
+Error:
+! object 'next_page_final' not found
 ```
 
 ``` r
 is_empty(next_page)
 ```
 
-``` output
-[1] FALSE
+``` error
+Error:
+! object 'next_page' not found
 ```
 
 ### Assembling the URLs
@@ -135,6 +194,11 @@ while (!is_empty(next_page)) {
 }
 ```
 
+``` error
+Error in `scrape()`:
+! could not find function "scrape"
+```
+
 Now we need to paste the 24 pages into a vector, each element in the vector being a page
 
 ``` r
@@ -152,6 +216,13 @@ dat_all <-
         scrape())
 ```
 
+``` error
+Error in `map()`:
+ℹ In index: 1.
+Caused by error in `scrape()`:
+! could not find function "scrape"
+```
+
 Now we need to tell R that for each page in our list element in our scraped data, it should draw out the table, and combine them together into one dataframe with the `map_dfr` function
 
 ``` r
@@ -161,5 +232,10 @@ dat_tables <-
   map_dfr(all_dat, 
           ~ html_elements(.x, "table") %>% 
             html_table())
+```
+
+``` error
+Error in `map_dfr()`:
+! The package "dplyr" is required for `map_dfr()`.
 ```
 

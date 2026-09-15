@@ -24,12 +24,49 @@ Lets us now activate our installed libraries to activate their functionality
 
 ``` r
 library(polite)
+```
+
+``` error
+Error in `library()`:
+! there is no package called 'polite'
+```
+
+``` r
 library(rvest)
+```
+
+``` error
+Error in `library()`:
+! there is no package called 'rvest'
+```
+
+``` r
 library(tidyverse)
+```
+
+``` error
+Error in `library()`:
+! there is no package called 'tidyverse'
+```
+
+``` r
 library(purrr)
 library(htmlTable)
+```
+
+``` error
+Error in `library()`:
+! there is no package called 'htmlTable'
+```
+
+``` r
 library(htmltools)
 library(scales)
+```
+
+``` error
+Error in `library()`:
+! there is no package called 'scales'
 ```
 
 ### Scraping multiple tables on one page
@@ -58,6 +95,11 @@ dat <-
   scrape()
 ```
 
+``` error
+Error in `scrape()`:
+! could not find function "scrape"
+```
+
 ### Handling the Danish decimal separators format
 But before we go further with our data, we need to make sure that R will handle decimal separators correctly. The default standard in R for handling decimal separators is to use the American version, where dot is the decimal separator, and comma groups larger numbers together, making it easier for the human eye to read numbers that are from one thousand and above. In the tables that we want to scrape here, the Danish format is used, where comma is the decimal separator, and dot groups larger numbers together. We there need to start by telling R that it should use the Danish format
 
@@ -70,6 +112,11 @@ dansk_locale <- locale(decimal_mark = ",",
   tz = "Europe/Copenhagen")
 ```
 
+``` error
+Error in `locale()`:
+! could not find function "locale"
+```
+
 The `scrape` function scrapes everything on the webpage. So now we need to tell R which part of the HTML that we want to work with. To specify that we want to work with all the tables from the webpage, we can use the function `html_table`. This function scrapes all the tables on the page. So let us first write the name of our new object. Then we tell R to work the the scraped data, which we called dat. Lastly, we tell R that it should take the tables form the scraped webpage.
 
 ``` r
@@ -78,11 +125,21 @@ tabeller <-
   html_table(fill = TRUE, convert = FALSE)
 ```
 
+``` error
+Error in `html_table()`:
+! could not find function "html_table"
+```
+
 Now we have an object with the tables, which is a list. Each table is a separate element in the list. However, we want all the tables to be merged into one dataframe. To do this we use `bind_rows`
 
 
 ``` r
 tabeller <- tabeller %>% bind_rows()
+```
+
+``` error
+Error in `bind_rows()`:
+! could not find function "bind_rows"
 ```
 Now we have a dataframe with 2 columns. The first column, called X1 contains the the statistic that was calculated. The second column, called X2, contains the number of the calculated statistic. 
 
@@ -95,18 +152,19 @@ tabeller <- tabeller %>%
          X2 = str_trim(X2))
 ```
 
+``` error
+Error in `mutate()`:
+! could not find function "mutate"
+```
+
 Now that we have scraped and cleaned our data, we need to tell R that it should use the Danish format for numbers, date format, and use the time zone for Copenhagen
 
 ``` r
 tabeller <- type_convert(tabeller, locale = dansk_locale)
 ```
 
-``` output
-
-── Column specification ────────────────────────────────────────────────────────
-cols(
-  X1 = col_character(),
-  X2 = col_number()
-)
+``` error
+Error in `type_convert()`:
+! could not find function "type_convert"
 ```
 

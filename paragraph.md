@@ -19,12 +19,49 @@ install.packages("scales")
 
 ``` r
 library(polite)
+```
+
+``` error
+Error in `library()`:
+! there is no package called 'polite'
+```
+
+``` r
 library(rvest)
+```
+
+``` error
+Error in `library()`:
+! there is no package called 'rvest'
+```
+
+``` r
 library(tidyverse)
+```
+
+``` error
+Error in `library()`:
+! there is no package called 'tidyverse'
+```
+
+``` r
 library(purrr)
 library(htmlTable)
+```
+
+``` error
+Error in `library()`:
+! there is no package called 'htmlTable'
+```
+
+``` r
 library(htmltools)
 library(scales)
+```
+
+``` error
+Error in `library()`:
+! there is no package called 'scales'
 ```
 
 In this part of the course, we will now look at how to scrape a few  different HTML elements. Specifically, we will look at how to scrape paragraphs and headers. A paragraph is an HTML element that often contains a bulk of text that we can be interested in when we scrape a webpage. We will also scrape headers, which is an HTML element that often describes the content of the webpage or the content of other HTML elements on webpage.
@@ -38,12 +75,9 @@ Let us start by using `bow` to check if the page allows scraping
 bow("https://en.wikipedia.org/wiki/Proposed_United_States_acquisition_of_Greenland")
 ```
 
-``` output
-<polite session> https://en.wikipedia.org/wiki/Proposed_United_States_acquisition_of_Greenland
-    User-agent: polite R package
-    robots.txt: 464 rules are defined for 34 bots
-   Crawl delay: 5 sec
-  The path is scrapable for this user-agent
+``` error
+Error in `bow()`:
+! could not find function "bow"
 ```
 
 ### scraping the URL
@@ -52,6 +86,11 @@ We see that scraping is allowed, so let us scrape the main page
 ``` r
 dat <- bow("https://en.wikipedia.org/wiki/Proposed_United_States_acquisition_of_Greenland") %>% 
   scrape()
+```
+
+``` error
+Error in `scrape()`:
+! could not find function "scrape"
 ```
 
 ### specifying HTML elements to be extracted from the scraped webpage
@@ -63,6 +102,11 @@ We can write p to extract all paragraphs
 greenland_us_wiki <- html_elements(dat, "h1, h2, h3, h4, p")
 ```
 
+``` error
+Error in `html_elements()`:
+! could not find function "html_elements"
+```
+
 We now have the headers and the paragraphs extracted. Now we need to convert their content into a readable format so that we can work with the text. To do this we use the function `html_text`. This extracts the content of the HTML elements that specified before, i.e. headers and paragraphs. But only having the text content will make us able to discern which texts are headers and which are paragraphs. We will therefore need to use `html_name` to give us each text's HTML element. 
 
 The best way to format this data is to make it a tibble, which is type of data frame. We therefore create a tibble where the HTML tag is in one column, and the text of that HTML element is in another columns. 
@@ -72,6 +116,11 @@ df_greenland_us <- tibble(
   tag = html_name(greenland_us_wiki),  # Extracts tag names (h1, h2, h3, h4, p)
   text = html_text(greenland_us_wiki, trim = TRUE)  # Extracts clean text
 )
+```
+
+``` error
+Error in `tibble()`:
+! could not find function "tibble"
 ```
 
 Now we have the right alignment of rows and columns where each row is an HTML element with its corresponding text content. 
@@ -94,12 +143,22 @@ df_greenland_us <- df_greenland_us %>%
   fill(h4, .direction = "down")      # Fill down h4 until new h4 appears
 ```
 
+``` error
+Error in `fill()`:
+! could not find function "fill"
+```
+
 We see that for some unknown reason the first header in the data frame is `<h2>` and not `<h1>`. By looking at the article page we see that `<h1>` is the proper header of the article that encompasses all its content. So we need to remove the rows that come before `<h1>`
 
 ``` r
 # Step 1: Remove everything before the first h1
 df_greenland_us <- df_greenland_us %>%
   filter(cumsum(tag == "h1") > 0)  # Keep rows after the first h1 appears
+```
+
+``` error
+Error:
+! object 'df_greenland_us' not found
 ```
 
 ### filtering away unwanted columns
@@ -113,6 +172,11 @@ see_also_row <- which(df_greenland_us$tag %in% c("h2", "h3", "h4") &
                         str_detect(str_to_lower(df_greenland_us$text), "^see also"))
 ```
 
+``` error
+Error:
+! object 'df_greenland_us' not found
+```
+
 We now see the number of rows there are until we reach "see also". We can now use this knowledge to do a `slice` so that we only retain the article's proper text. We start by specifying with `if` that this action should only be conducted if there is actually a "see also" found in the scrape. If there is not, then nothing should be done. 
 
 We use `slice` to tell R that it should keep the rows beginning from row 1 all the way to the lowest number in see_also_row. The lowest number in see_also_row is the row that contains "see also". If we were to do this, we would retain the "see also" row in our dataframe but remove everything after it. But the row with "see also" should also be removed. So we use -1 to tell R that it should not include the last row in the slice, i.e. the row containing "see also".
@@ -123,6 +187,11 @@ We use `slice` to tell R that it should keep the rows beginning from row 1 all t
 if (length(see_also_row) > 0) {
   df_greenland_us <- df_greenland_us %>% slice(1:(min(see_also_row) - 1))  # Keep only rows before "See also"
 }
+```
+
+``` error
+Error:
+! object 'see_also_row' not found
 ```
 
 Now we have our data frame in the final format. We can analyze the headers to see which topics are described in the text. We can use text mining methods to analyze how the various topics are described, whether the words used in the various sections are positive or negative, or other sentiments expressed in the text. We can also count the number of words under each `<h2>` or `<h3>`, to see which topics are discussed the most. 
