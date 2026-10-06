@@ -30,40 +30,11 @@ Error in `library()`:
 
 ``` r
 library(rvest)
-```
-
-``` error
-Error in `library()`:
-! there is no package called 'rvest'
-```
-
-``` r
 library(tidyverse)
-```
-
-``` error
-Error in `library()`:
-! there is no package called 'tidyverse'
-```
-
-``` r
 library(purrr)
 library(htmlTable)
-```
-
-``` error
-Error in `library()`:
-! there is no package called 'htmlTable'
-```
-
-``` r
 library(htmltools)
 library(scales)
-```
-
-``` error
-Error in `library()`:
-! there is no package called 'scales'
 ```
 
 
@@ -98,8 +69,8 @@ next_page <-
 ```
 
 ``` error
-Error in `html_attr()`:
-! could not find function "html_attr"
+Error:
+! object 'page1' not found
 ```
 
 ### creating the set of URLs
@@ -131,8 +102,8 @@ next_page_final <-
 ```
 
 ``` error
-Error in `html_attr()`:
-! could not find function "html_attr"
+Error in `scrape()`:
+! could not find function "scrape"
 ```
 
 We need to test if the last page i.e. our objects are indeed our the last page. We use the function `is_empty`. If the object is the last page, it will give the result TRUE. If the object is not the last page it will give us the value FALSE
@@ -232,10 +203,5 @@ dat_tables <-
   map_dfr(all_dat, 
           ~ html_elements(.x, "table") %>% 
             html_table())
-```
-
-``` error
-Error in `map_dfr()`:
-! The package "dplyr" is required for `map_dfr()`.
 ```
 

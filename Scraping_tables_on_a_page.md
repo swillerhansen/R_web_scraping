@@ -33,40 +33,11 @@ Error in `library()`:
 
 ``` r
 library(rvest)
-```
-
-``` error
-Error in `library()`:
-! there is no package called 'rvest'
-```
-
-``` r
 library(tidyverse)
-```
-
-``` error
-Error in `library()`:
-! there is no package called 'tidyverse'
-```
-
-``` r
 library(purrr)
 library(htmlTable)
-```
-
-``` error
-Error in `library()`:
-! there is no package called 'htmlTable'
-```
-
-``` r
 library(htmltools)
 library(scales)
-```
-
-``` error
-Error in `library()`:
-! there is no package called 'scales'
 ```
 
 ### Scraping multiple tables on one page
@@ -112,11 +83,6 @@ dansk_locale <- locale(decimal_mark = ",",
   tz = "Europe/Copenhagen")
 ```
 
-``` error
-Error in `locale()`:
-! could not find function "locale"
-```
-
 The `scrape` function scrapes everything on the webpage. So now we need to tell R which part of the HTML that we want to work with. To specify that we want to work with all the tables from the webpage, we can use the function `html_table`. This function scrapes all the tables on the page. So let us first write the name of our new object. Then we tell R to work the the scraped data, which we called dat. Lastly, we tell R that it should take the tables form the scraped webpage.
 
 ``` r
@@ -126,8 +92,8 @@ tabeller <-
 ```
 
 ``` error
-Error in `html_table()`:
-! could not find function "html_table"
+Error:
+! object 'dat' not found
 ```
 
 Now we have an object with the tables, which is a list. Each table is a separate element in the list. However, we want all the tables to be merged into one dataframe. To do this we use `bind_rows`
@@ -138,8 +104,8 @@ tabeller <- tabeller %>% bind_rows()
 ```
 
 ``` error
-Error in `bind_rows()`:
-! could not find function "bind_rows"
+Error:
+! object 'tabeller' not found
 ```
 Now we have a dataframe with 2 columns. The first column, called X1 contains the the statistic that was calculated. The second column, called X2, contains the number of the calculated statistic. 
 
@@ -153,8 +119,8 @@ tabeller <- tabeller %>%
 ```
 
 ``` error
-Error in `mutate()`:
-! could not find function "mutate"
+Error:
+! object 'tabeller' not found
 ```
 
 Now that we have scraped and cleaned our data, we need to tell R that it should use the Danish format for numbers, date format, and use the time zone for Copenhagen
@@ -164,7 +130,7 @@ tabeller <- type_convert(tabeller, locale = dansk_locale)
 ```
 
 ``` error
-Error in `type_convert()`:
-! could not find function "type_convert"
+Error:
+! object 'tabeller' not found
 ```
 

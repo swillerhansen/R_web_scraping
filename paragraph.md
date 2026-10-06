@@ -28,40 +28,11 @@ Error in `library()`:
 
 ``` r
 library(rvest)
-```
-
-``` error
-Error in `library()`:
-! there is no package called 'rvest'
-```
-
-``` r
 library(tidyverse)
-```
-
-``` error
-Error in `library()`:
-! there is no package called 'tidyverse'
-```
-
-``` r
 library(purrr)
 library(htmlTable)
-```
-
-``` error
-Error in `library()`:
-! there is no package called 'htmlTable'
-```
-
-``` r
 library(htmltools)
 library(scales)
-```
-
-``` error
-Error in `library()`:
-! there is no package called 'scales'
 ```
 
 In this part of the course, we will now look at how to scrape a few  different HTML elements. Specifically, we will look at how to scrape paragraphs and headers. A paragraph is an HTML element that often contains a bulk of text that we can be interested in when we scrape a webpage. We will also scrape headers, which is an HTML element that often describes the content of the webpage or the content of other HTML elements on webpage.
@@ -103,8 +74,8 @@ greenland_us_wiki <- html_elements(dat, "h1, h2, h3, h4, p")
 ```
 
 ``` error
-Error in `html_elements()`:
-! could not find function "html_elements"
+Error:
+! object 'dat' not found
 ```
 
 We now have the headers and the paragraphs extracted. Now we need to convert their content into a readable format so that we can work with the text. To do this we use the function `html_text`. This extracts the content of the HTML elements that specified before, i.e. headers and paragraphs. But only having the text content will make us able to discern which texts are headers and which are paragraphs. We will therefore need to use `html_name` to give us each text's HTML element. 
@@ -119,8 +90,8 @@ df_greenland_us <- tibble(
 ```
 
 ``` error
-Error in `tibble()`:
-! could not find function "tibble"
+Error:
+! object 'greenland_us_wiki' not found
 ```
 
 Now we have the right alignment of rows and columns where each row is an HTML element with its corresponding text content. 
@@ -144,8 +115,8 @@ df_greenland_us <- df_greenland_us %>%
 ```
 
 ``` error
-Error in `fill()`:
-! could not find function "fill"
+Error:
+! object 'df_greenland_us' not found
 ```
 
 We see that for some unknown reason the first header in the data frame is `<h2>` and not `<h1>`. By looking at the article page we see that `<h1>` is the proper header of the article that encompasses all its content. So we need to remove the rows that come before `<h1>`

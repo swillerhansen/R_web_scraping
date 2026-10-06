@@ -31,40 +31,11 @@ Error in `library()`:
 
 ``` r
 library(rvest)
-```
-
-``` error
-Error in `library()`:
-! there is no package called 'rvest'
-```
-
-``` r
 library(tidyverse)
-```
-
-``` error
-Error in `library()`:
-! there is no package called 'tidyverse'
-```
-
-``` r
 library(purrr)
 library(htmlTable)
-```
-
-``` error
-Error in `library()`:
-! there is no package called 'htmlTable'
-```
-
-``` r
 library(htmltools)
 library(scales)
-```
-
-``` error
-Error in `library()`:
-! there is no package called 'scales'
 ```
 
 
@@ -119,11 +90,6 @@ urls <-
   pull(urls)
 ```
 
-``` error
-Error in `pull()`:
-! could not find function "pull"
-```
-
 Let us return to the data with hockey results. We know that there are 24 pages with tables containing the statistics, and we have a predictable URL, so we can easily create each URLs for each page.
 But let us imagine that we have a predictable URL, but we don't know how many pages there. We need to write a script that will automatically find out how many pages there are. This is really useful if there are 100s of pages, and it would take too long to click to the last page in order to find out how many there are
 Let us start by scraping the website
@@ -154,8 +120,8 @@ n_pages <-
 ```
 
 ``` error
-Error in `html_text2()`:
-! could not find function "html_text2"
+Error:
+! object 'dat' not found
 ```
 
 Now we can create all the URLs by pasting our basic URL with the page numbers, going from 1 until the last page number. Our URLs become a vector with 24 elements, each element being the base URL with a number at the end
@@ -180,8 +146,10 @@ dat_all <-
 ```
 
 ``` error
-Error:
-! object 'urls' not found
+Error in `map()`:
+ℹ In index: 1.
+Caused by error in `scrape()`:
+! could not find function "scrape"
 ```
 The `map` function returns a list, where each element is a page.
 
@@ -196,7 +164,7 @@ dat_tables <-
 ```
 
 ``` error
-Error in `map_dfr()`:
-! The package "dplyr" is required for `map_dfr()`.
+Error:
+! object 'dat_all' not found
 ```
 
